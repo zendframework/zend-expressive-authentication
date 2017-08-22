@@ -27,7 +27,7 @@ class HtpasswdTest extends TestCase
         $this->assertInstanceOf(UserRegisterInterface::class, $htpasswd);
     }
 
-    public function testCheckCredential()
+    public function testAuthenticate()
     {
         $htpasswd = new Htpasswd(__DIR__ . '/../TestAssets/htpasswd');
 
@@ -36,13 +36,13 @@ class HtpasswdTest extends TestCase
         $this->assertEquals('test', $user->getUsername());
     }
 
-    public function testCheckUnauthorizedUser()
+    public function testAuthenticateInvalidUser()
     {
         $htpasswd = new Htpasswd(__DIR__ . '/../TestAssets/htpasswd');
         $this->assertNull($htpasswd->authenticate('test', 'foo'));
     }
 
-    public function testCheckCredentialWithoutPassword()
+    public function testAuthenticateWithoutPassword()
     {
         $htpasswd = new Htpasswd(__DIR__ . '/../TestAssets/htpasswd');
         $this->assertNull($htpasswd->authenticate('test', null));
@@ -51,7 +51,7 @@ class HtpasswdTest extends TestCase
     /**
      * @expectedException Zend\Expressive\Authentication\Exception\RuntimeException
      */
-    public function testCheckInsecureCredential()
+    public function testAuthenticateWithInsecureHash()
     {
         $htpasswd = new Htpasswd(__DIR__ . '/../TestAssets/htpasswd_insecure');
         $htpasswd->authenticate('test', 'password');

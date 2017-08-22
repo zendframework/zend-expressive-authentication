@@ -19,6 +19,8 @@ class Htpasswd implements UserRegisterInterface
 {
     protected $authenticatedUser = null;
 
+    use UserTrait;
+
     public function __construct(string $filename)
     {
         if (! file_exists($filename)) {
@@ -30,7 +32,10 @@ class Htpasswd implements UserRegisterInterface
         $this->filename = $filename;
     }
 
-    public function authenticate(string $username, string $password = null): ?UserInterface
+    /**
+     * {@inheritDoc}
+     */
+    public function authenticate(string $credential, string $password = null): ?UserInterface
     {
         if (! $handle = fopen($this->filename, "r")) {
             return null;
@@ -38,7 +43,7 @@ class Htpasswd implements UserRegisterInterface
         $found = false;
         while (! $found && ($line = fgets($handle)) !== false) {
             [$name, $hash] = explode(':', $line);
-            if ($username !== $name) {
+            if ($credential !== $name) {
                 continue;
             }
             $hash = trim($hash);
@@ -48,7 +53,7 @@ class Htpasswd implements UserRegisterInterface
         fclose($handle);
 
         return $found && password_verify($password, $hash) ?
-               $this->generateUser($username, '') :
+               $this->generateUser($credential, '') :
                null;
     }
 
@@ -65,24 +70,5 @@ class Htpasswd implements UserRegisterInterface
                 'The htpasswd file uses not secure hash algorithm. Please use bcrypt.'
             );
         }
-    }
-
-    protected function generateUser(string $username, string $role): UserInterface
-    {
-        return new class($username, $role) implements UserInterface {
-            public function __construct($username, $role)
-            {
-                $this->username = $username;
-                $this->role = $role;
-            }
-            public function getUsername(): string
-            {
-                return $this->username;
-            }
-            public function getUserRole(): string
-            {
-                return $this->role;
-            }
-        };
     }
 }

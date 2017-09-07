@@ -4,19 +4,18 @@
  * @copyright Copyright (c) 2017 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   https://github.com/zendframework/zend-expressive-authorization/blob/master/LICENSE.md New BSD License
  */
-namespace Zend\Expressive\Authentication\UserRegister;
+namespace Zend\Expressive\Authentication\UserRepository;
 
 use PDO;
 use Zend\Expressive\Authentication\Exception;
 use Zend\Expressive\Authentication\UserInterface;
-use Zend\Expressive\Authentication\UserRegisterInterface;
-
+use Zend\Expressive\Authentication\UserRepositoryInterface;
 
 /**
  * Adapter for PDO database
  * It supports only bcrypt hash password for security reason
  */
-class PdoDatabase implements UserRegisterInterface
+class PdoDatabase implements UserRepositoryInterface
 {
     use UserTrait;
 
@@ -31,20 +30,20 @@ class PdoDatabase implements UserRegisterInterface
      */
     public function authenticate(string $credential, string $password = null): ?UserInterface
     {
-        $sql= sprintf(
+        $sql = sprintf(
             "SELECT * FROM %s WHERE %s = :username",
             $this->config['table'],
             $this->config['field']['username']
         );
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindParam(':username', $credential);
-        if (!$stmt->execute()) {
+        if (! $stmt->execute()) {
             return null;
         }
         $result = $stmt->fetchObject();
 
         return password_verify($password, $result->{$this->config['field']['password']}) ?
-               $this->generateUser($credential, $this->config['field']['role'] ?? ''):
+               $this->generateUser($credential, $this->config['field']['role'] ?? '') :
                null;
     }
 }

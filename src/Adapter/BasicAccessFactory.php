@@ -8,15 +8,15 @@
 namespace Zend\Expressive\Authentication\Adapter;
 
 use Psr\Container\ContainerInterface;
-use Zend\Expressive\Authentication\UserRegisterInterface;
+use Zend\Expressive\Authentication\UserRepositoryInterface;
 use Zend\Expressive\Authentication\Exception;
 
 class BasicAccessFactory
 {
     public function __invoke(ContainerInterface $container) : BasicAccess
     {
-        $userRegister = $container->has(UserRegisterInterface::class) ?
-                        $container->get(UserRegisterInterface::class) :
+        $userRegister = $container->has(UserRepositoryInterface::class) ?
+                        $container->get(UserRepositoryInterface::class) :
                         null;
         if (null === $userRegister) {
             throw new Exception\InvalidConfigException(

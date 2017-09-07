@@ -4,20 +4,20 @@
  * @copyright Copyright (c) 2017 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   https://github.com/zendframework/zend-expressive-authorization/blob/master/LICENSE.md New BSD License
  */
-namespace ZendTest\Expressive\Authentication\UserRegister;
+namespace ZendTest\Expressive\Authentication\UserRepository;
 
 use PDO;
 use PHPUnit\Framework\TestCase;
 use Zend\Expressive\Authentication\UserInterface;
-use Zend\Expressive\Authentication\UserRegisterInterface;
-use Zend\Expressive\Authentication\UserRegister\PdoDatabase;
+use Zend\Expressive\Authentication\UserRepositoryInterface;
+use Zend\Expressive\Authentication\UserRepository\PdoDatabase;
 
 class PdoDatabaseTest extends TestCase
 {
     public function testConstructor()
     {
         $pdoDatabase = new PdoDatabase(new PDO('sqlite::memory:'), []);
-        $this->assertInstanceOf(UserRegisterInterface::class, $pdoDatabase);
+        $this->assertInstanceOf(UserRepositoryInterface::class, $pdoDatabase);
     }
 
     public function testAuthenticate()

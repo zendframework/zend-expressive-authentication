@@ -6,7 +6,7 @@
  */
 namespace Zend\Expressive\Authentication;
 
-interface UserRegisterInterface
+interface UserRepositoryInterface
 {
     /**
      * Authenticate the credential (username) using a password

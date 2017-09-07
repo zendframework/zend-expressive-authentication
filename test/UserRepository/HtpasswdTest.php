@@ -4,12 +4,12 @@
  * @copyright Copyright (c) 2017 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   https://github.com/zendframework/zend-expressive-authorization/blob/master/LICENSE.md New BSD License
  */
-namespace ZendTest\Expressive\Authentication\UserRegister;
+namespace ZendTest\Expressive\Authentication\UserRepository;
 
 use PHPUnit\Framework\TestCase;
 use Zend\Expressive\Authentication\UserInterface;
-use Zend\Expressive\Authentication\UserRegisterInterface;
-use Zend\Expressive\Authentication\UserRegister\Htpasswd;
+use Zend\Expressive\Authentication\UserRepositoryInterface;
+use Zend\Expressive\Authentication\UserRepository\Htpasswd;
 
 class HtpasswdTest extends TestCase
 {
@@ -24,7 +24,7 @@ class HtpasswdTest extends TestCase
     public function testConstructor()
     {
         $htpasswd = new Htpasswd(__DIR__ . '/../TestAssets/htpasswd');
-        $this->assertInstanceOf(UserRegisterInterface::class, $htpasswd);
+        $this->assertInstanceOf(UserRepositoryInterface::class, $htpasswd);
     }
 
     public function testAuthenticate()

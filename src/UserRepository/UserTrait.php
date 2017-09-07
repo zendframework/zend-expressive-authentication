@@ -1,5 +1,5 @@
 <?php
-namespace Zend\Expressive\Authentication\UserRegister;
+namespace Zend\Expressive\Authentication\UserRepository;
 
 use Zend\Expressive\Authentication\UserInterface;
 
@@ -19,7 +19,7 @@ trait UserTrait
             {
                 return $this->username;
             }
-            
+
             public function getUserRole(): string
             {
                 return $this->role;

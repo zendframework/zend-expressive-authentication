@@ -4,18 +4,18 @@
  * @copyright Copyright (c) 2017 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   https://github.com/zendframework/zend-expressive-authorization/blob/master/LICENSE.md New BSD License
  */
-namespace Zend\Expressive\Authentication\UserRegister;
+namespace Zend\Expressive\Authentication\UserRepository;
 
 use Zend\Expressive\Authentication\Exception;
 use Zend\Expressive\Authentication\UserInterface;
-use Zend\Expressive\Authentication\UserRegisterInterface;
+use Zend\Expressive\Authentication\UserRepositoryInterface;
 
 /**
  * Adapter for Apache htpasswd file
  * It supports only bcrypt hash password for security reason
  */
 
-class Htpasswd implements UserRegisterInterface
+class Htpasswd implements UserRepositoryInterface
 {
     protected $authenticatedUser = null;
 

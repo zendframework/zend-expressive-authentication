@@ -26,16 +26,17 @@ class ConfigProvider
     public function getDependencies() : array
     {
         return [
+            'aliases' => [
+                // Change the alias value for Authentication adapter and
+                // UserRepository adapter
+                AuthenticationInterface::class => Adapter\BasicAccess::class,
+                UserRepositoryInterface::class => UserRepository\Htpasswd::class
+            ],
             'factories' => [
                 AuthenticationMiddleware::class => AuthenticationMiddlewareFactory::class,
                 Adapter\BasicAccess::class => Adapter\BasicAccessFactory::class,
-                UserRegister\Htpasswd::class => UserRegister\HtpasswdFactory::class
-            ],
-            'aliases' => [
-                // Change the alias value for Authentication adapter and
-                // UserRegister adapter
-                AuthenticationInterface::class => Adapter\BasicAccess::class,
-                UserRegisterInterface::class => UserRegister\Htpasswd::class
+                UserRepository\Htpasswd::class => UserRepository\HtpasswdFactory::class,
+                UserRepository\PdoDatabase::class => UserRepository\PdoDatabaseFactory::class
             ]
         ];
     }

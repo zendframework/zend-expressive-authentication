@@ -5,7 +5,7 @@
  * @license   https://github.com/zendframework/zend-expressive-authorization/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Expressive\Authentication\UserRegister;
+namespace Zend\Expressive\Authentication\UserRepository;
 
 use Psr\Container\ContainerInterface;
 use Zend\Expressive\Authentication\Exception;

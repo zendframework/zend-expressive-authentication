@@ -14,20 +14,20 @@ use Zend\Diactoros\Response\EmptyResponse;
 use Zend\Expressive\Authentication\Adapter\BasicAccess;
 use Zend\Expressive\Authentication\AuthenticationInterface;
 use Zend\Expressive\Authentication\UserInterface;
-use Zend\Expressive\Authentication\UserRegisterInterface;
+use Zend\Expressive\Authentication\UserRepositoryInterface;
 
 class BasicAccessTest extends TestCase
 {
     protected function setUp()
     {
         $this->request = $this->prophesize(ServerRequestInterface::class);
-        $this->userRegister = $this->prophesize(UserRegisterInterface::class);
+        $this->userRepository = $this->prophesize(UserRepositoryInterface::class);
         $this->authenticatedUser = $this->prophesize(UserInterface::class);
     }
 
     public function testConstructor()
     {
-        $basicAccess = new BasicAccess($this->userRegister->reveal(), 'test');
+        $basicAccess = new BasicAccess($this->userRepository->reveal(), 'test');
         $this->assertInstanceOf(AuthenticationInterface::class, $basicAccess);
     }
 
@@ -36,7 +36,7 @@ class BasicAccessTest extends TestCase
         $this->request->getHeader('Authorization')
                       ->willReturn([]);
 
-        $basicAccess = new BasicAccess($this->userRegister->reveal(), 'test');
+        $basicAccess = new BasicAccess($this->userRepository->reveal(), 'test');
         $this->assertNull($basicAccess->authenticate($this->request->reveal()));
     }
 
@@ -45,7 +45,7 @@ class BasicAccessTest extends TestCase
         $this->request->getHeader('Authorization')
                       ->willReturn(['foo']);
 
-        $basicAccess = new BasicAccess($this->userRegister->reveal(), 'test');
+        $basicAccess = new BasicAccess($this->userRepository->reveal(), 'test');
         $this->assertNull($basicAccess->authenticate($this->request->reveal()));
     }
 
@@ -57,10 +57,10 @@ class BasicAccessTest extends TestCase
                       ->willReturn($this->request->reveal());
 
         $this->authenticatedUser->getUsername()->willReturn('Aladdin');
-        $this->userRegister->authenticate('Aladdin', 'OpenSesame')
-                           ->willReturn($this->authenticatedUser->reveal());
+        $this->userRepository->authenticate('Aladdin', 'OpenSesame')
+                             ->willReturn($this->authenticatedUser->reveal());
 
-        $basicAccess = new BasicAccess($this->userRegister->reveal(), 'test');
+        $basicAccess = new BasicAccess($this->userRepository->reveal(), 'test');
         $user = $basicAccess->authenticate($this->request->reveal());
         $this->assertInstanceOf(UserInterface::class, $user);
         $this->assertEquals('Aladdin', $user->getUsername());
@@ -71,16 +71,16 @@ class BasicAccessTest extends TestCase
         $this->request->getHeader('Authorization')
                       ->willReturn(['Basic QWxhZGRpbjpPcGVuU2VzYW1l']);
 
-        $this->userRegister->authenticate('Aladdin', 'OpenSesame')
-                           ->willReturn(null);
+        $this->userRepository->authenticate('Aladdin', 'OpenSesame')
+                             ->willReturn(null);
 
-        $basicAccess = new BasicAccess($this->userRegister->reveal(), 'test');
+        $basicAccess = new BasicAccess($this->userRepository->reveal(), 'test');
         $this->assertNull($basicAccess->authenticate($this->request->reveal()));
     }
 
     public function testGetUnauthenticatedResponse()
     {
-        $basicAccess = new BasicAccess($this->userRegister->reveal(), 'test');
+        $basicAccess = new BasicAccess($this->userRepository->reveal(), 'test');
         $response = $basicAccess->unauthorizedResponse($this->request->reveal());
 
         $this->assertInstanceOf(ResponseInterface::class, $response);

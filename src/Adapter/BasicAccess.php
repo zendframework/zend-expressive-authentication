@@ -12,7 +12,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Zend\Diactoros\Response\EmptyResponse;
 use Zend\Expressive\Authentication\AuthenticationInterface;
 use Zend\Expressive\Authentication\UserInterface;
-use Zend\Expressive\Authentication\UserRegisterInterface;
+use Zend\Expressive\Authentication\UserRepositoryInterface;
 
 class BasicAccess implements AuthenticationInterface
 {
@@ -20,7 +20,7 @@ class BasicAccess implements AuthenticationInterface
     protected $realm;
     protected $authenticatedUser = null;
 
-    public function __construct(UserRegisterInterface $register, string $realm)
+    public function __construct(UserRepositoryInterface $register, string $realm)
     {
         $this->register = $register;
         $this->realm = $realm;

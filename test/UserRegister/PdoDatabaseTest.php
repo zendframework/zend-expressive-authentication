@@ -16,7 +16,7 @@ class PdoDatabaseTest extends TestCase
 {
     public function testConstructor()
     {
-        $pdoDatabase = new PdoDatabase(new PDO('sqlite:memory:'), []);
+        $pdoDatabase = new PdoDatabase(new PDO('sqlite::memory:'), []);
         $this->assertInstanceOf(UserRegisterInterface::class, $pdoDatabase);
     }
 

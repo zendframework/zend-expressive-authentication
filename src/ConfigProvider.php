@@ -27,14 +27,14 @@ class ConfigProvider
     {
         return [
             'factories' => [
-                AuthorizationMiddleware::class => AuthorizationMiddlewareFactory::class,
+                AuthenticationMiddleware::class => AuthenticationMiddlewareFactory::class,
                 Adapter\BasicAccess::class => Adapter\BasicAccessFactory::class,
                 UserRegister\Htpasswd::class => UserRegister\HtpasswdFactory::class
             ],
             'aliases' => [
-                // Change the alias value for Authorization adapter and
+                // Change the alias value for Authentication adapter and
                 // UserRegister adapter
-                AuthorizationInterface::class => Adapter\BasicAccess::class,
+                AuthenticationInterface::class => Adapter\BasicAccess::class,
                 UserRegisterInterface::class => UserRegister\Htpasswd::class
             ]
         ];

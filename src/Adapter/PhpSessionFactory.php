@@ -11,9 +11,9 @@ use Psr\Container\ContainerInterface;
 use Zend\Expressive\Authentication\UserRepositoryInterface;
 use Zend\Expressive\Authentication\Exception;
 
-class BasicAccessFactory
+class PhpSessionFactory
 {
-    public function __invoke(ContainerInterface $container): BasicAccess
+    public function __invoke(ContainerInterface $container): PhpSession
     {
         $userRegister = $container->has(UserRepositoryInterface::class) ?
                         $container->get(UserRepositoryInterface::class) :
@@ -23,12 +23,12 @@ class BasicAccessFactory
                 'UserRepositoryInterface service is missing for authentication'
             );
         }
-        $realm = $container->get('config')['authentication']['realm'] ?? null;
-        if (null === $realm) {
+        $config = $container->get('config')['authentication'] ?? [];
+        if (!isset($config['redirect'])) {
             throw new Exception\InvalidConfigException(
-                'Realm value is not present in authentication config'
+                'The redirect configuration is missing for authentication'
             );
         }
-        return new BasicAccess($userRegister, $realm);
+        return new PhpSession($userRegister, $config);
     }
 }

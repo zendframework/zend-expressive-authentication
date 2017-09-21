@@ -13,10 +13,10 @@ use Zend\Expressive\Authentication\Exception;
 
 class PdoDatabaseFactory
 {
-    public function __invoke(ContainerInterface $container) : BasicAccess
+    public function __invoke(ContainerInterface $container) : PdoDatabase
     {
         $pdo = $container->get('config')['user_register']['pdo'] ?? null;
-        if (null === $config) {
+        if (null === $pdo) {
             throw new Exception\InvalidConfigException(
                 'PDO values are missing in user_register config'
             );
@@ -43,7 +43,7 @@ class PdoDatabaseFactory
         }
         return new PdoDatabase(
             new PDO($pdo['dsn'], $pdo['username'] ?? null, $pdo['password'] ?? null),
-            $config
+            $pdo
         );
     }
 }

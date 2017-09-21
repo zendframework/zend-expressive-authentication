@@ -5,7 +5,7 @@
  * @license   https://github.com/zendframework/zend-expressive-authorization/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Expressive\Authentication\Exception;
+namespace Zend\Expressive\Authentication;
 
 use Interop\Http\ServerMiddleware\DelegateInterface;
 use Interop\Http\ServerMiddleware\MiddlewareInterface as ServerMiddlewareInterface;

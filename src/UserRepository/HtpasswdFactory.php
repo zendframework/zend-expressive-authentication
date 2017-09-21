@@ -12,7 +12,7 @@ use Zend\Expressive\Authentication\Exception;
 
 class HtpasswdFactory
 {
-    public function __invoke(ContainerInterface $container) : BasicAccess
+    public function __invoke(ContainerInterface $container) : Htpasswd
     {
         $htpasswd = $container->get('config')['user_register']['htpasswd'] ?? null;
         if (null === $htpasswd) {

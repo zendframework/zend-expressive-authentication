@@ -18,7 +18,6 @@ class BasicAccess implements AuthenticationInterface
 {
     protected $register;
     protected $realm;
-    protected $authenticatedUser = null;
 
     public function __construct(UserRepositoryInterface $register, string $realm)
     {

@@ -8,27 +8,28 @@
 namespace Zend\Expressive\Authentication\Adapter;
 
 use Psr\Container\ContainerInterface;
+use Zend\Authentication\AuthenticationService;
 use Zend\Expressive\Authentication\UserRepositoryInterface;
 use Zend\Expressive\Authentication\Exception;
 
-class BasicAccessFactory
+class ZendAuthenticationFactory
 {
-    public function __invoke(ContainerInterface $container): BasicAccess
+    public function __invoke(ContainerInterface $container): ZendAuthentication
     {
-        $userRegister = $container->has(UserRepositoryInterface::class) ?
-                        $container->get(UserRepositoryInterface::class) :
-                        null;
-        if (null === $userRegister) {
+        $auth = $container->has(AuthenticationService::class) ?
+                $container->get(AuthenticationService::class) :
+                null;
+        if (null === $auth) {
             throw new Exception\InvalidConfigException(
-                'UserRepositoryInterface service is missing for authentication'
+                'The Zend\Authentication\AuthenticationService service is missing'
             );
         }
-        $realm = $container->get('config')['authentication']['realm'] ?? null;
-        if (null === $realm) {
+        $config = $container->get('config')['authentication'] ?? [];
+        if (!isset($config['redirect'])) {
             throw new Exception\InvalidConfigException(
-                'Realm value is not present in authentication config'
+                'The redirect URL is missing for authentication'
             );
         }
-        return new BasicAccess($userRegister, $realm);
+        return new ZendAuthentication($auth, $config);
     }
 }

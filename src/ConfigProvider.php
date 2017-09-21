@@ -35,6 +35,8 @@ class ConfigProvider
             'factories' => [
                 AuthenticationMiddleware::class => AuthenticationMiddlewareFactory::class,
                 Adapter\BasicAccess::class => Adapter\BasicAccessFactory::class,
+                Adapter\PhpSession::class => Adapter\PhpSessionFactory::class,
+                Adapter\ZendAuthentication::class => Adapter\ZendAuthenticationFactory::class,
                 UserRepository\Htpasswd::class => UserRepository\HtpasswdFactory::class,
                 UserRepository\PdoDatabase::class => UserRepository\PdoDatabaseFactory::class
             ]

@@ -9,7 +9,6 @@ namespace Zend\Expressive\Authentication\Adapter;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Zend\Diactoros\Response\RedirectResponse;
 use Zend\Expressive\Authentication\AuthenticationInterface;
 use Zend\Expressive\Authentication\UserInterface;
 use Zend\Expressive\Authentication\UserRepositoryInterface;
@@ -18,11 +17,16 @@ class PhpSession implements AuthenticationInterface
 {
     protected $register;
     protected $config;
+    protected $responsePrototype;
 
-    public function __construct(UserRepositoryInterface $register, array $config)
-    {
+    public function __construct(
+        UserRepositoryInterface $register,
+        array $config,
+        ResponseInterface $responsePrototype
+    ) {
         $this->register = $register;
         $this->config = $config;
+        $this->responsePrototype = $responsePrototype;
     }
 
     public function authenticate(ServerRequestInterface $request): ?UserInterface
@@ -58,7 +62,10 @@ class PhpSession implements AuthenticationInterface
 
     public function unauthorizedResponse(ServerRequestInterface $request): ResponseInterface
     {
-        return new RedirectResponse($this->config['redirect']);
+        return $this->responsePrototype->withHeader(
+            'Location',
+            $this->config['redirect']
+        )->withStatus(301);
     }
 
     private function setSessionId(string $id): void

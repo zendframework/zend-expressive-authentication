@@ -1,7 +1,7 @@
 {
     "name": "zendframework/zend-expressive-authentication",
     "description": "Authentication middleware for Expressive and PSR-7 applications",
-    "homepage": "https://docs.zendframework.com/zend-expressive-authorization/",
+    "homepage": "https://docs.zendframework.com/zend-expressive-authentication/",
     "type": "library",
     "license": "BSD-3-Clause",
     "keywords": [
@@ -15,9 +15,9 @@
         "sort-packages": true
     },
     "support": {
-        "docs": "https://docs.zendframework.com/zend-expressive-authorization/",
-        "issues": "https://github.com/ezimuel/zend-expressive-authorization/issues",
-        "source": "https://github.com/ezimuel/zend-expressive-authorization",
+        "docs": "https://docs.zendframework.com/zend-expressive-authentication/",
+        "issues": "https://github.com/zendframework/zend-expressive-authentication/issues",
+        "source": "https://github.com/zendframework/zend-expressive-authentication",
         "slack": "https://zendframework-slack.herokuapp.com",
         "forum": "https://discourse.zendframework.com/c/questions/expressive"
     },
@@ -27,8 +27,7 @@
         "league/oauth2-server": "^6.0",
         "psr/container": "^1.0",
         "psr/http-message": "^1.0.1",
-        "zendframework/zend-authentication": "^2.5.0",
-        "zendframework/zend-diactoros": "^1.4.0"
+        "zendframework/zend-authentication": "^2.5.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^6.0.8",

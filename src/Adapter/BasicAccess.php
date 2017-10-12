@@ -9,7 +9,6 @@ namespace Zend\Expressive\Authentication\Adapter;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Zend\Diactoros\Response\EmptyResponse;
 use Zend\Expressive\Authentication\AuthenticationInterface;
 use Zend\Expressive\Authentication\UserInterface;
 use Zend\Expressive\Authentication\UserRepositoryInterface;
@@ -18,11 +17,16 @@ class BasicAccess implements AuthenticationInterface
 {
     protected $register;
     protected $realm;
+    protected $responsePrototype;
 
-    public function __construct(UserRepositoryInterface $register, string $realm)
-    {
+    public function __construct(
+        UserRepositoryInterface $register,
+        string $realm,
+        ResponseInterface $responsePrototype
+    ) {
         $this->register = $register;
         $this->realm = $realm;
+        $this->responsePrototype = $responsePrototype;
     }
 
     public function authenticate(ServerRequestInterface $request): ?UserInterface
@@ -41,8 +45,9 @@ class BasicAccess implements AuthenticationInterface
 
     public function unauthorizedResponse(ServerRequestInterface $request): ResponseInterface
     {
-        return new EmptyResponse(401, [
-            'WWW-Authenticate' => sprintf("Basic realm=\"%s\"", $this->realm)
-        ]);
+        return $this->responsePrototype->withHeader(
+            'WWW-Authenticate',
+            sprintf("Basic realm=\"%s\"", $this->realm)
+        )->withStatus(401);
     }
 }

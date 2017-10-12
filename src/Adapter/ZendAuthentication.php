@@ -10,7 +10,6 @@ namespace Zend\Expressive\Authentication\Adapter;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Zend\Authentication\AuthenticationService;
-use Zend\Diactoros\Response\RedirectResponse;
 use Zend\Expressive\Authentication\AuthenticationInterface;
 use Zend\Expressive\Authentication\UserInterface;
 use Zend\Expressive\Authentication\UserRepository\UserTrait;
@@ -19,13 +18,18 @@ class ZendAuthentication implements AuthenticationInterface
 {
     use UserTrait;
 
-    protected $register;
+    protected $auth;
     protected $config;
+    protected $responsePrototype;
 
-    public function __construct(AuthenticationService $auth, array $config)
-    {
+    public function __construct(
+        AuthenticationService $auth,
+        array $config,
+        ResponseInterface $responsePrototype
+    ) {
         $this->auth = $auth;
         $this->config = $config;
+        $this->responsePrototype = $responsePrototype;
     }
 
     public function authenticate(ServerRequestInterface $request): ?UserInterface
@@ -54,6 +58,9 @@ class ZendAuthentication implements AuthenticationInterface
 
     public function unauthorizedResponse(ServerRequestInterface $request): ResponseInterface
     {
-        return new RedirectResponse($this->config['redirect']);
+        return $this->responsePrototype->withHeader(
+            'Location',
+            $this->config['redirect']
+        )->withStatus(301);
     }
 }

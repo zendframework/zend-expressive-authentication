@@ -2,7 +2,7 @@
 /**
  * @see       https://github.com/zendframework/zend-expressive-authentication for the canonical source repository
  * @copyright Copyright (c) 2017 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive-authorization/blob/master/LICENSE.md New BSD License
+ * @license   https://github.com/zendframework/zend-expressive-authentication/blob/master/LICENSE.md New BSD License
  */
 namespace ZendTest\Expressive\Authentication\Adapter;
 
@@ -13,8 +13,6 @@ use Psr\Http\Message\ResponseInterface;
 use Zend\Authentication\Adapter\AbstractAdapter;
 use Zend\Authentication\AuthenticationService;
 use Zend\Authentication\Result;
-use Zend\Diactoros\Response\EmptyResponse;
-use Zend\Diactoros\Response\RedirectResponse;
 use Zend\Expressive\Authentication\Adapter\ZendAuthentication;
 use Zend\Expressive\Authentication\AuthenticationInterface;
 use Zend\Expressive\Authentication\UserInterface;
@@ -27,11 +25,16 @@ class ZendAuthenticationTest extends TestCase
         $this->request = $this->prophesize(ServerRequestInterface::class);
         $this->authService = $this->prophesize(AuthenticationService::class);
         $this->authenticatedUser = $this->prophesize(UserInterface::class);
+        $this->responsePrototype = $this->prophesize(ResponseInterface::class);
     }
 
     public function testConstructor()
     {
-        $zendAuthentication = new ZendAuthentication($this->authService->reveal(), []);
+        $zendAuthentication = new ZendAuthentication(
+            $this->authService->reveal(),
+            [],
+            $this->responsePrototype->reveal()
+        );
         $this->assertInstanceOf(AuthenticationInterface::class, $zendAuthentication);
     }
 
@@ -41,7 +44,11 @@ class ZendAuthenticationTest extends TestCase
         $this->authService->hasIdentity()->willReturn(true);
         $this->authService->getIdentity()->willReturn('foo');
 
-        $zendAuthentication = new ZendAuthentication($this->authService->reveal(), []);
+        $zendAuthentication = new ZendAuthentication(
+            $this->authService->reveal(),
+            [],
+            $this->responsePrototype->reveal()
+        );
         $result = $zendAuthentication->authenticate($this->request->reveal());
         $this->assertInstanceOf(UserInterface::class, $result);
     }
@@ -51,7 +58,11 @@ class ZendAuthenticationTest extends TestCase
         $this->request->getMethod()->willReturn('GET');
         $this->authService->hasIdentity()->willReturn(false);
 
-        $zendAuthentication = new ZendAuthentication($this->authService->reveal(), []);
+        $zendAuthentication = new ZendAuthentication(
+            $this->authService->reveal(),
+            [],
+            $this->responsePrototype->reveal()
+        );
         $this->assertNull($zendAuthentication->authenticate($this->request->reveal()));
     }
 
@@ -60,7 +71,11 @@ class ZendAuthenticationTest extends TestCase
         $this->request->getMethod()->willReturn('POST');
         $this->request->getParsedBody()->willReturn([]);
 
-        $zendAuthentication = new ZendAuthentication($this->authService->reveal(), []);
+        $zendAuthentication = new ZendAuthentication(
+            $this->authService->reveal(),
+            [],
+            $this->responsePrototype->reveal()
+        );
         $this->assertNull($zendAuthentication->authenticate($this->request->reveal()));
     }
 
@@ -83,7 +98,11 @@ class ZendAuthenticationTest extends TestCase
         $this->authService->authenticate()
                           ->willReturn($result);
 
-        $zendAuthentication = new ZendAuthentication($this->authService->reveal(), []);
+        $zendAuthentication = new ZendAuthentication(
+            $this->authService->reveal(),
+            [],
+            $this->responsePrototype->reveal()
+        );
         $this->assertNull($zendAuthentication->authenticate($this->request->reveal()));
     }
 
@@ -107,7 +126,11 @@ class ZendAuthenticationTest extends TestCase
         $this->authService->authenticate()
                           ->willReturn($result);
 
-        $zendAuthentication = new ZendAuthentication($this->authService->reveal(), []);
+        $zendAuthentication = new ZendAuthentication(
+            $this->authService->reveal(),
+            [],
+            $this->responsePrototype->reveal()
+        );
         $result = $zendAuthentication->authenticate($this->request->reveal());
         $this->assertInstanceOf(UserInterface::class, $result);
     }

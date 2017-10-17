@@ -14,7 +14,7 @@ class HtpasswdFactory
 {
     public function __invoke(ContainerInterface $container) : Htpasswd
     {
-        $htpasswd = $container->get('config')['user_register']['htpasswd'] ?? null;
+        $htpasswd = $container->get('config')['user_repository']['htpasswd'] ?? null;
         if (null === $htpasswd) {
             throw new Exception\InvalidConfigException(
                 'Htpasswd file name is not present in user_register config'

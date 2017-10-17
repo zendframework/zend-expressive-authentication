@@ -15,7 +15,7 @@ class PdoDatabaseFactory
 {
     public function __invoke(ContainerInterface $container) : PdoDatabase
     {
-        $pdo = $container->get('config')['user_register']['pdo'] ?? null;
+        $pdo = $container->get('config')['user_repository']['pdo'] ?? null;
         if (null === $pdo) {
             throw new Exception\InvalidConfigException(
                 'PDO values are missing in user_register config'

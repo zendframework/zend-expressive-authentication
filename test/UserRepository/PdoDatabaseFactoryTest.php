@@ -62,7 +62,7 @@ class PdoDatabaseFactoryTest extends TestCase
     public function testInvokeWithInvalidConfig($pdoConfig)
     {
         $this->container->get('config')->willReturn([
-            'user_register' => [ 'pdo' => $pdoConfig ]
+            'user_repository' => [ 'pdo' => $pdoConfig ]
         ]);
         $pdoDatabase = ($this->factory)($this->container->reveal());
     }
@@ -70,7 +70,7 @@ class PdoDatabaseFactoryTest extends TestCase
     public function testInvokeWithValidConfig()
     {
         $this->container->get('config')->willReturn([
-            'user_register' => [
+            'user_repository' => [
                 'pdo' =>  [
                     'dsn' => 'sqlite:'. __DIR__ . '/../TestAssets/pdo.sqlite',
                     'table' => 'user',

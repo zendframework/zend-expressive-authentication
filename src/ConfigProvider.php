@@ -29,8 +29,8 @@ class ConfigProvider
             'aliases' => [
                 // Change the alias value for Authentication adapter and
                 // UserRepository adapter
-                AuthenticationInterface::class => Adapter\BasicAccess::class,
-                UserRepositoryInterface::class => UserRepository\Htpasswd::class
+                //AuthenticationInterface::class => Adapter\BasicAccess::class,
+                //UserRepositoryInterface::class => UserRepository\Htpasswd::class
             ],
             'factories' => [
                 AuthenticationMiddleware::class => AuthenticationMiddlewareFactory::class,

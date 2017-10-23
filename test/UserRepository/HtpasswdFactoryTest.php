@@ -35,7 +35,7 @@ class HtpasswdFactoryTest extends TestCase
     public function testInvokeWithInvalidConfig()
     {
         $this->container->get('config')->willReturn([
-            'user_repository' => [
+            'authentication' => [
                 'htpasswd' => 'foo'
             ]
         ]);
@@ -45,7 +45,7 @@ class HtpasswdFactoryTest extends TestCase
     public function testInvokeWithValidConfig()
     {
         $this->container->get('config')->willReturn([
-            'user_repository' => [
+            'authentication' => [
                 'htpasswd' => __DIR__ . '/../TestAssets/htpasswd'
             ]
         ]);

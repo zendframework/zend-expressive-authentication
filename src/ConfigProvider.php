@@ -27,15 +27,13 @@ class ConfigProvider
     {
         return [
             'aliases' => [
-                // Change the alias values for Authentication adapter and
-                // UserRepository adapter
-                AuthenticationInterface::class => Adapter\BasicAccess::class,
-                UserRepositoryInterface::class => UserRepository\Htpasswd::class
+                // Provide an alias for the AuthenticationInterface based on the adapter you are using.
+                // AuthenticationInterface::class => Basic\BasicAccess::class,
+                // Provide an alias for the UserRepository adapter based on your application needs.
+                // UserRepositoryInterface::class => UserRepository\Htpasswd::class
             ],
             'factories' => [
                 AuthenticationMiddleware::class => AuthenticationMiddlewareFactory::class,
-                Adapter\BasicAccess::class => Adapter\BasicAccessFactory::class,
-                Adapter\PhpSession::class => Adapter\PhpSessionFactory::class,
                 Adapter\ZendAuthentication::class => Adapter\ZendAuthenticationFactory::class,
                 UserRepository\Htpasswd::class => UserRepository\HtpasswdFactory::class,
                 UserRepository\PdoDatabase::class => UserRepository\PdoDatabaseFactory::class

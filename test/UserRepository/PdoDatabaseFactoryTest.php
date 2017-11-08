@@ -11,7 +11,6 @@ use Psr\Container\ContainerInterface;
 use Zend\Expressive\Authentication\UserRepository\PdoDatabase;
 use Zend\Expressive\Authentication\UserRepository\PdoDatabaseFactory;
 
-
 class PdoDatabaseFactoryTest extends TestCase
 {
     protected function setUp()
@@ -71,7 +70,7 @@ class PdoDatabaseFactoryTest extends TestCase
     {
         $this->container->get('config')->willReturn([
             'authentication' => [
-                'pdo' =>  [
+                'pdo' => [
                     'dsn' => 'sqlite:'. __DIR__ . '/../TestAssets/pdo.sqlite',
                     'table' => 'user',
                     'field' => [

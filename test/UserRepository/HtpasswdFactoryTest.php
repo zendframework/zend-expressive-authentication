@@ -11,7 +11,6 @@ use Psr\Container\ContainerInterface;
 use Zend\Expressive\Authentication\UserRepository\Htpasswd;
 use Zend\Expressive\Authentication\UserRepository\HtpasswdFactory;
 
-
 class HtpasswdFactoryTest extends TestCase
 {
     protected function setUp()

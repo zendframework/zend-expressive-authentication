@@ -63,11 +63,11 @@ class AuthenticationMiddlewareTest extends TestCase
         $this->delegate->process($this->request->reveal())
                        ->willReturn($response->reveal());
 
-       $middleware = new AuthenticationMiddleware($this->authentication->reveal());
-       $result = $middleware->process($this->request->reveal(), $this->delegate->reveal());
+        $middleware = new AuthenticationMiddleware($this->authentication->reveal());
+        $result = $middleware->process($this->request->reveal(), $this->delegate->reveal());
 
-       $this->assertInstanceOf(ResponseInterface::class, $result);
-       $this->assertEquals($response->reveal(), $result);
-       $this->delegate->process($this->request->reveal())->shouldBeCalled();
+        $this->assertInstanceOf(ResponseInterface::class, $result);
+        $this->assertEquals($response->reveal(), $result);
+        $this->delegate->process($this->request->reveal())->shouldBeCalled();
     }
 }

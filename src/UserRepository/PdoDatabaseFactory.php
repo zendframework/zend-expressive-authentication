@@ -42,7 +42,11 @@ class PdoDatabaseFactory
             );
         }
         return new PdoDatabase(
-            new PDO($pdo['dsn'], $pdo['username'] ?? null, $pdo['password'] ?? null),
+            new PDO(
+                $pdo['dsn'],
+                $pdo['username'] ?? null,
+                $pdo['password'] ?? null
+            ),
             $pdo
         );
     }

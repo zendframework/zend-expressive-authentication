@@ -15,20 +15,41 @@ use Zend\Expressive\Authentication\UserRepositoryInterface;
 
 class BasicAccess implements AuthenticationInterface
 {
-    protected $register;
+    /**
+     * @var UserRepositoryInterface
+     */
+    protected $repository;
+
+    /**
+     * @var string
+     */
     protected $realm;
+
+    /**
+     * @var ResponseInterface
+     */
     protected $responsePrototype;
 
+    /**
+     * Constructor
+     *
+     * @param UserRepositoryInterface $repository
+     * @param string $realm
+     * @param ResponseInterface $responsePrototype
+     */
     public function __construct(
-        UserRepositoryInterface $register,
+        UserRepositoryInterface $repository,
         string $realm,
         ResponseInterface $responsePrototype
     ) {
-        $this->register = $register;
+        $this->repository = $repository;
         $this->realm = $realm;
         $this->responsePrototype = $responsePrototype;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function authenticate(ServerRequestInterface $request): ?UserInterface
     {
         $authHeader = $request->getHeader('Authorization');
@@ -40,9 +61,12 @@ class BasicAccess implements AuthenticationInterface
         }
         [$username, $password] = explode(':', base64_decode($match[1]));
 
-        return $this->register->authenticate($username, $password);
+        return $this->repository->authenticate($username, $password);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function unauthorizedResponse(ServerRequestInterface $request): ResponseInterface
     {
         return $this->responsePrototype->withHeader(

@@ -13,14 +13,17 @@ use Zend\Expressive\Authentication\UserRepositoryInterface;
 /**
  * Adapter for Apache htpasswd file
  * It supports only bcrypt hash password for security reason
+ * @see https://httpd.apache.org/docs/2.4/programs/htpasswd.html
  */
-
 class Htpasswd implements UserRepositoryInterface
 {
-    protected $authenticatedUser = null;
-
     use UserTrait;
 
+    /**
+     * Constructor
+     *
+     * @param string $filename
+     */
     public function __construct(string $filename)
     {
         if (! file_exists($filename)) {

@@ -18,10 +18,28 @@ class ZendAuthentication implements AuthenticationInterface
 {
     use UserTrait;
 
+    /**
+     * @var AuthenticationService
+     */
     protected $auth;
+
+    /**
+     * @var array
+     */
     protected $config;
+
+    /**
+     * @var ResponseInterface
+     */
     protected $responsePrototype;
 
+    /**
+     * Constructor
+     *
+     * @param AuthenticationService $auth
+     * @param array $config
+     * @param ResponseInterface $responsePrototype
+     */
     public function __construct(
         AuthenticationService $auth,
         array $config,
@@ -32,6 +50,9 @@ class ZendAuthentication implements AuthenticationInterface
         $this->responsePrototype = $responsePrototype;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function authenticate(ServerRequestInterface $request): ?UserInterface
     {
         if ('POST' === $request->getMethod()) {
@@ -56,6 +77,9 @@ class ZendAuthentication implements AuthenticationInterface
                null;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function unauthorizedResponse(ServerRequestInterface $request): ResponseInterface
     {
         return $this->responsePrototype->withHeader(

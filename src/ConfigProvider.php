@@ -27,7 +27,7 @@ class ConfigProvider
     {
         return [
             'aliases' => [
-                // Change the alias value for Authentication adapter and
+                // Change the alias values for Authentication adapter and
                 // UserRepository adapter
                 AuthenticationInterface::class => Adapter\BasicAccess::class,
                 UserRepositoryInterface::class => UserRepository\Htpasswd::class

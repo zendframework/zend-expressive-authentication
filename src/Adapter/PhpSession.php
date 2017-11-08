@@ -15,20 +15,41 @@ use Zend\Expressive\Authentication\UserRepositoryInterface;
 
 class PhpSession implements AuthenticationInterface
 {
-    protected $register;
+    /**
+     * @var UserRepositoryInterface
+     */
+    protected $repository;
+
+    /**
+     * @var array
+     */
     protected $config;
+
+    /**
+     * @var ResponseInterface
+     */
     protected $responsePrototype;
 
+    /**
+     * Constructor
+     *
+     * @param UserRepositoryInterface $repository
+     * @param array $config
+     * @param ResponseInterface $responsePrototype
+     */
     public function __construct(
-        UserRepositoryInterface $register,
+        UserRepositoryInterface $repository,
         array $config,
         ResponseInterface $responsePrototype
     ) {
-        $this->register = $register;
+        $this->repository = $repository;
         $this->config = $config;
         $this->responsePrototype = $responsePrototype;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function authenticate(ServerRequestInterface $request): ?UserInterface
     {
         $cookies = $request->getCookieParams();
@@ -47,7 +68,7 @@ class PhpSession implements AuthenticationInterface
             if (!isset($params[$username]) || !isset($params[$password])) {
                 return null;
             }
-            $user = $this->register->authenticate(
+            $user = $this->repository->authenticate(
                 $params[$username],
                 $params[$password]
             );
@@ -60,6 +81,9 @@ class PhpSession implements AuthenticationInterface
         return null;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function unauthorizedResponse(ServerRequestInterface $request): ResponseInterface
     {
         return $this->responsePrototype->withHeader(
@@ -68,6 +92,12 @@ class PhpSession implements AuthenticationInterface
         )->withStatus(301);
     }
 
+    /**
+     * Set the PHP SESSION ID
+     *
+     * @param string $id
+     * @return void
+     */
     private function setSessionId(string $id): void
     {
         session_name(AuthenticationInterface::class);

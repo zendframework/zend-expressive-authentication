@@ -1,0 +1,39 @@
+{
+    "docs": [
+        {
+            "location": "/",
+            "text": "Expressive Authorization Middleware\n\n\n\n\n\n\nzend-expressive-authentication provides middleware for \nExpressive\n\nand \nPSR-7\n applications for the purpose of\nauthenticating HTTP requests using consumer- or third-party-provided adapters.\n\n\nWORK IN PROGRESS\n\n\nThis repository contains a \nwork in progress\n project for building an\nauthentication module for \nExpressive\n and \nPSR-7\n applications.\n\n\nPlease, do not use this code in a production environment!\n\n\nInstallation\n\n\nYou can install the \nzend-expressive-authentication\n library with composer:\n\n\n$ composer require zendframework/zend-expressive-authentication\n\n\n\nDocumentation\n\n\nDocumentation is \nin the doc tree\n, and can be compiled using \nmkdocs\n:\n\n\n$ mkdocs build\n\n\n\nYou may also \nbrowse the documentation online\n.",
+            "title": "Expressive Authorization Middleware"
+        },
+        {
+            "location": "/#expressive-authorization-middleware",
+            "text": "zend-expressive-authentication provides middleware for  Expressive \nand  PSR-7  applications for the purpose of\nauthenticating HTTP requests using consumer- or third-party-provided adapters.",
+            "title": "Expressive Authorization Middleware"
+        },
+        {
+            "location": "/#work-in-progress",
+            "text": "This repository contains a  work in progress  project for building an\nauthentication module for  Expressive  and  PSR-7  applications.  Please, do not use this code in a production environment!",
+            "title": "WORK IN PROGRESS"
+        },
+        {
+            "location": "/#installation",
+            "text": "You can install the  zend-expressive-authentication  library with composer:  $ composer require zendframework/zend-expressive-authentication",
+            "title": "Installation"
+        },
+        {
+            "location": "/#documentation",
+            "text": "Documentation is  in the doc tree , and can be compiled using  mkdocs :  $ mkdocs build  You may also  browse the documentation online .",
+            "title": "Documentation"
+        },
+        {
+            "location": "/intro/",
+            "text": "zendframework/zend-expressive-authentication\n\n\nThis component provides authentication abstraction and authentication middleware\nfor PSR-7 applications.",
+            "title": "Introduction"
+        },
+        {
+            "location": "/intro/#zendframeworkzend-expressive-authentication",
+            "text": "This component provides authentication abstraction and authentication middleware\nfor PSR-7 applications.",
+            "title": "zendframework/zend-expressive-authentication"
+        }
+    ]
+}

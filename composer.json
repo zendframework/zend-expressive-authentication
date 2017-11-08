@@ -24,7 +24,6 @@
     "require": {
         "php": "^7.1",
         "http-interop/http-middleware": "^0.4.1",
-        "league/oauth2-server": "^6.0",
         "psr/container": "^1.0",
         "psr/http-message": "^1.0.1"
     },
@@ -35,6 +34,9 @@
     },
     "conflict": {
         "container-interop/container-interop": "<1.2.0"
+    },
+    "suggest": {
+        "ext-pdo": "*: for use with the PDO-backed UserRepositoryInterface implementation"
     },
     "autoload": {
         "psr-4": {

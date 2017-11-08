@@ -1,8 +1,7 @@
-.idea
-composer.phar
-composer.lock
-
+docs/html/
+vendor/
+zf-mkdoc-theme/
 clover.xml
 coveralls-upload.json
 phpunit.xml
-vendor/
+zf-mkdoc-theme.tgz

@@ -15,8 +15,22 @@ class ConfigProvider
     public function __invoke() : array
     {
         return [
-            'dependencies'  => $this->getDependencies(),
-            'authentication' => include __DIR__ . '/../config/authentication.php'
+            'authentication' => $this->getAuthenticationConfig(),
+            'dependencies' => $this->getDependencies(),
+        ];
+    }
+
+    public function getAuthenticationConfig() : array
+    {
+        return [
+            /* Values will depend on user repository and/or adapter.
+             *
+             * Example: using htpasswd UserRepositoryInterface implementation:
+             *
+             * 'user_register' => [
+             *     'htpasswd' => 'insert the path to htpasswd file'
+             * ]
+             */
         ];
     }
 

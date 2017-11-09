@@ -36,7 +36,10 @@
         "container-interop/container-interop": "<1.2.0"
     },
     "suggest": {
-        "ext-pdo": "*: for use with the PDO-backed UserRepositoryInterface implementation"
+        "ext-pdo": "*: for use with the PDO-backed UserRepositoryInterface implementation",
+        "zendframework/zend-expressive-authentication-basic": "Provides an HTTP Basic Authentication AuthenticationInterface implementation",
+        "zendframework/zend-expressive-authentication-session": "Provides a username/password + session AuthenticationInterface implementation",
+        "zendframework/zend-expressive-authentication-zendauthentication": "Provides a zend-authentication AuthenticationInterface implementation"
     },
     "autoload": {
         "psr-4": {

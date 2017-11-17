@@ -13,10 +13,6 @@ trait UserTrait
 {
     /**
      * Generate a user from $username and $role
-     *
-     * @param string $username
-     * @param string $role
-     * @return UserInterface
      */
     protected function generateUser(string $username, string $role): UserInterface
     {

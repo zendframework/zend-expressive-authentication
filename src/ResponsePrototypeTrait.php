@@ -15,9 +15,7 @@ trait ResponsePrototypeTrait
     /**
      * Return a ResponseInterface service if present or Zend\Diactoros\Response
      *
-     * @param ContainerInterface $container
      * @throws Exception\InvalidConfigException
-     * @return ResponseInterface
      */
     protected function getResponsePrototype(ContainerInterface $container): ResponseInterface
     {

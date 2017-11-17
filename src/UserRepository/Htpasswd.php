@@ -21,8 +21,6 @@ class Htpasswd implements UserRepositoryInterface
 
     /**
      * Constructor
-     *
-     * @param string $filename
      */
     public function __construct(string $filename)
     {
@@ -63,8 +61,6 @@ class Htpasswd implements UserRepositoryInterface
     /**
      * Check bcrypt usage for security reason
      *
-     * @param string $hash
-     * @return void
      */
     protected function checkBcryptHash(string $hash): void
     {

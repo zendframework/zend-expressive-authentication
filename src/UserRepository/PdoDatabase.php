@@ -21,9 +21,6 @@ class PdoDatabase implements UserRepositoryInterface
 
     /**
      * Constructor
-     *
-     * @param PDO $pdo
-     * @param array $config
      */
     public function __construct(PDO $pdo, array $config)
     {

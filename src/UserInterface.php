@@ -10,15 +10,11 @@ interface UserInterface
 {
     /**
      * Get the username
-     *
-     * @return string
      */
     public function getUsername(): string;
 
     /**
      * Get the user role
-     *
-     * @return string
      */
     public function getUserRole(): string;
 }

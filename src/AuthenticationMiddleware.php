@@ -18,12 +18,6 @@ class AuthenticationMiddleware implements ServerMiddlewareInterface
      */
     protected $auth;
 
-    /**
-     * Constructor
-     *
-     * @param AuthenticationInterface $authentication
-     * @return void
-     */
     public function __construct(AuthenticationInterface $auth)
     {
         $this->auth = $auth;

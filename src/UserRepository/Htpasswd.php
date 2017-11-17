@@ -26,7 +26,7 @@ class Htpasswd implements UserRepositoryInterface
     {
         if (! file_exists($filename)) {
             throw new Exception\InvalidConfigException(sprintf(
-                "I cannot access the htpasswd file %s",
+                'I cannot access the htpasswd file %s',
                 $filename
             ));
         }
@@ -38,7 +38,7 @@ class Htpasswd implements UserRepositoryInterface
      */
     public function authenticate(string $credential, string $password = null): ?UserInterface
     {
-        if (! $handle = fopen($this->filename, "r")) {
+        if (! $handle = fopen($this->filename, 'r')) {
             return null;
         }
         $found = false;

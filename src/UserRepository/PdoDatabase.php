@@ -34,7 +34,7 @@ class PdoDatabase implements UserRepositoryInterface
     public function authenticate(string $credential, string $password = null): ?UserInterface
     {
         $sql = sprintf(
-            "SELECT * FROM %s WHERE %s = :username",
+            'SELECT * FROM %s WHERE %s = :username',
             $this->config['table'],
             $this->config['field']['username']
         );

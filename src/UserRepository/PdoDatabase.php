@@ -20,8 +20,15 @@ class PdoDatabase implements UserRepositoryInterface
     use UserTrait;
 
     /**
-     * Constructor
+     * @var PDO
      */
+    private $pdo;
+
+    /**
+     * @var array
+     */
+    private $config;
+
     public function __construct(PDO $pdo, array $config)
     {
         $this->pdo = $pdo;

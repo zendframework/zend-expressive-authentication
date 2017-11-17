@@ -20,6 +20,11 @@ class Htpasswd implements UserRepositoryInterface
     use UserTrait;
 
     /**
+     * @var string
+     */
+    private $filename;
+
+    /**
      * @throws Exception\InvalidConfigException
      */
     public function __construct(string $filename)

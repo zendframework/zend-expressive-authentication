@@ -17,6 +17,9 @@ trait UserTrait
     protected function generateUser(string $username, string $role) : UserInterface
     {
         return new class($username, $role) implements UserInterface {
+            private $username;
+            private $role;
+
             public function __construct($username, $role)
             {
                 $this->username = $username;

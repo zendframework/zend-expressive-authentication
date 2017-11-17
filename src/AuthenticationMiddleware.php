@@ -14,7 +14,7 @@ use Psr\Http\Message\ServerRequestInterface;
 class AuthenticationMiddleware implements ServerMiddlewareInterface
 {
     /**
-     * @var AuthentiationInterface
+     * @var AuthenticationInterface
      */
     protected $auth;
 

@@ -20,7 +20,7 @@ class Htpasswd implements UserRepositoryInterface
     use UserTrait;
 
     /**
-     * Constructor
+     * @throws Exception\InvalidConfigException
      */
     public function __construct(string $filename)
     {
@@ -61,6 +61,7 @@ class Htpasswd implements UserRepositoryInterface
     /**
      * Check bcrypt usage for security reason
      *
+     * @throws Exception\RuntimeException
      */
     protected function checkBcryptHash(string $hash) : void
     {

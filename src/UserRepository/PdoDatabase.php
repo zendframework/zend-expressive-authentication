@@ -31,7 +31,7 @@ class PdoDatabase implements UserRepositoryInterface
     /**
      * {@inheritDoc}
      */
-    public function authenticate(string $credential, string $password = null): ?UserInterface
+    public function authenticate(string $credential, string $password = null) : ?UserInterface
     {
         $sql = sprintf(
             'SELECT * FROM %s WHERE %s = :username',

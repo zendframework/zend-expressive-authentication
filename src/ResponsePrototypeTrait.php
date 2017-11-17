@@ -17,7 +17,7 @@ trait ResponsePrototypeTrait
      *
      * @throws Exception\InvalidConfigException
      */
-    protected function getResponsePrototype(ContainerInterface $container): ResponseInterface
+    protected function getResponsePrototype(ContainerInterface $container) : ResponseInterface
     {
         if (! $container->has(ResponseInterface::class)
             && ! class_exists(Response::class)

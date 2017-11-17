@@ -36,7 +36,7 @@ class Htpasswd implements UserRepositoryInterface
     /**
      * {@inheritDoc}
      */
-    public function authenticate(string $credential, string $password = null): ?UserInterface
+    public function authenticate(string $credential, string $password = null) : ?UserInterface
     {
         if (! $handle = fopen($this->filename, 'r')) {
             return null;
@@ -62,7 +62,7 @@ class Htpasswd implements UserRepositoryInterface
      * Check bcrypt usage for security reason
      *
      */
-    protected function checkBcryptHash(string $hash): void
+    protected function checkBcryptHash(string $hash) : void
     {
         if ('$2y$' !== substr($hash, 0, 4)) {
             throw new Exception\RuntimeException(

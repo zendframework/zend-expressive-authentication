@@ -70,7 +70,7 @@ class Htpasswd implements UserRepositoryInterface
      */
     protected function checkBcryptHash(string $hash) : void
     {
-        if ('$2y$' !== substr($hash, 0, 4)) {
+        if (0 !== strpos($hash, '$2y$')) {
             throw new Exception\RuntimeException(
                 'The htpasswd file uses not secure hash algorithm. Please use bcrypt.'
             );

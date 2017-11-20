@@ -18,13 +18,13 @@ trait UserTrait
      * @param string $role
      * @return UserInterface
      */
-    protected function generateUser(string $username, string $role): UserInterface
+    protected function generateUser(string $username, ?array $roles = null): UserInterface
     {
-        return new class($username, $role) implements UserInterface {
-            public function __construct($username, $role)
+        return new class($username, $roles) implements UserInterface {
+            public function __construct(string $username, $roles)
             {
                 $this->username = $username;
-                $this->role = $role;
+                $this->roles = $roles;
             }
 
             public function getUsername(): string
@@ -32,9 +32,9 @@ trait UserTrait
                 return $this->username;
             }
 
-            public function getUserRole(): string
+            public function getUserRoles(): ?array
             {
-                return $this->role;
+                return $this->roles;
             }
         };
     }

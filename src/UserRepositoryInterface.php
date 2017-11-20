@@ -18,4 +18,12 @@ interface UserRepositoryInterface
      * @return UserInterface|null
      */
     public function authenticate(string $credential, string $password = null): ?UserInterface;
+
+    /**
+     * Get the user roles if present
+     *
+     * @param string $username
+     * @return array|null
+     */
+    public function getRolesFromUser(string $username): ?array;
 }

@@ -15,17 +15,11 @@ interface AuthenticationInterface
     /**
      * Authenticate the PSR-7 request and return a valid user
      * or null if not authenticated
-     *
-     * @param ServerRequestInterface $request
-     * @return UserInterface|null
      */
-    public function authenticate(ServerRequestInterface $request): ?UserInterface;
+    public function authenticate(ServerRequestInterface $request) : ?UserInterface;
 
     /**
      * Generate the unauthorized response
-     *
-     * @param ServerRequestInterface $request
-     * @return ResponseInterface
      */
-    public function unauthorizedResponse(ServerRequestInterface $request): ResponseInterface;
+    public function unauthorizedResponse(ServerRequestInterface $request) : ResponseInterface;
 }

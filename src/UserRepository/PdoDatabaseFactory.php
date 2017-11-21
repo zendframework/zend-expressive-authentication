@@ -13,6 +13,9 @@ use Zend\Expressive\Authentication\Exception;
 
 class PdoDatabaseFactory
 {
+    /**
+     * @throws Exception\InvalidConfigException
+     */
     public function __invoke(ContainerInterface $container) : PdoDatabase
     {
         $pdo = $container->get('config')['authentication']['pdo'] ?? null;

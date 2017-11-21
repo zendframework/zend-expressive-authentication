@@ -20,15 +20,18 @@ class Htpasswd implements UserRepositoryInterface
     use UserTrait;
 
     /**
-     * Constructor
-     *
-     * @param string $filename
+     * @var string
+     */
+    private $filename;
+
+    /**
+     * @throws Exception\InvalidConfigException
      */
     public function __construct(string $filename)
     {
         if (! file_exists($filename)) {
             throw new Exception\InvalidConfigException(sprintf(
-                "I cannot access the htpasswd file %s",
+                'I cannot access the htpasswd file %s',
                 $filename
             ));
         }
@@ -38,9 +41,9 @@ class Htpasswd implements UserRepositoryInterface
     /**
      * {@inheritDoc}
      */
-    public function authenticate(string $credential, string $password = null): ?UserInterface
+    public function authenticate(string $credential, string $password = null) : ?UserInterface
     {
-        if (! $handle = fopen($this->filename, "r")) {
+        if (! $handle = fopen($this->filename, 'r')) {
             return null;
         }
         $found = false;
@@ -63,12 +66,11 @@ class Htpasswd implements UserRepositoryInterface
     /**
      * Check bcrypt usage for security reason
      *
-     * @param string $hash
-     * @return void
+     * @throws Exception\RuntimeException
      */
-    protected function checkBcryptHash(string $hash): void
+    protected function checkBcryptHash(string $hash) : void
     {
-        if ('$2y$' !== substr($hash, 0, 4)) {
+        if (0 !== strpos($hash, '$2y$')) {
             throw new Exception\RuntimeException(
                 'The htpasswd file uses not secure hash algorithm. Please use bcrypt.'
             );

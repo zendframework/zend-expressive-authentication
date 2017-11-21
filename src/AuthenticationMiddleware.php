@@ -14,16 +14,10 @@ use Psr\Http\Message\ServerRequestInterface;
 class AuthenticationMiddleware implements ServerMiddlewareInterface
 {
     /**
-     * @var AuthentiationInterface
+     * @var AuthenticationInterface
      */
     protected $auth;
 
-    /**
-     * Constructor
-     *
-     * @param AuthenticationInterface $authentication
-     * @return void
-     */
     public function __construct(AuthenticationInterface $auth)
     {
         $this->auth = $auth;

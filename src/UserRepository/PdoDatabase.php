@@ -20,11 +20,15 @@ class PdoDatabase implements UserRepositoryInterface
     use UserTrait;
 
     /**
-     * Constructor
-     *
-     * @param PDO $pdo
-     * @param array $config
+     * @var PDO
      */
+    private $pdo;
+
+    /**
+     * @var array
+     */
+    private $config;
+
     public function __construct(PDO $pdo, array $config)
     {
         $this->pdo = $pdo;
@@ -34,10 +38,10 @@ class PdoDatabase implements UserRepositoryInterface
     /**
      * {@inheritDoc}
      */
-    public function authenticate(string $credential, string $password = null): ?UserInterface
+    public function authenticate(string $credential, string $password = null) : ?UserInterface
     {
         $sql = sprintf(
-            "SELECT * FROM %s WHERE %s = :username",
+            'SELECT * FROM %s WHERE %s = :username',
             $this->config['table'],
             $this->config['field']['username']
         );

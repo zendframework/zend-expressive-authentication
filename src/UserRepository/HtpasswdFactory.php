@@ -12,6 +12,9 @@ use Zend\Expressive\Authentication\Exception;
 
 class HtpasswdFactory
 {
+    /**
+     * @throws Exception\InvalidConfigException
+     */
     public function __invoke(ContainerInterface $container) : Htpasswd
     {
         $htpasswd = $container->get('config')['authentication']['htpasswd'] ?? null;

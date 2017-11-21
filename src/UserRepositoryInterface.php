@@ -14,8 +14,6 @@ interface UserRepositoryInterface
      * It returns the authenticated user or null.
      *
      * @param string $credential can be also a token
-     * @param string $password
-     * @return UserInterface|null
      */
-    public function authenticate(string $credential, string $password = null): ?UserInterface;
+    public function authenticate(string $credential, string $password = null) : ?UserInterface;
 }

@@ -8,6 +8,7 @@ namespace ZendTest\Expressive\Authentication\UserRepository;
 
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
+use Zend\Expressive\Authentication\Exception\InvalidConfigException;
 use Zend\Expressive\Authentication\UserRepository\Htpasswd;
 use Zend\Expressive\Authentication\UserRepository\HtpasswdFactory;
 
@@ -19,30 +20,40 @@ class HtpasswdFactoryTest extends TestCase
         $this->factory = new HtpasswdFactory();
     }
 
-    /**
-     * @expectedException Zend\Expressive\Authentication\Exception\InvalidConfigException
-     */
-    public function testInvokeWithEmptyConfig()
+    public function testInvokeWithMissingConfig()
     {
-        $this->container->get('config')->willReturn([]);
+        $this->container->has('config')->willReturn(false);
+        $this->container->get('config')->shouldNotBeCalled();
+
+        $this->expectException(InvalidConfigException::class);
         $htpasswd = ($this->factory)($this->container->reveal());
     }
 
-    /**
-     * @expectedException Zend\Expressive\Authentication\Exception\InvalidConfigException
-     */
+    public function testInvokeWithEmptyConfig()
+    {
+        $this->container->has('config')->willReturn(true);
+        $this->container->get('config')->willReturn([]);
+
+        $this->expectException(InvalidConfigException::class);
+        $htpasswd = ($this->factory)($this->container->reveal());
+    }
+
     public function testInvokeWithInvalidConfig()
     {
+        $this->container->has('config')->willReturn(true);
         $this->container->get('config')->willReturn([
             'authentication' => [
                 'htpasswd' => 'foo'
             ]
         ]);
+
+        $this->expectException(InvalidConfigException::class);
         $htpasswd = ($this->factory)($this->container->reveal());
     }
 
     public function testInvokeWithValidConfig()
     {
+        $this->container->has('config')->willReturn(true);
         $this->container->get('config')->willReturn([
             'authentication' => [
                 'htpasswd' => __DIR__ . '/../TestAssets/htpasswd'

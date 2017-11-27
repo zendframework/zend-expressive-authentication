@@ -16,7 +16,7 @@ interface UserInterface
     /**
      * Get all user roles
      *
-     * @return string[]|null
+     * @return string[]
      */
-    public function getUserRoles() : ?array;
+    public function getUserRoles() : array;
 }

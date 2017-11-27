@@ -17,12 +17,16 @@ class HtpasswdFactory
      */
     public function __invoke(ContainerInterface $container) : Htpasswd
     {
-        $htpasswd = $container->get('config')['authentication']['htpasswd'] ?? null;
+        $config = $container->has('config') ? $container->get('config') : [];
+        $htpasswd = $config['authentication']['htpasswd'] ?? null;
+
         if (null === $htpasswd) {
-            throw new Exception\InvalidConfigException(
-                'Htpasswd file name is not present in user_register config'
-            );
+            throw new Exception\InvalidConfigException(sprintf(
+                'Config key authentication.htpasswd is not present; cannot create %s user repository adapter',
+                Htpasswd::class
+            ));
         }
+
         return new Htpasswd($htpasswd);
     }
 }

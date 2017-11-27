@@ -23,7 +23,7 @@ trait UserTrait
             public function __construct(string $username, $roles)
             {
                 $this->username = $username;
-                $this->roles = $roles;
+                $this->roles = $roles ?: [];
             }
 
             public function getUsername() : string
@@ -31,7 +31,7 @@ trait UserTrait
                 return $this->username;
             }
 
-            public function getUserRoles() : ?array
+            public function getUserRoles() : array
             {
                 return $this->roles;
             }

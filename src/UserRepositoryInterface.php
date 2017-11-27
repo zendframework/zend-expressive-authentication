@@ -21,7 +21,7 @@ interface UserRepositoryInterface
      * Get the user roles if present.
      *
      * @param string $username
-     * @return string[]|null
+     * @return string[]
      */
-    public function getRolesFromUser(string $username) : ?array;
+    public function getRolesFromUser(string $username) : array;
 }

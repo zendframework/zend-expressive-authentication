@@ -50,4 +50,40 @@ class PdoDatabaseTest extends TestCase
         $user = $pdoDatabase->authenticate('test', 'foo');
         $this->assertNull($user);
     }
+
+    public function testAuthenticateWithRole()
+    {
+        $pdo = new PDO('sqlite:'. __DIR__ . '/../TestAssets/pdo_role.sqlite');
+        $pdoDatabase = new PdoDatabase($pdo, [
+            'table' => 'user',
+            'field' => [
+                'username' => 'username',
+                'password' => 'password'
+            ],
+            'sql_get_roles' => 'SELECT role FROM user WHERE username = :username'
+        ]);
+
+        $user = $pdoDatabase->authenticate('test', 'password');
+        $this->assertInstanceOf(UserInterface::class, $user);
+        $this->assertEquals('test', $user->getUsername());
+        $this->assertEquals(['admin'], $user->getUserRoles());
+    }
+
+    public function testAuthenticateWithRoles()
+    {
+        $pdo = new PDO('sqlite:'. __DIR__ . '/../TestAssets/pdo_roles.sqlite');
+        $pdoDatabase = new PdoDatabase($pdo, [
+            'table' => 'user',
+            'field' => [
+                'username' => 'username',
+                'password' => 'password'
+            ],
+            'sql_get_roles' => 'SELECT role FROM user_role WHERE username = :username'
+        ]);
+
+        $user = $pdoDatabase->authenticate('test', 'password');
+        $this->assertInstanceOf(UserInterface::class, $user);
+        $this->assertEquals('test', $user->getUsername());
+        $this->assertEquals(['user', 'admin'], $user->getUserRoles());
+    }
 }

@@ -59,8 +59,16 @@ class Htpasswd implements UserRepositoryInterface
         fclose($handle);
 
         return $found && password_verify($password, $hash) ?
-               $this->generateUser($credential, '') :
+               $this->generateUser($credential) :
                null;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getRolesFromUser(string $username): ?array
+    {
+        return null;
     }
 
     /**

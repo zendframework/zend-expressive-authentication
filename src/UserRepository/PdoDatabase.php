@@ -41,7 +41,8 @@ class PdoDatabase implements UserRepositoryInterface
     public function authenticate(string $credential, string $password = null) : ?UserInterface
     {
         $sql = sprintf(
-            'SELECT * FROM %s WHERE %s = :username',
+            "SELECT %s FROM %s WHERE %s = :username",
+            $this->config['field']['password'],
             $this->config['table'],
             $this->config['field']['username']
         );
@@ -53,7 +54,32 @@ class PdoDatabase implements UserRepositoryInterface
         $result = $stmt->fetchObject();
 
         return password_verify($password, $result->{$this->config['field']['password']}) ?
-               $this->generateUser($credential, $this->config['field']['role'] ?? '') :
+               $this->generateUser($credential, $this->getRolesFromUser($credential)) :
                null;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getRolesFromUser(string $username): ?array
+    {
+        if (! isset($this->config['sql_get_roles'])) {
+            return null;
+        }
+        if (false === strpos($this->config['sql_get_roles'], ':username')) {
+            throw new Exception\InvalidConfigException(
+                'The sql_get_roles must include a :username parameter'
+            );
+        }
+        $stmt = $this->pdo->prepare($this->config['sql_get_roles']);
+        $stmt->bindParam(':username', $username);
+        if (! $stmt->execute()) {
+            return null;
+        }
+        $roles = [];
+        foreach ($stmt->fetchAll(PDO::FETCH_NUM) as $role) {
+            $roles[] = $role[0];
+        }
+        return $roles;
     }
 }

@@ -3,9 +3,8 @@
 An authentication adapter can take the information about the users from
 different repository: a [htpasswd](https://httpd.apache.org/docs/current/programs/htpasswd.html)
 file, a database, a custom repository, etc. We provided an interface, the
-`UserRepositoryInterface`, to access the user storage.
-
-The `UserRepositoryInterface` is reported below:
+`Zend\Expressive\Authentication\UserRepositoryInterface`, to access the user
+storage. This interface is reported below:
 
 ```php
 namespace Zend\Expressive\Authentication;

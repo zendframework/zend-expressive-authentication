@@ -11,7 +11,7 @@ delegate in the pipeline, passing a [UserInterface](https://github.com/zendframe
 object as attribute in the request. If the request is not authenticated, the
 middleware returns a `401 Unauthorized` response.
 
-The `UserInterface` is defined as follows:
+The `Zend\Expressive\Authentication\UserInterface` is defined as follows:
 
 ```php
 namespace Zend\Expressive\Authentication;

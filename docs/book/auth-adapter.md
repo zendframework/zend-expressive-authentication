@@ -1,7 +1,8 @@
 # Authentication adapters
 
 The authentication adapters for `zend-expressive-authentication` implement the
-interface `AuthenticationInterface` reported below:
+interface `Zend\Expressive\Authentication\AuthenticationInterface` reported
+below:
 
 ```php
 namespace Zend\Expressive\Authentication;

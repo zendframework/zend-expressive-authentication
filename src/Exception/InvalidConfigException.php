@@ -5,6 +5,8 @@
  * @license   https://github.com/zendframework/zend-expressive-authentication/blob/master/LICENSE.md New BSD License
  */
 
+declare(strict_types=1);
+
 namespace Zend\Expressive\Authentication\Exception;
 
 class InvalidConfigException extends RuntimeException implements ExceptionInterface

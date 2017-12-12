@@ -4,6 +4,9 @@
  * @copyright Copyright (c) 2017 Zend Technologies USA Inc. (https://www.zend.com)
  * @license   https://github.com/zendframework/zend-expressive-authentication/blob/master/LICENSE.md New BSD License
  */
+
+declare(strict_types=1);
+
 namespace ZendTest\Expressive\Authentication;
 
 use Interop\Http\Server\MiddlewareInterface;

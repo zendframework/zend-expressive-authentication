@@ -61,9 +61,10 @@ class Htpasswd implements UserRepositoryInterface
         }
         fclose($handle);
 
-        return $found && password_verify($password, $hash) ?
-               $this->generateUser($credential) :
-               null;
+        return $found
+            && password_verify($password === null ? '' : $password, $hash)
+                ? $this->generateUser($credential)
+                : null;
     }
 
     /**

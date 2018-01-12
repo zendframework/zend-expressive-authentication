@@ -62,7 +62,7 @@ class PdoDatabaseTest extends TestCase
             ]
         ]);
 
-        $user = $pdoDatabase->authenticate('invaliduser', 'foo');
+        $user = $pdoDatabase->authenticate('invaliduser', 'password');
         $this->assertNull($user);
     }
 

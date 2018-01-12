@@ -51,6 +51,21 @@ class PdoDatabaseTest extends TestCase
         $this->assertNull($user);
     }
 
+    public function testAuthenticateInvalidUsername()
+    {
+        $pdo = new PDO('sqlite:'. __DIR__ . '/../TestAssets/pdo.sqlite');
+        $pdoDatabase = new PdoDatabase($pdo, [
+            'table' => 'user',
+            'field' => [
+                'username' => 'username',
+                'password' => 'password'
+            ]
+        ]);
+
+        $user = $pdoDatabase->authenticate('invaliduser', 'foo');
+        $this->assertNull($user);
+    }
+
     public function testAuthenticateWithRole()
     {
         $pdo = new PDO('sqlite:'. __DIR__ . '/../TestAssets/pdo_role.sqlite');

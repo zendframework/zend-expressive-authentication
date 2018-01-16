@@ -6,13 +6,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Authentication middleware for Expressive and PSR-7 applications">  
-    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="shortcut icon" href="../../img/favicon.ico">
 
-    <title>Authentication middleware</title>
+    <title>Introduction - Authentication middleware</title>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/css/styles-482aa2add1.css">
+    <link rel="stylesheet" href="../../css/styles-482aa2add1.css">
 
     
 </head>
@@ -36,8 +36,8 @@
 
             <!-- Main title -->
             <span class="navbar-brand">
-                <a class="logo-link" href="https://framework.zend.com/" data-toggle="tooltip" data-placement="bottom" title="Go to the ZF homepage"><img src="/img/zf-logo-mark.svg" height="28" alt="Zend Framework" /></a>
-                <a href="/">Authentication middleware</a>
+                <a class="logo-link" href="https://framework.zend.com/" data-toggle="tooltip" data-placement="bottom" title="Go to the ZF homepage"><img src="../../img/zf-logo-mark.svg" height="28" alt="Zend Framework" /></a>
+                <a href="../..">Authentication middleware</a>
             </span>
         </div>
 
@@ -49,13 +49,13 @@
                 
                 
                     <li >
-                        <a href="/">Home</a>
+                        <a href="../..">Home</a>
                     </li>
                 
                 
                 
-                    <li >
-                        <a href="/v1/intro/">Introduction</a>
+                    <li class="active">
+                        <a href="./">Introduction</a>
                     </li>
                 
                 
@@ -66,13 +66,13 @@
                         
                             
 <li >
-    <a href="/v1/auth-adapter/">Authentication adapter</a>
+    <a href="../auth-adapter/">Authentication adapter</a>
 </li>
 
                         
                             
 <li >
-    <a href="/v1/user-repository/">User repository</a>
+    <a href="../user-repository/">User repository</a>
 </li>
 
                         
@@ -113,16 +113,137 @@
     <!-- content:begin -->
     <div id="page-top" class="container docs">
         
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+    
+        <li class="main active"><a href="#zend-expressive-authentication">Zend Expressive Authentication</a></li>
+        
+            <li><a href="#usage-in-the-route">Usage in the route</a></li>
+        
+            <li><a href="#choosing-an-authentication-adapter">Choosing an authentication adapter</a></li>
+        
+    
+    </ul>
 
-    <div class="row-fluid">
-      <div id="main-content" class="span12">
-        <h1 id="404-page-not-found" style="text-align: center">404</h1>
-        <p style="text-align: center"><strong>Page not found</strong></p>
-        <p style="text-align: center"><a href="/">Home</a></p>
-      </div>
-    </div>
+    
+    <ul class="pager hidden-print">
+      <li class="previous">
+        <a rel="prev" href="../.."><i class="fa fa-arrow-left"></i> Previous</a>
+      </li>
+      <li class="next">
+        <a rel="next" href="../auth-adapter/">Next <i class="fa fa-arrow-right"></i></a>
+      </li>
+    </ul>
+    
+</div></div>
+        <div class="col-md-9" role="main">
+
+<ol class="breadcrumb" role="navigation" aria-label="breadcrumbs navigation">
+  <li><a href="../..">Authentication middleware</a></li>
+  
+    
+  
+  <li class="active">Introduction</li>
+</ol>
+
+<h1 id="zend-expressive-authentication">Zend Expressive Authentication</h1>
+<p>This component provides authentication abstraction using a middleware approach
+for <a href="http://www.php-fig.org/psr/psr-7/">PSR-7</a> and
+<a href="https://github.com/php-fig/fig-standards/tree/4b417c91b89fbedaf3283620ce432b6f51c80cc0/proposed/http-handlers">PSR-15</a>
+applications.</p>
+<p>Authentication is performed using the <a href="https://github.com/zendframework/zend-expressive-authentication/blob/master/src/AuthenticationMiddleware.php">AuthenticationMiddleware</a>
+class. This middleware consumes an <a href="https://github.com/zendframework/zend-expressive-authentication/blob/master/src/AuthenticationInterface.php">AuthenticationInterface</a>
+adapter to check if a <a href="http://www.php-fig.org/psr/psr-7/">PSR-7</a> request is
+authenticated or not. If authenticated, the middleware executes the next
+middleware in the application, passing a <a href="https://github.com/zendframework/zend-expressive-authentication/blob/master/src/UserInterface.php">UserInterface</a>
+object via a request attribute. If the request is not authenticated, the
+middleware returns a <code>401 Unauthorized</code> response based on the authentication
+adapter provided.</p>
+<p>The <code>Zend\Expressive\Authentication\UserInterface</code> is defined as follows:</p>
+<pre class="codehilite"><code class="language-php">namespace Zend\Expressive\Authentication;
+
+interface UserInterface
+{
+    /**
+     * Get the username
+     *
+     * @return string
+     */
+    public function getUsername(): string;
+
+    /**
+     * Get all user roles
+     *
+     * @return string[]
+     */
+    public function getUserRoles() : array;
+}</code></pre>
+
+<p>The <code>UserInterface</code> attribute in the PSR-7 request can be used for checking
+if a user has been authenticated or not, e.g. it can be used to verify the
+authorization level of a user (for this scope, it is consumed by
+<a href="https://github.com/zendframework/zend-expressive-authorization">zend-expressive-authotization</a>).</p>
+<h2 id="usage-in-the-route">Usage in the route</h2>
+<p>The <code>AuthenticationMiddleware</code> can be used to authenticate a route. You just
+need to add the class name of the middleware in the pipeline of a route.
+As an example:</p>
+<pre class="codehilite"><code class="language-php">$app-&gt;get('/admin/dashboard', [
+    Zend\Expressive\Authentication\AuthenticationMiddleware::class,
+    Admin\Action\Dashboard::class
+], 'admin.dashboard');</code></pre>
+
+<p>In this example, the <code>AuthenticationMiddleware</code> is executed as first middleware
+of the route <code>admin.dashboard</code>. If the user is authenticated, the application
+executes the <code>Dashboard</code> action; otherwise it returns a <code>401 Unauthorized</code>
+response.</p>
+<h2 id="choosing-an-authentication-adapter">Choosing an authentication adapter</h2>
+<p>You can choose an authentication adapter and a user repository through the
+service container configuration.</p>
+<p>You need to specify the service for authentication using the name
+<code>Zend\Expressive\Authentication\AuthenticationInterface</code> and the user registry
+using the service name <code>Zend\Expressive\Authentication\UserRepositoryInterface::class</code>.</p>
+<p>For instance, using <code>zend-servicemanager</code> you can easily configure these two
+services using <code>aliases</code>. Below is an example of configuration using the <em>HTTP
+Basic Access Authentication</em> adapter and the <em>htpasswd</em> file as the user
+repository.</p>
+<pre class="codehilite"><code class="language-php">// ConfigProvider.php
+
+use Zend\Expressive\Authentication\AuthenticationInterface;
+use Zend\Expressive\Authentication\UserRepositoryInterface;
+
+class ConfigProvider
+{
+    // ...
+
+    public function getDependencies() : array
+    {
+        return [
+            'aliases' =&gt; [
+                AuthenticationInterface::class =&gt; Basic\BasicAccess::class,
+                UserRepositoryInterface::class =&gt; UserRepository\Htpasswd::class
+            ],
+            // ...
+        ];
+    }
+
+    // ...
+}</code></pre>
+
+<hr />
 
 
+<nav>
+  <ul class="pager hidden-print">
+    <li class="previous">
+      <a rel="prev" href="../.."><i class="fa fa-arrow-left"></i> Previous</a>
+    </li>
+    <li class="next">
+      <a rel="next" href="../auth-adapter/">Next <i class="fa fa-arrow-right"></i></a>
+    </li>
+  </ul>
+</nav>
+</div>
+        
     </div>
     <!-- content:end -->
 
@@ -172,9 +293,9 @@
 
     <script src="https://cdn.jsdelivr.net/npm/jquery@2.2.4/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
-    <script>var base_url = '';</script>
-    <script src="/js/scripts-0b6185f4a5.js"></script>
-    <script data-main="/mkdocs/js/search.js" src="/mkdocs/js/require.js"></script>
+    <script>var base_url = '../..';</script>
+    <script src="../../js/scripts-0b6185f4a5.js"></script>
+    <script data-main="../../mkdocs/js/search.js" src="../../mkdocs/js/require.js"></script>
 
     <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
         <div class="modal-dialog">
@@ -206,7 +327,7 @@
     <div class="zf-components">
   <div class="zf-components-grid">
     <div class="zf-logo">
-      <a href="https://framework.zend.com" data-toggle="tooltip" data-placement="bottom" title="Go to the ZF homepage"><img src="/img/zf-logo-mark.svg" alt="Zend Framework" width="250" /></a>
+      <a href="https://framework.zend.com" data-toggle="tooltip" data-placement="bottom" title="Go to the ZF homepage"><img src="../../img/zf-logo-mark.svg" alt="Zend Framework" width="250" /></a>
     </div>
 
     <div class="component-list"></div>

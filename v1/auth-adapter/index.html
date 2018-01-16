@@ -6,13 +6,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Authentication middleware for Expressive and PSR-7 applications">  
-    <link rel="shortcut icon" href="../img/favicon.ico">
+    <link rel="shortcut icon" href="../../img/favicon.ico">
 
-    <title>Introduction - Authentication middleware</title>
+    <title>Authentication adapter - Authentication middleware</title>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="../css/styles-482aa2add1.css">
+    <link rel="stylesheet" href="../../css/styles-482aa2add1.css">
 
     
 </head>
@@ -36,8 +36,8 @@
 
             <!-- Main title -->
             <span class="navbar-brand">
-                <a class="logo-link" href="https://framework.zend.com/" data-toggle="tooltip" data-placement="bottom" title="Go to the ZF homepage"><img src="../img/zf-logo-mark.svg" height="28" alt="Zend Framework" /></a>
-                <a href="..">Authentication middleware</a>
+                <a class="logo-link" href="https://framework.zend.com/" data-toggle="tooltip" data-placement="bottom" title="Go to the ZF homepage"><img src="../../img/zf-logo-mark.svg" height="28" alt="Zend Framework" /></a>
+                <a href="../..">Authentication middleware</a>
             </span>
         </div>
 
@@ -49,13 +49,34 @@
                 
                 
                     <li >
-                        <a href="..">Home</a>
+                        <a href="../..">Home</a>
                     </li>
                 
                 
                 
-                    <li class="active">
-                        <a href="./">Introduction</a>
+                    <li >
+                        <a href="../intro/">Introduction</a>
+                    </li>
+                
+                
+                
+                    <li class="dropdown active">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Reference <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li class="active">
+    <a href="./">Authentication adapter</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../user-repository/">User repository</a>
+</li>
+
+                        
+                        </ul>
                     </li>
                 
                 
@@ -95,29 +116,97 @@
         <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
     <ul class="nav bs-sidenav">
     
-        <li class="main active"><a href="#zendframeworkzend-expressive-authentication">zendframework/zend-expressive-authentication</a></li>
+        <li class="main active"><a href="#authentication-adapters">Authentication adapters</a></li>
         
     
     </ul>
 
     
+    <ul class="pager hidden-print">
+      <li class="previous">
+        <a rel="prev" href="../intro/"><i class="fa fa-arrow-left"></i> Previous</a>
+      </li>
+      <li class="next">
+        <a rel="next" href="../user-repository/">Next <i class="fa fa-arrow-right"></i></a>
+      </li>
+    </ul>
+    
 </div></div>
         <div class="col-md-9" role="main">
 
 <ol class="breadcrumb" role="navigation" aria-label="breadcrumbs navigation">
-  <li><a href="..">Authentication middleware</a></li>
+  <li><a href="../..">Authentication middleware</a></li>
   
     
+      
+        <li>Reference</li>
+      
+    
   
-  <li class="active">Introduction</li>
+  <li class="active">Authentication adapter</li>
 </ol>
 
-<h1 id="zendframeworkzend-expressive-authentication">zendframework/zend-expressive-authentication</h1>
-<p>This component provides authentication abstraction and authentication middleware
-for PSR-7 applications.</p>
+<h1 id="authentication-adapters">Authentication adapters</h1>
+<p>The authentication adapters for <code>zend-expressive-authentication</code> implement the
+interface <code>Zend\Expressive\Authentication\AuthenticationInterface</code>:</p>
+<pre class="codehilite"><code class="language-php">namespace Zend\Expressive\Authentication;
+
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\ResponseInterface;
+
+interface AuthenticationInterface
+{
+    /**
+     * Authenticate the PSR-7 request and return a valid user,
+     * or null if not authenticated
+     *
+     * @param ServerRequestInterface $request
+     * @return UserInterface|null
+     */
+    public function authenticate(ServerRequestInterface $request): ?UserInterface;
+
+    /**
+     * Generate the unauthorized response
+     *
+     * @param ServerRequestInterface $request
+     * @return ResponseInterface
+     */
+    public function unauthorizedResponse(ServerRequestInterface $request): ResponseInterface;
+}</code></pre>
+
+<p>This interface contains two method: <code>authenticate()</code> to check if a PSR-7
+request contains a valid credential, and <code>unauthorizedResponse()</code> to generate
+and return an unauthorized response.</p>
+<p>We provide 4 authentication adapters:</p>
+<ul>
+<li><a href="https://github.com/zendframework/zend-expressive-authentication-basic">zend-expressive-authentication-basic</a>,
+  for <a href="https://en.wikipedia.org/wiki/Basic_access_authentication">Basic Access Authentication</a>,
+  supporting only <code>bcrypt</code> as the password hashing algorithm to ensure best
+  security.</li>
+<li><a href="https://github.com/zendframework/zend-expressive-authentication-session">zend-expressive-authentication-session</a>,
+  for authenticating username/password credential pairs and persisting them
+  between requests via PHP sessions.</li>
+<li><a href="https://github.com/zendframework/zend-expressive-authentication-zendauthentication">zend-expressive-authentication-zendauthentication</a>,
+  supporting the <a href="https://github.com/zendframework/zend-authentication">zend-authentication</a>
+  component.</li>
+<li><a href="https://github.com/zendframework/zend-expressive-authentication-oauth2">zend-expressive-authentication-oauth2</a>,
+  supporting the <a href="https://oauth.net/2/">OAuth2</a> authentication framework via the
+  <a href="https://oauth2.thephpleague.com/">league/oauth2-server</a> package.</li>
+</ul>
 
 <hr />
 
+
+<nav>
+  <ul class="pager hidden-print">
+    <li class="previous">
+      <a rel="prev" href="../intro/"><i class="fa fa-arrow-left"></i> Previous</a>
+    </li>
+    <li class="next">
+      <a rel="next" href="../user-repository/">Next <i class="fa fa-arrow-right"></i></a>
+    </li>
+  </ul>
+</nav>
 </div>
         
     </div>
@@ -169,9 +258,9 @@ for PSR-7 applications.</p>
 
     <script src="https://cdn.jsdelivr.net/npm/jquery@2.2.4/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
-    <script>var base_url = '..';</script>
-    <script src="../js/scripts-0b6185f4a5.js"></script>
-    <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script>
+    <script>var base_url = '../..';</script>
+    <script src="../../js/scripts-0b6185f4a5.js"></script>
+    <script data-main="../../mkdocs/js/search.js" src="../../mkdocs/js/require.js"></script>
 
     <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
         <div class="modal-dialog">
@@ -203,7 +292,7 @@ for PSR-7 applications.</p>
     <div class="zf-components">
   <div class="zf-components-grid">
     <div class="zf-logo">
-      <a href="https://framework.zend.com" data-toggle="tooltip" data-placement="bottom" title="Go to the ZF homepage"><img src="../img/zf-logo-mark.svg" alt="Zend Framework" width="250" /></a>
+      <a href="https://framework.zend.com" data-toggle="tooltip" data-placement="bottom" title="Go to the ZF homepage"><img src="../../img/zf-logo-mark.svg" alt="Zend Framework" width="250" /></a>
     </div>
 
     <div class="component-list"></div>

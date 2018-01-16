@@ -11,10 +11,26 @@
 
     
     <url>
-     <loc>/intro/</loc>
+     <loc>/v1/intro/</loc>
      <lastmod>2018-01-16</lastmod>
      <changefreq>daily</changefreq>
     </url>
+    
+
+    
+        
+    <url>
+     <loc>/v1/auth-adapter/</loc>
+     <lastmod>2018-01-16</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>/v1/user-repository/</loc>
+     <lastmod>2018-01-16</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
     
 
 </urlset>

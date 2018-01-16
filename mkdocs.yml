@@ -2,10 +2,10 @@ docs_dir: docs/book
 site_dir: docs/html
 pages:
     - index.md
-    - Introduction: intro.md
-    - 'Authentication adapter': auth-adapter.md
-    - 'User repository': user-repository.md
+    - Introduction: v1/intro.md
+    - 'Authentication adapter': v1/auth-adapter.md
+    - 'User repository': v1/user-repository.md
 site_name: Authentication middleware
 site_description: 'Authentication middleware for Expressive and PSR-7 applications'
 repo_url: 'https://github.com/zendframework/zend-expressive-authentication'
-copyright: 'Copyright (c) 2017 <a href="http://www.zend.com/">Zend Technologies USA Inc.</a>'
+copyright: 'Copyright (c) 2018 <a href="http://www.zend.com/">Zend Technologies USA Inc.</a>'

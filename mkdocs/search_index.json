@@ -2,13 +2,13 @@
     "docs": [
         {
             "location": "/",
-            "text": "Expressive Authorization Middleware\n\n\n\n\n\n\nzend-expressive-authentication provides middleware for \nExpressive\n\nand \nPSR-7\n applications for the purpose of\nauthenticating HTTP requests using consumer- or third-party-provided adapters.\n\n\nWORK IN PROGRESS\n\n\nThis repository contains a \nwork in progress\n project for building an\nauthentication module for \nExpressive\n and \nPSR-7\n applications.\n\n\nPlease, do not use this code in a production environment!\n\n\nInstallation\n\n\nYou can install the \nzend-expressive-authentication\n library with composer:\n\n\n$ composer require zendframework/zend-expressive-authentication\n\n\n\nDocumentation\n\n\nDocumentation is \nin the doc tree\n, and can be compiled using \nmkdocs\n:\n\n\n$ mkdocs build\n\n\n\nYou may also \nbrowse the documentation online\n.",
+            "text": "Expressive Authentication Middleware\n\n\n\n\n\n\nzend-expressive-authentication provides middleware for \nExpressive\n\nand \nPSR-7\n applications for the purpose of\nauthenticating HTTP requests using consumer- or third-party-provided adapters.\n\n\nWORK IN PROGRESS\n\n\nThis repository contains a \nwork in progress\n project for building an\nauthentication module for \nExpressive\n and \nPSR-7\n applications.\n\n\nPlease, do not use this code in a production environment!\n\n\nInstallation\n\n\nYou can install the \nzend-expressive-authentication\n library with composer:\n\n\n$ composer require zendframework/zend-expressive-authentication\n\n\n\nDocumentation\n\n\nDocumentation is \nin the doc tree\n, and can be compiled using \nmkdocs\n:\n\n\n$ mkdocs build\n\n\n\nYou may also \nbrowse the documentation online\n.",
             "title": "Home"
         },
         {
-            "location": "/#expressive-authorization-middleware",
+            "location": "/#expressive-authentication-middleware",
             "text": "zend-expressive-authentication provides middleware for  Expressive \nand  PSR-7  applications for the purpose of\nauthenticating HTTP requests using consumer- or third-party-provided adapters.",
-            "title": "Expressive Authorization Middleware"
+            "title": "Expressive Authentication Middleware"
         },
         {
             "location": "/#work-in-progress",

@@ -30,7 +30,7 @@ class PdoDatabaseTest extends TestCase
             'table' => 'user',
             'field' => [
                 'username' => 'username',
-                'password' => 'password'
+                'password' => 'password',
             ]
         ]);
 
@@ -39,18 +39,33 @@ class PdoDatabaseTest extends TestCase
         $this->assertEquals('test', $user->getUsername());
     }
 
-    public function testAuthenticateInvalidUser()
+    public function testAuthenticateInvalidUserPassword()
     {
         $pdo = new PDO('sqlite:'. __DIR__ . '/../TestAssets/pdo.sqlite');
         $pdoDatabase = new PdoDatabase($pdo, [
             'table' => 'user',
             'field' => [
                 'username' => 'username',
-                'password' => 'password'
+                'password' => 'password',
             ]
         ]);
 
         $user = $pdoDatabase->authenticate('test', 'foo');
+        $this->assertNull($user);
+    }
+
+    public function testAuthenticateInvalidUsername()
+    {
+        $pdo = new PDO('sqlite:'. __DIR__ . '/../TestAssets/pdo.sqlite');
+        $pdoDatabase = new PdoDatabase($pdo, [
+            'table' => 'user',
+            'field' => [
+                'username' => 'username',
+                'password' => 'password',
+            ]
+        ]);
+
+        $user = $pdoDatabase->authenticate('invalidusername', 'password');
         $this->assertNull($user);
     }
 
@@ -61,7 +76,7 @@ class PdoDatabaseTest extends TestCase
             'table' => 'user',
             'field' => [
                 'username' => 'username',
-                'password' => 'password'
+                'password' => 'password',
             ],
             'sql_get_roles' => 'SELECT role FROM user WHERE username = :username'
         ]);
@@ -79,7 +94,7 @@ class PdoDatabaseTest extends TestCase
             'table' => 'user',
             'field' => [
                 'username' => 'username',
-                'password' => 'password'
+                'password' => 'password',
             ],
             'sql_get_roles' => 'SELECT role FROM user_role WHERE username = :username'
         ]);

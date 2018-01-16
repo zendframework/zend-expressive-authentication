@@ -26,6 +26,31 @@ All notable changes to this project will be documented in this file, in reverse 
 
 - Nothing.
 
+## 0.2.1 - TBD
+
+### Added
+
+- Nothing.
+
+### Changed
+
+- Nothing
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- [#13](https://github.com/zendframework/zend-expressive-authentication/pull/13)
+  fixes an issue whereby fetching a record by an unknown username resulted in a
+  "Trying to get property of non-object" error when using the `PdoDatabase` user
+  repository implementation.
+
 ## 0.2.0 - 2017-11-27
 
 ### Added

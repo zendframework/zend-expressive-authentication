@@ -27,7 +27,7 @@ class PdoDatabaseTest extends TestCase
             'table' => 'user',
             'field' => [
                 'username' => 'username',
-                'password' => 'password'
+                'password' => 'password',
             ]
         ]);
 
@@ -43,7 +43,7 @@ class PdoDatabaseTest extends TestCase
             'table' => 'user',
             'field' => [
                 'username' => 'username',
-                'password' => 'password'
+                'password' => 'password',
             ]
         ]);
 
@@ -58,7 +58,7 @@ class PdoDatabaseTest extends TestCase
             'table' => 'user',
             'field' => [
                 'username' => 'username',
-                'password' => 'password'
+                'password' => 'password',
             ]
         ]);
 
@@ -73,7 +73,7 @@ class PdoDatabaseTest extends TestCase
             'table' => 'user',
             'field' => [
                 'username' => 'username',
-                'password' => 'password'
+                'password' => 'password',
             ],
             'sql_get_roles' => 'SELECT role FROM user WHERE username = :username'
         ]);
@@ -91,7 +91,7 @@ class PdoDatabaseTest extends TestCase
             'table' => 'user',
             'field' => [
                 'username' => 'username',
-                'password' => 'password'
+                'password' => 'password',
             ],
             'sql_get_roles' => 'SELECT role FROM user_role WHERE username = :username'
         ]);

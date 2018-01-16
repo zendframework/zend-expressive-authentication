@@ -3,6 +3,8 @@ site_dir: docs/html
 pages:
     - index.md
     - Introduction: intro.md
+    - 'Authentication adapter': auth-adapter.md
+    - 'User repository': user-repository.md
 site_name: Authentication middleware
 site_description: 'Authentication middleware for Expressive and PSR-7 applications'
 repo_url: 'https://github.com/zendframework/zend-expressive-authentication'

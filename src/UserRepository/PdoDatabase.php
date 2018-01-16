@@ -49,12 +49,12 @@ class PdoDatabase implements UserRepositoryInterface
 
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindParam(':username', $credential);
-
-        if (! $stmt->execute()) {
-            return null;
-        }
+        $stmt->execute();
 
         $result = $stmt->fetchObject();
+        if (! $result) {
+            return null;
+        }
 
         return password_verify($password, $result->{$this->config['field']['password']})
             ? $this->generateUser($credential, $this->getRolesFromUser($credential))

@@ -1,10 +1,15 @@
 # User Repository
 
-An authentication adapter can take the information about the users from
-different repository: a [htpasswd](https://httpd.apache.org/docs/current/programs/htpasswd.html)
-file, a database, a custom repository, etc. We provided an interface, the
-`Zend\Expressive\Authentication\UserRepositoryInterface`, to access the user
-storage. This interface is reported below:
+An authentication adapter can pull user information from a variety
+of repositories:
+
+- an [htpasswd](https://httpd.apache.org/docs/current/programs/htpasswd.html) file
+- a database
+- a cache
+
+zend-expressive-authentication provides an interface,
+`Zend\Expressive\Authentication\UserRepositoryInterface`, to access this user
+storage:
 
 ```php
 namespace Zend\Expressive\Authentication;
@@ -29,10 +34,11 @@ interface UserRepositoryInterface
     public function getRolesFromUser(string $username) : array;
 }
 ```
+
 It contains two functions: `authenticate()` and `getRolesFromUser()`. The first
 is used to authenticate using the user's credential. If authenticated, the
-result will be a UserInterface instance, otherwise a null value is returned.
+result will be a `UserInterface` instance, otherwise a null value is returned.
 
-The second function is `getRolesFromUser()` and it specify how to retrieve
-the roles of a user. If a user does not have roles, this function will return
+The second function is `getRolesFromUser()` and it specifies how to retrieve
+the roles for a user. If a user does not have roles, this function will return
 an empty array.

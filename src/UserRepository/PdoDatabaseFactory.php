@@ -34,9 +34,9 @@ class PdoDatabaseFactory
                 'The PDO table name is missing in the configuration'
             );
         }
-        if (! isset($pdo['field']['username'])) {
+        if (! isset($pdo['field']['identity'])) {
             throw new Exception\InvalidConfigException(
-                'The PDO username field is missing in the configuration'
+                'The PDO identity field is missing in the configuration'
             );
         }
         if (! isset($pdo['field']['password'])) {

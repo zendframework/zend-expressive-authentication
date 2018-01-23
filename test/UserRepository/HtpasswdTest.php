@@ -33,7 +33,7 @@ class HtpasswdTest extends TestCase
 
         $user = $htpasswd->authenticate('test', 'password');
         $this->assertInstanceOf(UserInterface::class, $user);
-        $this->assertEquals('test', $user->getUsername());
+        $this->assertEquals('test', $user->getIdentity());
     }
 
     public function testAuthenticateInvalidUser()

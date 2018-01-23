@@ -22,8 +22,7 @@ class HtpasswdFactoryTest extends TestCase
 
     public function testInvokeWithMissingConfig()
     {
-        $this->container->has('config')->willReturn(false);
-        $this->container->get('config')->shouldNotBeCalled();
+        $this->container->get('config')->willReturn(null);
 
         $this->expectException(InvalidConfigException::class);
         $htpasswd = ($this->factory)($this->container->reveal());
@@ -31,7 +30,6 @@ class HtpasswdFactoryTest extends TestCase
 
     public function testInvokeWithEmptyConfig()
     {
-        $this->container->has('config')->willReturn(true);
         $this->container->get('config')->willReturn([]);
 
         $this->expectException(InvalidConfigException::class);

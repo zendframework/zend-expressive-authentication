@@ -48,7 +48,7 @@ class PdoDatabaseFactoryTest extends TestCase
                 'dsn' => 'mysql:dbname=testdb;host=127.0.0.1',
                 'table' => 'test',
                 'field' => [
-                    'username' => 'email'
+                    'identity' => 'email'
                 ]
             ]]
         ];
@@ -74,7 +74,7 @@ class PdoDatabaseFactoryTest extends TestCase
                     'dsn' => 'sqlite:'. __DIR__ . '/../TestAssets/pdo.sqlite',
                     'table' => 'user',
                     'field' => [
-                        'username' => 'username',
+                        'identity' => 'username',
                         'password' => 'password'
                     ]
                 ]

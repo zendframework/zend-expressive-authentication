@@ -27,7 +27,7 @@ class ConfigProvider
              *
              * Example: using htpasswd UserRepositoryInterface implementation:
              *
-             * 'user_register' => [
+             * [
              *     'htpasswd' => 'insert the path to htpasswd file'
              * ]
              */

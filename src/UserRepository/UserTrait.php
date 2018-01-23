@@ -12,23 +12,23 @@ use Zend\Expressive\Authentication\UserInterface;
 trait UserTrait
 {
     /**
-     * Generate a user from username and list of roles
+     * Generate a user from identity and list of roles
      */
-    protected function generateUser(string $username, ?array $roles = null) : UserInterface
+    protected function generateUser(string $identity, ?array $roles = null) : UserInterface
     {
-        return new class($username, $roles) implements UserInterface {
-            private $username;
+        return new class($identity, $roles) implements UserInterface {
+            private $identity;
             private $roles;
 
-            public function __construct(string $username, $roles)
+            public function __construct(string $identity, $roles)
             {
-                $this->username = $username;
+                $this->identity = $identity;
                 $this->roles = $roles ?: [];
             }
 
-            public function getUsername() : string
+            public function getIdentity() : string
             {
-                return $this->username;
+                return $this->identity;
             }
 
             public function getUserRoles() : array

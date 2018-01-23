@@ -134,5 +134,4 @@ class PdoDatabaseTest extends TestCase
         $pdoDatabase = new PdoDatabase($pdo, $config);
         $roles = $pdoDatabase->getRolesFromUser('foo');
     }
-
 }

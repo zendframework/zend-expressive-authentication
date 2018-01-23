@@ -111,4 +111,28 @@ class PdoDatabaseTest extends TestCase
 
         $user = $pdoDatabase->authenticate('test', 'password');
     }
+
+    public function testGetRolesFromUserWithEmptySql()
+    {
+        $pdo = new PDO('sqlite:'. __DIR__ . '/../TestAssets/pdo_roles.sqlite');
+        $config = $this->getConfig();
+
+        $pdoDatabase = new PdoDatabase($pdo, $config);
+        $roles = $pdoDatabase->getRolesFromUser('foo');
+        $this->assertEmpty($roles);
+    }
+
+    /**
+     * @expectedException Zend\Expressive\Authentication\Exception\InvalidConfigException
+     */
+    public function testGetRolesFromUserWithNoIdentityParam()
+    {
+        $pdo = new PDO('sqlite:'. __DIR__ . '/../TestAssets/pdo_roles.sqlite');
+        $config = $this->getConfig();
+        $config['sql_get_roles'] = 'SELECT role FROM user_role';
+
+        $pdoDatabase = new PdoDatabase($pdo, $config);
+        $roles = $pdoDatabase->getRolesFromUser('foo');
+    }
+
 }

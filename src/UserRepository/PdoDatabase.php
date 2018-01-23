@@ -48,14 +48,7 @@ class PdoDatabase implements UserRepositoryInterface
             $this->config['field']['identity']
         );
 
-        try {
-            $stmt = $this->pdo->prepare($sql);
-        } catch (PDOException $e) {
-            throw new Exception\RuntimeException(sprintf(
-                "Error during the user authentication",
-                $e->getMessage()
-            ));
-        }
+        $stmt = $this->pdo->prepare($sql);
         if (false === $stmt) {
             throw new Exception\RuntimeException(
                 "Error during the user authentication, please check the configuration"

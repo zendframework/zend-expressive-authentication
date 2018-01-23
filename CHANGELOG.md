@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
-## 0.2.1 - TBD
+## 0.3.0 - TBD
 
 ### Added
 
@@ -10,7 +10,8 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Changed
 
-- Nothing
+- [#14](https://github.com/zendframework/zend-expressive-authentication/issues/14)
+  changed the `getUsername` with `getIdentity` in UserInterface.
 
 ### Deprecated
 

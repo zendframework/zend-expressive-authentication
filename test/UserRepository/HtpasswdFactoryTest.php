@@ -22,10 +22,13 @@ class HtpasswdFactoryTest extends TestCase
 
     public function testInvokeWithMissingConfig()
     {
-        $this->container->get('config')->willReturn(null);
+        // We cannot throw a ContainerExceptionInterface directly; this
+        // approach simply mimics `get()` throwing _any_ exception, which is
+        // what will happen if `config` is not defined.
+        $this->container->get('config')->willThrow(new InvalidConfigException());
 
         $this->expectException(InvalidConfigException::class);
-        $htpasswd = ($this->factory)($this->container->reveal());
+        ($this->factory)($this->container->reveal());
     }
 
     public function testInvokeWithEmptyConfig()

@@ -69,7 +69,7 @@ follows:
 ```php
 'config' => [
     'authentication' => [
-        'htpasswd' => 'insert the path to htpasswd file'
+        'htpasswd' => 'insert the path to htpasswd file',
     ]
 ]
 ```
@@ -89,9 +89,9 @@ following parameters:
             'table' => 'user table name',
             'field' => [
                 'identity' => 'identity field name',
-                'password' => 'password field name'
+                'password' => 'password field name',
             ],
-            'sql_get_roles' => 'SQL to retrieve roles with :identity parameter'
+            'sql_get_roles' => 'SQL to retrieve roles with :identity parameter',
         ]
     ]
 ]

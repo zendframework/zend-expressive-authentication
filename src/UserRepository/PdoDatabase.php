@@ -87,14 +87,14 @@ class PdoDatabase implements UserRepositoryInterface
             $stmt = $this->pdo->prepare($this->config['sql_get_roles']);
         } catch (PDOException $e) {
             throw new Exception\RuntimeException(sprintf(
-                "Error on sql_get_rols configuration: %s",
+                'Error preparing retrieval of user roles: %s',
                 $e->getMessage()
             ));
         }
         if (false === $stmt) {
-            throw new Exception\RuntimeException(
-                "Error on sql_get_rols configuration"
-            );
+            throw new Exception\RuntimeException(sprintf(
+                'Error preparing retrieval of user roles: unknown error'
+            ));
         }
         $stmt->bindParam(':identity', $identity);
 

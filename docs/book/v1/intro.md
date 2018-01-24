@@ -22,11 +22,11 @@ namespace Zend\Expressive\Authentication;
 interface UserInterface
 {
     /**
-     * Get the username
+     * Get the unique user identity (id, username, email address or ...)
      *
      * @return string
      */
-    public function getUsername(): string;
+    public function getIdentity(): string;
 
     /**
      * Get all user roles
@@ -40,7 +40,7 @@ interface UserInterface
 The `UserInterface` attribute in the PSR-7 request can be used for checking
 if a user has been authenticated or not, e.g. it can be used to verify the
 authorization level of a user (for this scope, it is consumed by
-[zend-expressive-authotization](https://github.com/zendframework/zend-expressive-authorization)).
+[zend-expressive-authorization](https://github.com/zendframework/zend-expressive-authorization)).
 
 ## Usage in the route
 

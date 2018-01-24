@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -48,9 +49,12 @@
                 <ul class="nav navbar-nav">
                 
                 
+                
                     <li >
                         <a href="../..">Home</a>
                     </li>
+                
+                
                 
                 
                 
@@ -60,24 +64,31 @@
                 
                 
                 
+                
+                
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Reference <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                         
                             
+
 <li >
     <a href="../auth-adapter/">Authentication adapter</a>
 </li>
 
+
                         
                             
+
 <li >
     <a href="../user-repository/">User repository</a>
 </li>
 
+
                         
                         </ul>
                     </li>
+                
                 
                 
                 </ul>
@@ -165,11 +176,11 @@ adapter provided.</p>
 interface UserInterface
 {
     /**
-     * Get the username
+     * Get the unique user identity (id, username, email address or ...)
      *
      * @return string
      */
-    public function getUsername(): string;
+    public function getIdentity(): string;
 
     /**
      * Get all user roles
@@ -182,7 +193,7 @@ interface UserInterface
 <p>The <code>UserInterface</code> attribute in the PSR-7 request can be used for checking
 if a user has been authenticated or not, e.g. it can be used to verify the
 authorization level of a user (for this scope, it is consumed by
-<a href="https://github.com/zendframework/zend-expressive-authorization">zend-expressive-authotization</a>).</p>
+<a href="https://github.com/zendframework/zend-expressive-authorization">zend-expressive-authorization</a>).</p>
 <h2 id="usage-in-the-route">Usage in the route</h2>
 <p>The <code>AuthenticationMiddleware</code> can be used to authenticate a route. You just
 need to add the class name of the middleware in the pipeline of a route.
@@ -337,5 +348,6 @@ class ConfigProvider
 </div>
 
 </body>
+
 
 </html>

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -48,9 +49,12 @@
                 <ul class="nav navbar-nav">
                 
                 
+                
                     <li >
                         <a href="../..">Home</a>
                     </li>
+                
+                
                 
                 
                 
@@ -60,24 +64,31 @@
                 
                 
                 
+                
+                
                     <li class="dropdown active">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Reference <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                         
                             
+
 <li >
     <a href="../auth-adapter/">Authentication adapter</a>
 </li>
 
+
                         
                             
+
 <li class="active">
     <a href="./">User repository</a>
 </li>
 
+
                         
                         </ul>
                     </li>
+                
                 
                 
                 </ul>
@@ -117,6 +128,12 @@
     <ul class="nav bs-sidenav">
     
         <li class="main active"><a href="#user-repository">User Repository</a></li>
+        
+            <li><a href="#configure-the-user-repository">Configure the user repository</a></li>
+        
+            <li><a href="#htpasswd-configuration">htpasswd configuration</a></li>
+        
+            <li><a href="#pdo-configuration">PDO configuration</a></li>
         
     
     </ul>
@@ -176,6 +193,63 @@ result will be a <code>UserInterface</code> instance, otherwise a null value is 
 <p>The second function is <code>getRolesFromUser()</code> and it specifies how to retrieve
 the roles for a user. If a user does not have roles, this function will return
 an empty array.</p>
+<h2 id="configure-the-user-repository">Configure the user repository</h2>
+<p>In order to use a user repository adapter, we need to configure it. For instance,
+to consume an <code>htpasswd</code> file, we need to configure the path to the file.
+Such configuration is provided in the <code>authentication</code> hierarchy provided to
+your <a href="http://www.php-fig.org/psr/psr-11/">PSR-11</a> container. We demonstrate
+examples of such configuration below.</p>
+<p>Using <a href="https://docs.zendframework.com/zend-expressive/">Expressive</a>, this
+configuration can be stored in a file under the <code>/config/autoload/</code> folder.  We
+suggest to use a <code>.local.php</code> suffix &mdash; e.g.
+<code>/config/autoload/auth.local.php</code> &mdash; as local configuration is not stored
+in the version control system.</p>
+<p>You can also provide this configuration using a <a href="https://github.com/zendframework/zend-expressive-authentication/blob/master/src/ConfigProvider.php">ConfigProvider.php</a>
+class. <a href="https://framework.zend.com/blog/2017-04-20-config-aggregator.html">Read this blog post</a>
+for more information on config providers.</p>
+<h2 id="htpasswd-configuration">htpasswd configuration</h2>
+<p>When using the htpasswd user repository implementation, you need only configure
+the path to the <code>htpasswd</code> file:</p>
+<pre class="codehilite"><code class="language-php">return [
+    'authentication' =&gt; [
+        'htpasswd' =&gt; 'insert the path to htpasswd file',
+    ],
+];</code></pre>
+
+<h2 id="pdo-configuration">PDO configuration</h2>
+<p>When using the PDO user repository adapter, you will need to provide PDO
+connection parameters, as well as information on the table, field names, and a
+SQL statement for retrieiving user roles:</p>
+<pre class="codehilite"><code class="language-php">return [
+    'authentication' =&gt; [
+        'pdo' =&gt; [
+            'dsn' =&gt; '',
+            'username' =&gt; '',
+            'password' =&gt; '',
+            'table' =&gt; 'user table name',
+            'field' =&gt; [
+                'identity' =&gt; 'identity field name',
+                'password' =&gt; 'password field name',
+            ],
+            'sql_get_roles' =&gt; 'SQL to retrieve roles with :identity parameter',
+        ],
+    ],
+];</code></pre>
+
+<p>The required parameters are <code>dsn</code>, <code>table</code>, and <code>field</code>.</p>
+<p>The <code>dsn</code> value is the DSN connection string to be used to connect to the database.
+For instance, using a SQLite database, a typical value is <code>sqlite:/path/to/file</code>.</p>
+<p>The <code>username</code> and <code>password</code> parameters are optional parameters used to connect
+to the database. Depending on the database, these parameters may not be required;
+e.g. <a href="https://sqlite.org/">SQLite</a> does not require them.</p>
+<p>The <code>table</code> value is the name of the table containing the user credentials.</p>
+<p>The <code>field</code> parameter contains the field name of the <code>identity</code> of the user and
+the user <code>password.</code> The <code>identity</code> of the user can be a username, an email, etc.</p>
+<p>The <code>sql_get_roles</code> setting is an optional parameter that contains the SQL query
+for retrieving the user roles. The identity value must be specified using the
+placeholder <code>:identity</code>. For instance, if a role is stored in a user table, a
+typical query might look like the following:</p>
+<pre class="codehilite"><code class="language-sql">SELECT role FROM user WHERE username = :identity</code></pre>
 
 <hr />
 
@@ -274,5 +348,6 @@ an empty array.</p>
 </div>
 
 </body>
+
 
 </html>

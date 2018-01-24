@@ -11,7 +11,8 @@ All notable changes to this project will be documented in this file, in reverse 
 ### Changed
 
 - [#14](https://github.com/zendframework/zend-expressive-authentication/issues/14)
-  changed the `getUsername` with `getIdentity` in UserInterface.
+  renames the method `UserInterface::getUsername()` to
+  `UserInterface::getIdentity()`.
 
 ### Deprecated
 

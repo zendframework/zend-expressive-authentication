@@ -8,6 +8,8 @@ namespace ZendTest\Expressive\Authentication\UserRepository;
 
 use PDO;
 use PHPUnit\Framework\TestCase;
+use Zend\Expressive\Authentication\Exception\InvalidConfigException;
+use Zend\Expressive\Authentication\Exception\RuntimeException;
 use Zend\Expressive\Authentication\UserInterface;
 use Zend\Expressive\Authentication\UserRepositoryInterface;
 use Zend\Expressive\Authentication\UserRepository\PdoDatabase;
@@ -26,7 +28,7 @@ class PdoDatabaseTest extends TestCase
             'table' => 'user',
             'field' => [
                 'identity' => 'username',
-                'password' => 'password'
+                'password' => 'password',
             ]
         ];
     }
@@ -41,9 +43,6 @@ class PdoDatabaseTest extends TestCase
         $this->assertEquals('test', $user->getIdentity());
     }
 
-    /**
-     * @expectedException Zend\Expressive\Authentication\Exception\RuntimeException
-     */
     public function testAuthenticationError()
     {
         $pdo = new PDO('sqlite:'. __DIR__ . '/../TestAssets/pdo.sqlite');
@@ -51,6 +50,7 @@ class PdoDatabaseTest extends TestCase
         $config['field']['identity'] = 'foo'; // mistake in the configuration
 
         $pdoDatabase = new PdoDatabase($pdo, $config);
+        $this->expectException(RuntimeException::class);
         $user = $pdoDatabase->authenticate('test', 'password');
     }
 
@@ -98,9 +98,6 @@ class PdoDatabaseTest extends TestCase
         $this->assertEquals(['user', 'admin'], $user->getUserRoles());
     }
 
-    /**
-     * @expectedException Zend\Expressive\Authentication\Exception\RuntimeException
-     */
     public function testAuthenticateWithRoleRuntimeError()
     {
         $pdo = new PDO('sqlite:'. __DIR__ . '/../TestAssets/pdo_role.sqlite');
@@ -109,6 +106,7 @@ class PdoDatabaseTest extends TestCase
         $config['sql_get_roles'] = 'SELECT role FROM user WHERE foo = :identity';
         $pdoDatabase = new PdoDatabase($pdo, $config);
 
+        $this->expectException(RuntimeException::class);
         $user = $pdoDatabase->authenticate('test', 'password');
     }
 
@@ -122,9 +120,6 @@ class PdoDatabaseTest extends TestCase
         $this->assertEmpty($roles);
     }
 
-    /**
-     * @expectedException Zend\Expressive\Authentication\Exception\InvalidConfigException
-     */
     public function testGetRolesFromUserWithNoIdentityParam()
     {
         $pdo = new PDO('sqlite:'. __DIR__ . '/../TestAssets/pdo_roles.sqlite');
@@ -132,6 +127,8 @@ class PdoDatabaseTest extends TestCase
         $config['sql_get_roles'] = 'SELECT role FROM user_role';
 
         $pdoDatabase = new PdoDatabase($pdo, $config);
+
+        $this->expectException(InvalidConfigException::class);
         $roles = $pdoDatabase->getRolesFromUser('foo');
     }
 }

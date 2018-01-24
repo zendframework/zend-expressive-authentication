@@ -51,7 +51,8 @@ class PdoDatabase implements UserRepositoryInterface
         $stmt = $this->pdo->prepare($sql);
         if (false === $stmt) {
             throw new Exception\RuntimeException(
-                "Error during the user authentication, please check the configuration"
+                'An error occurred when preparing to fetch user details from ' .
+                'the repository; please verify your configuration'
             );
         }
         $stmt->bindParam(':identity', $credential);

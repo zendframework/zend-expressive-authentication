@@ -12,8 +12,8 @@ namespace Zend\Expressive\Authentication;
 interface UserRepositoryInterface
 {
     /**
-     * Authenticate the credential (username) using a password
-     * or using only the credential string (e.g. token based credential)
+     * Authenticate the identity (id, username, email ...) using a password
+     * or using only a credential string (e.g. token based credential)
      * It returns the authenticated user or null.
      *
      * @param string $credential can be also a token
@@ -23,8 +23,8 @@ interface UserRepositoryInterface
     /**
      * Get the user roles if present.
      *
-     * @param string $username
+     * @param string $identity
      * @return string[]
      */
-    public function getRolesFromUser(string $username) : array;
+    public function getRolesFromUser(string $identity) : array;
 }

@@ -12,9 +12,9 @@ namespace Zend\Expressive\Authentication;
 interface UserInterface
 {
     /**
-     * Get the username
+     * Get the unique user identity (id, username, email address or ...)
      */
-    public function getUsername() : string;
+    public function getIdentity() : string;
 
     /**
      * Get all user roles

@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace Zend\Expressive\Authentication\UserRepository;
 
 use PDO;
+use PDOException;
 use Zend\Expressive\Authentication\Exception;
 use Zend\Expressive\Authentication\UserInterface;
 use Zend\Expressive\Authentication\UserRepositoryInterface;
@@ -44,14 +45,20 @@ class PdoDatabase implements UserRepositoryInterface
     public function authenticate(string $credential, string $password = null) : ?UserInterface
     {
         $sql = sprintf(
-            "SELECT %s FROM %s WHERE %s = :username",
+            "SELECT %s FROM %s WHERE %s = :identity",
             $this->config['field']['password'],
             $this->config['table'],
-            $this->config['field']['username']
+            $this->config['field']['identity']
         );
 
         $stmt = $this->pdo->prepare($sql);
-        $stmt->bindParam(':username', $credential);
+        if (false === $stmt) {
+            throw new Exception\RuntimeException(
+                'An error occurred when preparing to fetch user details from ' .
+                'the repository; please verify your configuration'
+            );
+        }
+        $stmt->bindParam(':identity', $credential);
         $stmt->execute();
 
         $result = $stmt->fetchObject();
@@ -67,20 +74,32 @@ class PdoDatabase implements UserRepositoryInterface
     /**
      * {@inheritDoc}
      */
-    public function getRolesFromUser(string $username) : array
+    public function getRolesFromUser(string $identity) : array
     {
         if (! isset($this->config['sql_get_roles'])) {
             return [];
         }
 
-        if (false === strpos($this->config['sql_get_roles'], ':username')) {
+        if (false === strpos($this->config['sql_get_roles'], ':identity')) {
             throw new Exception\InvalidConfigException(
-                'The sql_get_roles configuration setting must include a :username parameter'
+                'The sql_get_roles configuration setting must include a :identity parameter'
             );
         }
 
-        $stmt = $this->pdo->prepare($this->config['sql_get_roles']);
-        $stmt->bindParam(':username', $username);
+        try {
+            $stmt = $this->pdo->prepare($this->config['sql_get_roles']);
+        } catch (PDOException $e) {
+            throw new Exception\RuntimeException(sprintf(
+                'Error preparing retrieval of user roles: %s',
+                $e->getMessage()
+            ));
+        }
+        if (false === $stmt) {
+            throw new Exception\RuntimeException(sprintf(
+                'Error preparing retrieval of user roles: unknown error'
+            ));
+        }
+        $stmt->bindParam(':identity', $identity);
 
         if (! $stmt->execute()) {
             return [];

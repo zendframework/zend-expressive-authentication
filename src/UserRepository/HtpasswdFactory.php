@@ -19,9 +19,7 @@ class HtpasswdFactory
      */
     public function __invoke(ContainerInterface $container) : Htpasswd
     {
-        $config = $container->has('config') ? $container->get('config') : [];
-        $htpasswd = $config['authentication']['htpasswd'] ?? null;
-
+        $htpasswd = $container->get('config')['authentication']['htpasswd'] ?? null;
         if (null === $htpasswd) {
             throw new Exception\InvalidConfigException(sprintf(
                 'Config key authentication.htpasswd is not present; cannot create %s user repository adapter',

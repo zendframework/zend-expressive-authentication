@@ -11,6 +11,7 @@ namespace ZendTest\Expressive\Authentication\UserRepository;
 
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
+use Zend\Expressive\Authentication\Exception\InvalidConfigException;
 use Zend\Expressive\Authentication\UserRepository\PdoDatabase;
 use Zend\Expressive\Authentication\UserRepository\PdoDatabaseFactory;
 
@@ -22,12 +23,22 @@ class PdoDatabaseFactoryTest extends TestCase
         $this->factory = new PdoDatabaseFactory();
     }
 
-    /**
-     * @expectedException Zend\Expressive\Authentication\Exception\InvalidConfigException
-     */
+    public function testInvokeWithMissingConfig()
+    {
+        // We cannot throw a ContainerExceptionInterface directly; this
+        // approach simply mimics `get()` throwing _any_ exception, which is
+        // what will happen if `config` is not defined.
+        $this->container->get('config')->willThrow(new InvalidConfigException());
+
+        $this->expectException(InvalidConfigException::class);
+        ($this->factory)($this->container->reveal());
+    }
+
     public function testInvokeWithEmptyConfig()
     {
         $this->container->get('config')->willReturn([]);
+
+        $this->expectException(InvalidConfigException::class);
         $pdoDatabase = ($this->factory)($this->container->reveal());
     }
 
@@ -51,7 +62,7 @@ class PdoDatabaseFactoryTest extends TestCase
                 'dsn' => 'mysql:dbname=testdb;host=127.0.0.1',
                 'table' => 'test',
                 'field' => [
-                    'username' => 'email'
+                    'identity' => 'email'
                 ]
             ]]
         ];
@@ -77,7 +88,7 @@ class PdoDatabaseFactoryTest extends TestCase
                     'dsn' => 'sqlite:'. __DIR__ . '/../TestAssets/pdo.sqlite',
                     'table' => 'user',
                     'field' => [
-                        'username' => 'username',
+                        'identity' => 'username',
                         'password' => 'password'
                     ]
                 ]

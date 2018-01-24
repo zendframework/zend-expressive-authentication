@@ -70,7 +70,7 @@ class Htpasswd implements UserRepositoryInterface
     /**
      * {@inheritDoc}
      */
-    public function getRolesFromUser(string $username) : array
+    public function getRolesFromUser(string $identity) : array
     {
         return [];
     }

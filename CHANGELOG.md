@@ -26,7 +26,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 - Nothing.
 
-## 0.2.1 - TBD
+## 0.3.0 - 2018-01-24
 
 ### Added
 
@@ -34,7 +34,9 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Changed
 
-- Nothing
+- [#14](https://github.com/zendframework/zend-expressive-authentication/issues/14)
+  renames the method `UserInterface::getUsername()` to
+  `UserInterface::getIdentity()`.
 
 ### Deprecated
 

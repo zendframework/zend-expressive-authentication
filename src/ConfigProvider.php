@@ -28,7 +28,18 @@ class ConfigProvider
              * Example: using htpasswd UserRepositoryInterface implementation:
              *
              * [
-             *     'htpasswd' => 'insert the path to htpasswd file'
+             *     'htpasswd' => 'insert the path to htpasswd file',
+             *     'pdo' => [
+             *         'dsn' => 'DSN for connection',
+             *         'username' => 'username for database connection, if needed',
+             *         'password' => 'password for database connection, if needed',
+             *         'table' => 'user table name',
+             *         'field' => [
+             *             'identity' => 'identity field name',
+             *             'password' => 'password field name',
+             *         ],
+             *         'sql_get_roles' => 'SQL to retrieve roles by :identity',
+             *     ],
              * ]
              */
         ];

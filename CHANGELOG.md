@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
-## 1.0.0alpha2 - TBD
+## 1.0.0alpha2 - 2018-02-22
 
 ### Added
 
@@ -24,6 +24,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 - [#17](https://github.com/zendframework/zend-expressive-authentication/pull/17)
   adds the missing config provider component-installer config.
+
 
 ## 1.0.0alpha1 - 2018-02-07
 

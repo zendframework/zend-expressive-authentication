@@ -33,7 +33,7 @@ trait ResponsePrototypeTrait
             ));
         }
         return $container->has(ResponseInterface::class)
-            ? $container->get(ResponseInterface::class)
+            ? $container->get(ResponseInterface::class)()
             : new Response();
     }
 }

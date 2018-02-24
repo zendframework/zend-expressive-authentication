@@ -5,8 +5,12 @@
          colors="true"
          stderr="true">
     <testsuites>
+        <testsuite name="without diactoros">
+            <file>./test/ResponsePrototypeTraitWithoutDiactorosTest.php</file>
+        </testsuite>
         <testsuite name="zend-expressive-authentication">
             <directory>./test</directory>
+            <exclude>./test/ResponsePrototypeTraitWithoutDiactorosTest.php</exclude>
         </testsuite>
     </testsuites>
 

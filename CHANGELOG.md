@@ -2,6 +2,30 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 1.0.0alpha3 - 2018-02-24
+
+### Added
+
+- Nothing.
+
+### Changed
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- [#18](https://github.com/zendframework/zend-expressive-authentication/pull/18)
+  uses the ResponseInterface as a factory. This was recently changed in
+  [zend-expressive#561](https://github.com/zendframework/zend-expressive/pull/561).
+
 ## 1.0.0alpha2 - 2018-02-22
 
 ### Added

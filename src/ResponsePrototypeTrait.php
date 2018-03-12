@@ -29,8 +29,12 @@ trait ResponsePrototypeTrait
                 ResponseInterface::class
             ));
         }
-        return $container->has(ResponseInterface::class)
+
+        $response = $container->has(ResponseInterface::class)
             ? $container->get(ResponseInterface::class)
             : new Response();
+
+        // Allow usage of callable factories to generate a response.
+        return is_callable($response) ? $response() : $response;
     }
 }

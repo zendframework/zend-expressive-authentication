@@ -2,6 +2,30 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 0.3.1 - 2018-03-12
+
+### Added
+
+- Nothing.
+
+### Changed
+
+- [#22](https://github.com/zendframework/zend-expressive-authentication/issues/22)
+  updates the `ResponsePrototypeTrait` to allow callable `ResponseInterface`
+  services (instead of those directly returning a `ResponseInterface`).
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- Nothing.
+
 ## 0.3.0 - 2018-01-24
 
 ### Added

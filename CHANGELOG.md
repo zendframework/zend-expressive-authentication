@@ -2,80 +2,7 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
-## 1.0.0alpha4 - 2018-02-27
-
-### Added
-
-- Nothing.
-
-### Changed
-
-- Nothing.
-
-### Deprecated
-
-- Nothing.
-
-### Removed
-
-- [#19](https://github.com/zendframework/zend-expressive-authentication/pull/19)
-  removes `Zend\Expressive\Authentication\ResponsePrototypeTrait`; the approach
-  was flawed, and the various adapters will be updated to compose response
-  factories instead of instances.
-
-### Fixed
-
-- Nothing.
-
-## 1.0.0alpha3 - 2018-02-24
-
-### Added
-
-- Nothing.
-
-### Changed
-
-- Nothing.
-
-### Deprecated
-
-- Nothing.
-
-### Removed
-
-- Nothing.
-
-### Fixed
-
-- [#18](https://github.com/zendframework/zend-expressive-authentication/pull/18)
-  uses the `ResponseInterface` as a factory. This was recently changed in
-  [zend-expressive#561](https://github.com/zendframework/zend-expressive/pull/561).
-
-## 1.0.0alpha2 - 2018-02-22
-
-### Added
-
-- Nothing.
-
-### Changed
-
-- Nothing.
-
-### Deprecated
-
-- Nothing.
-
-### Removed
-
-- Nothing.
-
-### Fixed
-
-- [#17](https://github.com/zendframework/zend-expressive-authentication/pull/17)
-  adds the missing config-provider zend-component-installer config.
-
-
-## 1.0.0alpha1 - 2018-02-07
+## 0.4.0 - 2018-03-15
 
 ### Added
 
@@ -97,9 +24,16 @@ All notable changes to this project will be documented in this file, in reverse 
   remove support for http-interop/http-middleware and
   http-interop/http-server-middleware.
 
+- [#19](https://github.com/zendframework/zend-expressive-authentication/pull/19)
+  removes `Zend\Expressive\Authentication\ResponsePrototypeTrait`; the approach
+  was flawed, and the various adapters will be updated to compose response
+  factories instead of instances.
+
 ### Fixed
 
-- Nothing.
+- [#18](https://github.com/zendframework/zend-expressive-authentication/pull/18)
+  uses the `ResponseInterface` as a factory. This was recently changed in
+  [zend-expressive#561](https://github.com/zendframework/zend-expressive/pull/561).
 
 ## 0.3.1 - 2018-03-12
 

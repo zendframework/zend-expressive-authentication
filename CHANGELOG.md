@@ -2,6 +2,39 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 0.4.0 - 2018-03-15
+
+### Added
+
+- [#15](https://github.com/zendframework/zend-expressive-authentication/pull/15)
+  adds support for PSR-15.
+
+### Changed
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- [#15](https://github.com/zendframework/zend-expressive-authentication/pull/15) and
+  [#3](https://github.com/zendframework/zend-expressive-authentication/pull/3)
+  remove support for http-interop/http-middleware and
+  http-interop/http-server-middleware.
+
+- [#19](https://github.com/zendframework/zend-expressive-authentication/pull/19)
+  removes `Zend\Expressive\Authentication\ResponsePrototypeTrait`; the approach
+  was flawed, and the various adapters will be updated to compose response
+  factories instead of instances.
+
+### Fixed
+
+- [#18](https://github.com/zendframework/zend-expressive-authentication/pull/18)
+  uses the `ResponseInterface` as a factory. This was recently changed in
+  [zend-expressive#561](https://github.com/zendframework/zend-expressive/pull/561).
+
 ## 0.3.1 - 2018-03-12
 
 ### Added

@@ -9,8 +9,8 @@ declare(strict_types=1);
 
 namespace Zend\Expressive\Authentication;
 
-use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 interface AuthenticationInterface
 {

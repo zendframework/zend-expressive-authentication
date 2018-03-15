@@ -11,7 +11,6 @@ namespace ZendTest\Expressive\Authentication;
 
 use Generator;
 use PHPUnit\Framework\TestCase;
-use Psr\Container\ContainerExceptionInterface;
 use Zend\Expressive\Authentication\Exception\ExceptionInterface;
 
 use function basename;

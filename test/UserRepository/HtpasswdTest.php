@@ -11,8 +11,8 @@ namespace ZendTest\Expressive\Authentication\UserRepository;
 
 use PHPUnit\Framework\TestCase;
 use Zend\Expressive\Authentication\UserInterface;
-use Zend\Expressive\Authentication\UserRepositoryInterface;
 use Zend\Expressive\Authentication\UserRepository\Htpasswd;
+use Zend\Expressive\Authentication\UserRepositoryInterface;
 
 class HtpasswdTest extends TestCase
 {

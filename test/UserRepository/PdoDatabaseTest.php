@@ -14,8 +14,8 @@ use PHPUnit\Framework\TestCase;
 use Zend\Expressive\Authentication\Exception\InvalidConfigException;
 use Zend\Expressive\Authentication\Exception\RuntimeException;
 use Zend\Expressive\Authentication\UserInterface;
-use Zend\Expressive\Authentication\UserRepositoryInterface;
 use Zend\Expressive\Authentication\UserRepository\PdoDatabase;
+use Zend\Expressive\Authentication\UserRepositoryInterface;
 
 class PdoDatabaseTest extends TestCase
 {

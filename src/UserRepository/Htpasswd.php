@@ -13,6 +13,16 @@ use Zend\Expressive\Authentication\Exception;
 use Zend\Expressive\Authentication\UserInterface;
 use Zend\Expressive\Authentication\UserRepositoryInterface;
 
+use function explode;
+use function fclose;
+use function fgets;
+use function file_exists;
+use function fopen;
+use function password_verify;
+use function sprintf;
+use function strpos;
+use function trim;
+
 /**
  * Adapter for Apache htpasswd file
  * It supports only bcrypt hash password for security reason

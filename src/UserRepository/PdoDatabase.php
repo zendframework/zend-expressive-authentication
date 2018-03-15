@@ -15,6 +15,10 @@ use Zend\Expressive\Authentication\Exception;
 use Zend\Expressive\Authentication\UserInterface;
 use Zend\Expressive\Authentication\UserRepositoryInterface;
 
+use function password_verify;
+use function sprintf;
+use function strpos;
+
 /**
  * Adapter for PDO database
  * It supports only bcrypt hash password for security reason

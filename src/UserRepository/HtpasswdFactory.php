@@ -12,6 +12,8 @@ namespace Zend\Expressive\Authentication\UserRepository;
 use Psr\Container\ContainerInterface;
 use Zend\Expressive\Authentication\Exception;
 
+use function sprintf;
+
 class HtpasswdFactory
 {
     /**

@@ -14,6 +14,12 @@ use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerExceptionInterface;
 use Zend\Expressive\Authentication\Exception\ExceptionInterface;
 
+use function basename;
+use function glob;
+use function is_a;
+use function strrpos;
+use function substr;
+
 class ExceptionTest extends TestCase
 {
     public function exception() : Generator

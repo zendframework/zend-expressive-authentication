@@ -12,12 +12,18 @@ namespace Zend\Expressive\Authentication;
 interface UserInterface
 {
     /**
-     * Create user from (session) state
+     * Restore from (session) storage
+     *
+     * The values here can be customized for your needs, but need to match
+     * the keys used in `toState()`.
      */
     public static function fromState(array $data) : UserInterface;
 
     /**
      * Extract user data for (session) storage
+     *
+     * The values here can be customized for your needs, but need to match
+     * the keys used in `fromState()`.
      */
     public function toState() : array;
 

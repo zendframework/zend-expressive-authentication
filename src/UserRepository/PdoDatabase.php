@@ -40,7 +40,7 @@ class PdoDatabase implements UserRepositoryInterface
     /**
      * {@inheritDoc}
      */
-    public function authenticate(string $credential, string $password = null) : ?UserInterface
+    public function authenticate(string $identity, string $password = null) : ?UserInterface
     {
         $sql = sprintf(
             "SELECT %s FROM %s WHERE %s = :identity",
@@ -56,7 +56,7 @@ class PdoDatabase implements UserRepositoryInterface
                 'the repository; please verify your configuration'
             );
         }
-        $stmt->bindParam(':identity', $credential);
+        $stmt->bindParam(':identity', $identity);
         $stmt->execute();
 
         $result = $stmt->fetchObject();
@@ -65,8 +65,8 @@ class PdoDatabase implements UserRepositoryInterface
         }
 
         return SessionUser::fromState([
-            'identity' => $credential,
-            'roles'    => $this->getRolesFromUser($credential)
+            'identity' => $identity,
+            'roles'    => $this->getRolesFromUser($identity)
         ]);
     }
 

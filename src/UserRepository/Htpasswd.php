@@ -42,7 +42,7 @@ class Htpasswd implements UserRepositoryInterface
     /**
      * {@inheritDoc}
      */
-    public function authenticate(string $credential, string $password = null) : ?UserInterface
+    public function authenticate(string $identity, string $password = null) : ?UserInterface
     {
         if (! $handle = fopen($this->filename, 'r')) {
             return null;
@@ -50,7 +50,7 @@ class Htpasswd implements UserRepositoryInterface
         $found = false;
         while (! $found && ($line = fgets($handle)) !== false) {
             [$name, $hash] = explode(':', $line);
-            if ($credential !== $name) {
+            if ($identity !== $name) {
                 continue;
             }
             $hash = trim($hash);
@@ -64,8 +64,8 @@ class Htpasswd implements UserRepositoryInterface
         }
 
         return SessionUser::fromState([
-            'identity' => $credential,
-            'roles'    => $this->getRolesFromUser($credential)
+            'identity' => $identity,
+            'roles'    => $this->getRolesFromUser($identity)
         ]);
     }
 

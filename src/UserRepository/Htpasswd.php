@@ -20,8 +20,6 @@ use Zend\Expressive\Authentication\UserRepositoryInterface;
  */
 class Htpasswd implements UserRepositoryInterface
 {
-    use UserTrait;
-
     /**
      * @var string
      */
@@ -61,10 +59,14 @@ class Htpasswd implements UserRepositoryInterface
         }
         fclose($handle);
 
-        return $found
-            && password_verify($password === null ? '' : $password, $hash)
-                ? $this->generateUser($credential)
-                : null;
+        if (! $found || ! password_verify($password ?? '', $hash)) {
+            return null;
+        }
+
+        return SessionUser::fromState([
+            'identity' => $credential,
+            'roles'    => $this->getRolesFromUser($credential)
+        ]);
     }
 
     /**

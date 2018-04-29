@@ -21,8 +21,6 @@ use Zend\Expressive\Authentication\UserRepositoryInterface;
  */
 class PdoDatabase implements UserRepositoryInterface
 {
-    use UserTrait;
-
     /**
      * @var PDO
      */
@@ -62,13 +60,14 @@ class PdoDatabase implements UserRepositoryInterface
         $stmt->execute();
 
         $result = $stmt->fetchObject();
-        if (! $result) {
+        if (! $result || ! password_verify($password, $result->{$this->config['field']['password']})) {
             return null;
         }
 
-        return password_verify($password, $result->{$this->config['field']['password']})
-            ? $this->generateUser($credential, $this->getRolesFromUser($credential))
-            : null;
+        return SessionUser::fromState([
+            'identity' => $credential,
+            'roles'    => $this->getRolesFromUser($credential)
+        ]);
     }
 
     /**

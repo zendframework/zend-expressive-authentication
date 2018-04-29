@@ -12,6 +12,16 @@ namespace Zend\Expressive\Authentication;
 interface UserInterface
 {
     /**
+     * Create user from (session) state
+     */
+    public static function fromState(array $data) : UserInterface;
+
+    /**
+     * Extract user data for (session) storage
+     */
+    public function toState() : array;
+
+    /**
      * Get the unique user identity (id, username, email address or ...)
      */
     public function getIdentity() : string;

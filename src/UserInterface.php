@@ -21,5 +21,5 @@ interface UserInterface
      *
      * @return string[]
      */
-    public function getUserRoles() : array;
+    public function getUserRoles() : iterable;
 }

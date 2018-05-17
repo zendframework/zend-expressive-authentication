@@ -53,7 +53,7 @@ class HtpasswdFactoryTest extends TestCase
             ]
         ]);
         $this->container->get(UserInterface::class)->willReturn($this->user->reveal());
-        
+
         $this->expectException(InvalidConfigException::class);
         $htpasswd = ($this->factory)($this->container->reveal());
     }

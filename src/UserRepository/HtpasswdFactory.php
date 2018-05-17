@@ -11,6 +11,7 @@ namespace Zend\Expressive\Authentication\UserRepository;
 
 use Psr\Container\ContainerInterface;
 use Zend\Expressive\Authentication\Exception;
+use Zend\Expressive\Authentication\UserInterface;
 
 class HtpasswdFactory
 {
@@ -26,7 +27,9 @@ class HtpasswdFactory
                 Htpasswd::class
             ));
         }
-
-        return new Htpasswd($htpasswd);
+        return new Htpasswd(
+            $htpasswd,
+            $container->get(UserInterface::class)
+        );
     }
 }

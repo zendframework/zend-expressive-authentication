@@ -12,6 +12,7 @@ namespace ZendTest\Expressive\Authentication\UserRepository;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Zend\Expressive\Authentication\Exception\InvalidConfigException;
+use Zend\Expressive\Authentication\UserInterface;
 use Zend\Expressive\Authentication\UserRepository\Htpasswd;
 use Zend\Expressive\Authentication\UserRepository\HtpasswdFactory;
 
@@ -20,6 +21,7 @@ class HtpasswdFactoryTest extends TestCase
     protected function setUp()
     {
         $this->container = $this->prophesize(ContainerInterface::class);
+        $this->user = $this->prophesize(UserInterface::class);
         $this->factory = new HtpasswdFactory();
     }
 
@@ -37,6 +39,7 @@ class HtpasswdFactoryTest extends TestCase
     public function testInvokeWithEmptyConfig()
     {
         $this->container->get('config')->willReturn([]);
+        $this->container->get(UserInterface::class)->willReturn($this->user->reveal());
 
         $this->expectException(InvalidConfigException::class);
         $htpasswd = ($this->factory)($this->container->reveal());
@@ -44,25 +47,26 @@ class HtpasswdFactoryTest extends TestCase
 
     public function testInvokeWithInvalidConfig()
     {
-        $this->container->has('config')->willReturn(true);
         $this->container->get('config')->willReturn([
             'authentication' => [
                 'htpasswd' => 'foo'
             ]
         ]);
-
+        $this->container->get(UserInterface::class)->willReturn($this->user->reveal());
+        
         $this->expectException(InvalidConfigException::class);
         $htpasswd = ($this->factory)($this->container->reveal());
     }
 
     public function testInvokeWithValidConfig()
     {
-        $this->container->has('config')->willReturn(true);
         $this->container->get('config')->willReturn([
             'authentication' => [
                 'htpasswd' => __DIR__ . '/../TestAssets/htpasswd'
             ]
         ]);
+        $this->container->get(UserInterface::class)->willReturn($this->user->reveal());
+
         $htpasswd = ($this->factory)($this->container->reveal());
         $this->assertInstanceOf(Htpasswd::class, $htpasswd);
     }

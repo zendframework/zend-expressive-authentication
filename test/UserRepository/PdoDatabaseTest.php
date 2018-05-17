@@ -11,6 +11,7 @@ namespace ZendTest\Expressive\Authentication\UserRepository;
 
 use PDO;
 use PHPUnit\Framework\TestCase;
+use Prophecy\Argument;
 use Zend\Expressive\Authentication\Exception\InvalidConfigException;
 use Zend\Expressive\Authentication\Exception\RuntimeException;
 use Zend\Expressive\Authentication\UserInterface;
@@ -19,9 +20,25 @@ use Zend\Expressive\Authentication\UserRepository\PdoDatabase;
 
 class PdoDatabaseTest extends TestCase
 {
+    protected function setUp()
+    {
+        $user = $this->prophesize(UserInterface::class);
+        $user->setIdentity(Argument::type('string'))->will(function ($args) use ($user) {
+            $user->getIdentity()->willReturn($args[0]);
+        });
+        $user->setRoles(Argument::type('array'))->will(function ($args) use ($user) {
+            $user->getRoles()->willReturn($args[0]);
+        });
+        $this->user = $user;
+    }
+
     public function testConstructor()
     {
-        $pdoDatabase = new PdoDatabase(new PDO('sqlite::memory:'), []);
+        $pdoDatabase = new PdoDatabase(
+            new PDO('sqlite::memory:'),
+            [],
+            $this->user->reveal()
+        );
         $this->assertInstanceOf(UserRepositoryInterface::class, $pdoDatabase);
     }
 
@@ -39,7 +56,11 @@ class PdoDatabaseTest extends TestCase
     public function testAuthenticate()
     {
         $pdo = new PDO('sqlite:'. __DIR__ . '/../TestAssets/pdo.sqlite');
-        $pdoDatabase = new PdoDatabase($pdo, $this->getConfig());
+        $pdoDatabase = new PdoDatabase(
+            $pdo,
+            $this->getConfig(),
+            $this->user->reveal()
+        );
 
         $user = $pdoDatabase->authenticate('test', 'password');
         $this->assertInstanceOf(UserInterface::class, $user);
@@ -52,7 +73,7 @@ class PdoDatabaseTest extends TestCase
         $config = $this->getConfig();
         $config['field']['identity'] = 'foo'; // mistake in the configuration
 
-        $pdoDatabase = new PdoDatabase($pdo, $config);
+        $pdoDatabase = new PdoDatabase($pdo, $config, $this->user->reveal());
         $this->expectException(RuntimeException::class);
         $user = $pdoDatabase->authenticate('test', 'password');
     }
@@ -60,7 +81,11 @@ class PdoDatabaseTest extends TestCase
     public function testAuthenticateInvalidUserPassword()
     {
         $pdo = new PDO('sqlite:'. __DIR__ . '/../TestAssets/pdo.sqlite');
-        $pdoDatabase = new PdoDatabase($pdo, $this->getConfig());
+        $pdoDatabase = new PdoDatabase(
+            $pdo,
+            $this->getConfig(),
+            $this->user->reveal()
+        );
 
         $user = $pdoDatabase->authenticate('test', 'foo');
         $this->assertNull($user);
@@ -69,7 +94,11 @@ class PdoDatabaseTest extends TestCase
     public function testAuthenticateInvalidUsername()
     {
         $pdo = new PDO('sqlite:'. __DIR__ . '/../TestAssets/pdo.sqlite');
-        $pdoDatabase = new PdoDatabase($pdo, $this->getConfig());
+        $pdoDatabase = new PdoDatabase(
+            $pdo,
+            $this->getConfig(),
+            $this->user->reveal()
+        );
 
         $user = $pdoDatabase->authenticate('invalidusername', 'password');
         $this->assertNull($user);
@@ -80,12 +109,16 @@ class PdoDatabaseTest extends TestCase
         $pdo = new PDO('sqlite:'. __DIR__ . '/../TestAssets/pdo_role.sqlite');
         $config = $this->getConfig();
         $config['sql_get_roles'] = 'SELECT role FROM user WHERE username = :identity';
-        $pdoDatabase = new PdoDatabase($pdo, $config);
+        $pdoDatabase = new PdoDatabase(
+            $pdo,
+            $config,
+            $this->user->reveal()
+        );
 
         $user = $pdoDatabase->authenticate('test', 'password');
         $this->assertInstanceOf(UserInterface::class, $user);
         $this->assertEquals('test', $user->getIdentity());
-        $this->assertEquals(['admin'], $user->getUserRoles());
+        $this->assertEquals(['admin'], $user->getRoles());
     }
 
     public function testAuthenticateWithRoles()
@@ -93,12 +126,16 @@ class PdoDatabaseTest extends TestCase
         $pdo = new PDO('sqlite:'. __DIR__ . '/../TestAssets/pdo_roles.sqlite');
         $config = $this->getConfig();
         $config['sql_get_roles'] = 'SELECT role FROM user_role WHERE username = :identity';
-        $pdoDatabase = new PdoDatabase($pdo, $config);
+        $pdoDatabase = new PdoDatabase(
+            $pdo,
+            $config,
+            $this->user->reveal()
+        );
 
         $user = $pdoDatabase->authenticate('test', 'password');
         $this->assertInstanceOf(UserInterface::class, $user);
         $this->assertEquals('test', $user->getIdentity());
-        $this->assertEquals(['user', 'admin'], $user->getUserRoles());
+        $this->assertEquals(['user', 'admin'], $user->getRoles());
     }
 
     public function testAuthenticateWithRoleRuntimeError()
@@ -107,7 +144,11 @@ class PdoDatabaseTest extends TestCase
         $config = $this->getConfig();
         // add a mistake in the configuration
         $config['sql_get_roles'] = 'SELECT role FROM user WHERE foo = :identity';
-        $pdoDatabase = new PdoDatabase($pdo, $config);
+        $pdoDatabase = new PdoDatabase(
+            $pdo,
+            $config,
+            $this->user->reveal()
+        );
 
         $this->expectException(RuntimeException::class);
         $user = $pdoDatabase->authenticate('test', 'password');
@@ -118,7 +159,11 @@ class PdoDatabaseTest extends TestCase
         $pdo = new PDO('sqlite:'. __DIR__ . '/../TestAssets/pdo_roles.sqlite');
         $config = $this->getConfig();
 
-        $pdoDatabase = new PdoDatabase($pdo, $config);
+        $pdoDatabase = new PdoDatabase(
+            $pdo,
+            $config,
+            $this->user->reveal()
+        );
         $roles = $pdoDatabase->getRolesFromUser('foo');
         $this->assertEmpty($roles);
     }
@@ -129,7 +174,11 @@ class PdoDatabaseTest extends TestCase
         $config = $this->getConfig();
         $config['sql_get_roles'] = 'SELECT role FROM user_role';
 
-        $pdoDatabase = new PdoDatabase($pdo, $config);
+        $pdoDatabase = new PdoDatabase(
+            $pdo,
+            $config,
+            $this->user->reveal()
+        );
 
         $this->expectException(InvalidConfigException::class);
         $roles = $pdoDatabase->getRolesFromUser('foo');

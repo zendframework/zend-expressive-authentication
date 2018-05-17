@@ -12,6 +12,7 @@ namespace Zend\Expressive\Authentication\UserRepository;
 use PDO;
 use Psr\Container\ContainerInterface;
 use Zend\Expressive\Authentication\Exception;
+use Zend\Expressive\Authentication\UserInterface;
 
 class PdoDatabaseFactory
 {
@@ -52,7 +53,8 @@ class PdoDatabaseFactory
                 $pdo['username'] ?? null,
                 $pdo['password'] ?? null
             ),
-            $pdo
+            $pdo,
+            $container->get(UserInterface::class)
         );
     }
 }

@@ -23,17 +23,30 @@ interface UserInterface
 {
     /**
      * Get the unique user identity (id, username, email address or ...)
-     *
-     * @return string
      */
-    public function getIdentity(): string;
+    public function getIdentity() : string;
+
+    /**
+     * Set the user identity
+     */
+    public function setIdentity(string $identity) : void
+    {
+        $this->identity = $identity;
+    }
 
     /**
      * Get all user roles
      *
      * @return string[]
      */
-    public function getUserRoles() : array;
+    public function getRoles() : array;
+
+    /**
+     * Set the user's roles
+     *
+     * @param string[] $roles
+     */
+    public function setRoles(array $roles) : void;
 }
 ```
 
@@ -41,6 +54,33 @@ The `UserInterface` attribute in the PSR-7 request can be used for checking
 if a user has been authenticated or not, e.g. it can be used to verify the
 authorization level of a user (for this scope, it is consumed by
 [zend-expressive-authorization](https://github.com/zendframework/zend-expressive-authorization)).
+
+## Default User class
+
+We provided a default user class, implemented by `Zend\Authentication\DefaultUser`.
+This class is a basic implementation of `UserInterface`. This default class
+can be changed by configuration, using the service alias `Zend\Authentication\UserInterface`.
+By default, the alias points to `DefaultUser` in the ConfigProvider class.
+
+```php
+// src/ConfigProvider.php
+    // ...
+    public function getDependencies() : array
+    {
+        return [
+            // ...
+            'aliases' => [
+                // ...
+                UserInterface::class => DefaultUser::class
+            ]
+        ];
+    }
+    // ...
+```
+
+You can change it using a custom `UserInterface` implementation or extending
+the `DefaultUser` class if you will.
+
 
 ## Usage in the route
 
@@ -75,26 +115,18 @@ Basic Access Authentication* adapter and the *htpasswd* file as the user
 repository.
 
 ```php
-// ConfigProvider.php
-
-use Zend\Expressive\Authentication\AuthenticationInterface;
-use Zend\Expressive\Authentication\UserRepositoryInterface;
-
-class ConfigProvider
-{
+// src/ConfigProvider.php
     // ...
-
     public function getDependencies() : array
     {
         return [
+            // ...
             'aliases' => [
+                // ...
                 AuthenticationInterface::class => Basic\BasicAccess::class,
                 UserRepositoryInterface::class => UserRepository\Htpasswd::class
-            ],
-            // ...
+            ]
         ];
     }
-
     // ...
-}
 ```

@@ -20,17 +20,20 @@ use Zend\Expressive\Authentication\UserRepositoryInterface;
  */
 class Htpasswd implements UserRepositoryInterface
 {
-    use UserTrait;
-
     /**
      * @var string
      */
     private $filename;
 
     /**
+     * @var UserInterface
+     */
+    private $user;
+
+    /**
      * @throws Exception\InvalidConfigException
      */
-    public function __construct(string $filename)
+    public function __construct(string $filename, UserInterface $user)
     {
         if (! file_exists($filename)) {
             throw new Exception\InvalidConfigException(sprintf(
@@ -39,6 +42,7 @@ class Htpasswd implements UserRepositoryInterface
             ));
         }
         $this->filename = $filename;
+        $this->user = $user;
     }
 
     /**
@@ -61,10 +65,12 @@ class Htpasswd implements UserRepositoryInterface
         }
         fclose($handle);
 
-        return $found
-            && password_verify($password === null ? '' : $password, $hash)
-                ? $this->generateUser($credential)
-                : null;
+        if ($found && password_verify($password === null ? '' : $password, $hash)) {
+            $this->user->setIdentity($credential);
+            $this->user->setRoles($this->getRolesFromUser($credential));
+            return $this->user;
+        }
+        return null;
     }
 
     /**

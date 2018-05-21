@@ -9,17 +9,12 @@ declare(strict_types=1);
 
 namespace Zend\Expressive\Authentication;
 
-interface UserInterface
-{
-    /**
-     * Get the unique user identity (id, username, email address or ...)
-     */
-    public function getIdentity() : string;
+use Psr\Container\ContainerInterface;
 
-    /**
-     * Get all user roles
-     *
-     * @return string[]
-     */
-    public function getRoles() : array;
+class UserInterfaceFactory
+{
+    public function generate(string $identity, array $roles = []) : UserInterface
+    {
+        return new DefaultUser($identity, $roles);
+    }
 }

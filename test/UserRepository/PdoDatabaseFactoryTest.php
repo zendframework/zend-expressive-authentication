@@ -13,6 +13,7 @@ use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Zend\Expressive\Authentication\Exception\InvalidConfigException;
 use Zend\Expressive\Authentication\UserInterface;
+use Zend\Expressive\Authentication\UserInterfaceFactory;
 use Zend\Expressive\Authentication\UserRepository\PdoDatabase;
 use Zend\Expressive\Authentication\UserRepository\PdoDatabaseFactory;
 
@@ -21,7 +22,7 @@ class PdoDatabaseFactoryTest extends TestCase
     protected function setUp()
     {
         $this->container = $this->prophesize(ContainerInterface::class);
-        $this->user = $this->prophesize(UserInterface::class);
+        $this->userFactory = $this->prophesize(UserInterfaceFactory::class);
         $this->factory = new PdoDatabaseFactory();
     }
 
@@ -79,7 +80,7 @@ class PdoDatabaseFactoryTest extends TestCase
         $this->container->get('config')->willReturn([
             'authentication' => [ 'pdo' => $pdoConfig ]
         ]);
-        $this->container->get(UserInterface::class)->willReturn($this->user->reveal());
+        $this->container->get(UserInterface::class)->willReturn($this->userFactory->reveal());
         $pdoDatabase = ($this->factory)($this->container->reveal());
     }
 
@@ -97,7 +98,7 @@ class PdoDatabaseFactoryTest extends TestCase
                 ]
             ]
         ]);
-        $this->container->get(UserInterface::class)->willReturn($this->user->reveal());
+        $this->container->get(UserInterface::class)->willReturn($this->userFactory->reveal());
         $pdoDatabase = ($this->factory)($this->container->reveal());
         $this->assertInstanceOf(PdoDatabase::class, $pdoDatabase);
     }

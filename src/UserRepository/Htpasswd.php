@@ -11,6 +11,7 @@ namespace Zend\Expressive\Authentication\UserRepository;
 
 use Zend\Expressive\Authentication\Exception;
 use Zend\Expressive\Authentication\UserInterface;
+use Zend\Expressive\Authentication\UserInterfaceFactory;
 use Zend\Expressive\Authentication\UserRepositoryInterface;
 
 /**
@@ -26,14 +27,14 @@ class Htpasswd implements UserRepositoryInterface
     private $filename;
 
     /**
-     * @var UserInterface
+     * @var UserInterfaceFactory
      */
-    private $user;
+    private $userFactory;
 
     /**
      * @throws Exception\InvalidConfigException
      */
-    public function __construct(string $filename, UserInterface $user)
+    public function __construct(string $filename, UserInterfaceFactory $userFactory)
     {
         if (! file_exists($filename)) {
             throw new Exception\InvalidConfigException(sprintf(
@@ -42,7 +43,7 @@ class Htpasswd implements UserRepositoryInterface
             ));
         }
         $this->filename = $filename;
-        $this->user = $user;
+        $this->userFactory = $userFactory;
     }
 
     /**
@@ -65,10 +66,8 @@ class Htpasswd implements UserRepositoryInterface
         }
         fclose($handle);
 
-        if ($found && password_verify($password === null ? '' : $password, $hash)) {
-            $this->user->setIdentity($credential);
-            $this->user->setRoles($this->getRolesFromUser($credential));
-            return $this->user;
+        if ($found && password_verify($password ?? '', $hash)) {
+            return $this->userFactory->generate($credential, $this->getRolesFromUser($credential));
         }
         return null;
     }

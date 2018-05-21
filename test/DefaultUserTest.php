@@ -17,21 +17,19 @@ class DefaultUserTest extends TestCase
 {
     public function testConstructor()
     {
-        $user = new DefaultUser();
+        $user = new DefaultUser('foo');
         $this->assertInstanceOf(UserInterface::class, $user);
     }
 
-    public function testSetGetIdentity()
+    public function testGetIdentity()
     {
-        $user = new DefaultUser();
-        $user->setIdentity('foo');
+        $user = new DefaultUser('foo');
         $this->assertEquals('foo', $user->getIdentity());
     }
 
-    public function testSetGetRoles()
+    public function testGetRoles()
     {
-        $user = new DefaultUser();
-        $user->setRoles(['foo', 'bar']);
+        $user = new DefaultUser('foo', ['foo', 'bar']);
         $this->assertEquals(['foo', 'bar'], $user->getRoles());
     }
 }

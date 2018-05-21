@@ -59,15 +59,12 @@ class ConfigProvider
                 // AuthenticationInterface::class => Basic\BasicAccess::class,
                 // Provide an alias for the UserRepository adapter based on your application needs.
                 // UserRepositoryInterface::class => UserRepository\Htpasswd::class
-                UserInterface::class => DefaultUser::class
             ],
             'factories' => [
                 AuthenticationMiddleware::class => AuthenticationMiddlewareFactory::class,
                 UserRepository\Htpasswd::class => UserRepository\HtpasswdFactory::class,
-                UserRepository\PdoDatabase::class => UserRepository\PdoDatabaseFactory::class
-            ],
-            'invokables' => [
-                DefaultUser::class => DefaultUser::class
+                UserRepository\PdoDatabase::class => UserRepository\PdoDatabaseFactory::class,
+                UserInterface::class => UserInterfaceFactory::class
             ]
         ];
     }

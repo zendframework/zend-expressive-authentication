@@ -13,6 +13,7 @@ use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Zend\Expressive\Authentication\Exception\InvalidConfigException;
 use Zend\Expressive\Authentication\UserInterface;
+use Zend\Expressive\Authentication\UserInterfaceFactory;
 use Zend\Expressive\Authentication\UserRepository\Htpasswd;
 use Zend\Expressive\Authentication\UserRepository\HtpasswdFactory;
 
@@ -21,7 +22,7 @@ class HtpasswdFactoryTest extends TestCase
     protected function setUp()
     {
         $this->container = $this->prophesize(ContainerInterface::class);
-        $this->user = $this->prophesize(UserInterface::class);
+        $this->user = $this->prophesize(UserInterfaceFactory::class);
         $this->factory = new HtpasswdFactory();
     }
 

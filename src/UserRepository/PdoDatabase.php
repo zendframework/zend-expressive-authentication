@@ -13,6 +13,7 @@ use PDO;
 use PDOException;
 use Zend\Expressive\Authentication\Exception;
 use Zend\Expressive\Authentication\UserInterface;
+use Zend\Expressive\Authentication\UserInterfaceFactory;
 use Zend\Expressive\Authentication\UserRepositoryInterface;
 
 /**
@@ -32,15 +33,18 @@ class PdoDatabase implements UserRepositoryInterface
     private $config;
 
     /**
-     * @var UserInterface
+     * @var UserInterfaceFactory
      */
-    private $user;
+    private $userFactory;
 
-    public function __construct(PDO $pdo, array $config, UserInterface $user)
-    {
+    public function __construct(
+        PDO $pdo,
+        array $config,
+        UserInterfaceFactory $userFactory
+    ) {
         $this->pdo = $pdo;
         $this->config = $config;
-        $this->user = $user;
+        $this->userFactory = $userFactory;
     }
 
     /**
@@ -71,9 +75,10 @@ class PdoDatabase implements UserRepositoryInterface
         }
 
         if (password_verify($password, $result->{$this->config['field']['password']})) {
-            $this->user->setIdentity($credential);
-            $this->user->setRoles($this->getRolesFromUser($credential));
-            return $this->user;
+            return $this->userFactory->generate(
+                $credential,
+                $this->getRolesFromUser($credential)
+            );
         }
         return null;
     }

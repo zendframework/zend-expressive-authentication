@@ -27,26 +27,11 @@ interface UserInterface
     public function getIdentity() : string;
 
     /**
-     * Set the user identity
-     */
-    public function setIdentity(string $identity) : void
-    {
-        $this->identity = $identity;
-    }
-
-    /**
      * Get all user roles
      *
      * @return string[]
      */
     public function getRoles() : array;
-
-    /**
-     * Set the user's roles
-     *
-     * @param string[] $roles
-     */
-    public function setRoles(array $roles) : void;
 }
 ```
 
@@ -57,10 +42,18 @@ authorization level of a user (for this scope, it is consumed by
 
 ## Default User class
 
-We provided a default user class, implemented by `Zend\Authentication\DefaultUser`.
-This class is a basic implementation of `UserInterface`. This default class
-can be changed by configuration, using the service alias `Zend\Authentication\UserInterface`.
-By default, the alias points to `DefaultUser` in the ConfigProvider class.
+We provide a default implementation of `UserInterface` via the class `Zend\Expressive\Authentication\DefaultUser`.
+This class is a basic implementation of `UserInterface`. This class is final and
+it's immutable, that means you cannot change it state at runtime.
+In order to set the identity and the user's role we provided a default factory
+class that generates a `UserInterface` object. This factory is
+`Zend\Expressive\Authentication\UserInterfaceFactory`. This class uses a `generate`
+function to create a `UserInterface` instance passing the identity and the roles
+(if any) of the user.
+
+If you want, you can customize the `UserInterfaceFactory` using your custom
+`UserInterface` implementation. You need to change the service configuration as
+follows:
 
 ```php
 // src/ConfigProvider.php
@@ -69,18 +62,14 @@ By default, the alias points to `DefaultUser` in the ConfigProvider class.
     {
         return [
             // ...
-            'aliases' => [
-                // ...
-                UserInterface::class => DefaultUser::class
+            'factories' => [
+                // here change the UserInterfaceFactory::class with your class
+                UserInterface::class => UserInterfaceFactory::class
             ]
         ];
     }
     // ...
 ```
-
-You can change it using a custom `UserInterface` implementation or extending
-the `DefaultUser` class if you will.
-
 
 ## Usage in the route
 

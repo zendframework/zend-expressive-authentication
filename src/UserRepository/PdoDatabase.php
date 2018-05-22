@@ -13,7 +13,6 @@ use PDO;
 use PDOException;
 use Zend\Expressive\Authentication\Exception;
 use Zend\Expressive\Authentication\UserInterface;
-use Zend\Expressive\Authentication\UserInterfaceFactory;
 use Zend\Expressive\Authentication\UserRepositoryInterface;
 
 /**
@@ -33,14 +32,14 @@ class PdoDatabase implements UserRepositoryInterface
     private $config;
 
     /**
-     * @var UserInterfaceFactory
+     * @var callable
      */
     private $userFactory;
 
     public function __construct(
         PDO $pdo,
         array $config,
-        UserInterfaceFactory $userFactory
+        callable $userFactory
     ) {
         $this->pdo = $pdo;
         $this->config = $config;
@@ -75,9 +74,10 @@ class PdoDatabase implements UserRepositoryInterface
         }
 
         if (password_verify($password, $result->{$this->config['field']['password']})) {
-            return $this->userFactory->generate(
+            return ($this->userFactory)(
                 $credential,
-                $this->getRolesFromUser($credential)
+                $this->getUserRoles($credential),
+                $this->getUserDetails($credential)
             );
         }
         return null;
@@ -86,7 +86,7 @@ class PdoDatabase implements UserRepositoryInterface
     /**
      * {@inheritDoc}
      */
-    public function getRolesFromUser(string $identity) : array
+    public function getUserRoles(string $identity) : array
     {
         if (! isset($this->config['sql_get_roles'])) {
             return [];
@@ -122,5 +122,43 @@ class PdoDatabase implements UserRepositoryInterface
             $roles[] = $role[0];
         }
         return $roles;
+    }
+
+    public function getUserDetails(string $identity) : array
+    {
+        if (! isset($this->config['sql_get_details'])) {
+            return [];
+        }
+
+        if (false === strpos($this->config['sql_get_details'], ':identity')) {
+            throw new Exception\InvalidConfigException(
+                'The sql_get_details configuration setting must include a :identity parameter'
+            );
+        }
+
+        try {
+            $stmt = $this->pdo->prepare($this->config['sql_get_details']);
+        } catch (PDOException $e) {
+            throw new Exception\RuntimeException(sprintf(
+                'Error preparing retrieval of user details: %s',
+                $e->getMessage()
+            ));
+        }
+        if (false === $stmt) {
+            throw new Exception\RuntimeException(sprintf(
+                'Error preparing retrieval of user details: unknown error'
+            ));
+        }
+        $stmt->bindParam(':identity', $identity);
+
+        if (! $stmt->execute()) {
+            return [];
+        }
+
+        $details = [];
+        foreach ($stmt->fetchAll(PDO::FETCH_NUM) as $detail) {
+            $details[] = $detail[0];
+        }
+        return $details;
     }
 }

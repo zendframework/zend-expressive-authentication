@@ -26,5 +26,13 @@ interface UserRepositoryInterface
      * @param string $identity
      * @return string[]
      */
-    public function getRolesFromUser(string $identity) : array;
+    public function getUserRoles(string $identity) : array;
+
+    /**
+     * Get the user details if present.
+     *
+     * @param string $identity
+     * @return string[]
+     */
+    public function getUserDetails(string $identity) : array;
 }

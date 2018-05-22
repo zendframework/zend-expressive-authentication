@@ -41,7 +41,8 @@ class ConfigProvider
              *             'identity' => 'identity field name',
              *             'password' => 'password field name',
              *         ],
-             *         'sql_get_roles' => 'SQL to retrieve roles by :identity',
+             *         'sql_get_roles'   => 'SQL to retrieve user roles by :identity',
+             *         'sql_get_details' => 'SQL to retrieve user details by :identity'
              *     ],
              * ]
              */
@@ -64,7 +65,7 @@ class ConfigProvider
                 AuthenticationMiddleware::class => AuthenticationMiddlewareFactory::class,
                 UserRepository\Htpasswd::class => UserRepository\HtpasswdFactory::class,
                 UserRepository\PdoDatabase::class => UserRepository\PdoDatabaseFactory::class,
-                UserInterface::class => UserInterfaceFactory::class
+                UserInterface::class => DefaultUserFactory::class
             ]
         ];
     }

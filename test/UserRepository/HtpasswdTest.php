@@ -12,7 +12,6 @@ namespace ZendTest\Expressive\Authentication\UserRepository;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Zend\Expressive\Authentication\UserInterface;
-use Zend\Expressive\Authentication\UserInterfaceFactory;
 use Zend\Expressive\Authentication\UserRepositoryInterface;
 use Zend\Expressive\Authentication\UserRepository\Htpasswd;
 
@@ -24,23 +23,27 @@ class HtpasswdTest extends TestCase
     {
         $this->user = $this->prophesize(UserInterface::class);
         $this->user->getIdentity()->willReturn(self::EXAMPLE_IDENTITY);
-        $this->userFactory = $this->prophesize(UserInterfaceFactory::class);
-        $this->userFactory->generate(Argument::type('string'), Argument::type('array'))
-                          ->willReturn($this->user->reveal());
     }
     /**
      * @expectedException Zend\Expressive\Authentication\Exception\InvalidConfigException
      */
     public function testConstructorWithNoFile()
     {
-        $htpasswd = new Htpasswd('foo', $this->userFactory->reveal());
+        $htpasswd = new Htpasswd(
+            'foo',
+            function () {
+                return $this->user->reveal();
+            }
+        );
     }
 
     public function testConstructor()
     {
         $htpasswd = new Htpasswd(
             __DIR__ . '/../TestAssets/htpasswd',
-            $this->userFactory->reveal()
+            function () {
+                return $this->user->reveal();
+            }
         );
         $this->assertInstanceOf(UserRepositoryInterface::class, $htpasswd);
     }
@@ -49,7 +52,9 @@ class HtpasswdTest extends TestCase
     {
         $htpasswd = new Htpasswd(
             __DIR__ . '/../TestAssets/htpasswd',
-            $this->userFactory->reveal()
+            function () {
+                return $this->user->reveal();
+            }
         );
 
         $user = $htpasswd->authenticate(self::EXAMPLE_IDENTITY, 'password');
@@ -61,7 +66,9 @@ class HtpasswdTest extends TestCase
     {
         $htpasswd = new Htpasswd(
             __DIR__ . '/../TestAssets/htpasswd',
-            $this->userFactory->reveal()
+            function () {
+                return $this->user->reveal();
+            }
         );
         $this->assertNull($htpasswd->authenticate(self::EXAMPLE_IDENTITY, 'foo'));
     }
@@ -70,7 +77,9 @@ class HtpasswdTest extends TestCase
     {
         $htpasswd = new Htpasswd(
             __DIR__ . '/../TestAssets/htpasswd',
-            $this->userFactory->reveal()
+            function () {
+                return $this->user->reveal();
+            }
         );
         $this->assertNull($htpasswd->authenticate(self::EXAMPLE_IDENTITY, null));
     }
@@ -82,7 +91,9 @@ class HtpasswdTest extends TestCase
     {
         $htpasswd = new Htpasswd(
             __DIR__ . '/../TestAssets/htpasswd_insecure',
-            $this->userFactory->reveal()
+            function () {
+                return $this->user->reveal();
+            }
         );
         $htpasswd->authenticate(self::EXAMPLE_IDENTITY, 'password');
     }

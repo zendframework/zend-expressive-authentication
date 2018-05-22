@@ -43,8 +43,10 @@ authorization level of a user (for this scope, it is consumed by
 ## Default User class
 
 We provide a default implementation of `UserInterface` via the class `Zend\Expressive\Authentication\DefaultUser`.
-This class is a basic implementation of `UserInterface`. This class is final and
-it's immutable, that means you cannot change it state at runtime.
+The class is final and immutable, in order to prevent runtime changes.
+We provide a factory class for generating `DefaultUser` instances via
+`Zend\Expressive\Authentication\DefaultUserFactory`.
+
 In order to set the identity and the user's role we provided a default factory
 class that generates a `UserInterface` object. This factory is
 `Zend\Expressive\Authentication\UserInterfaceFactory`. This class uses a `generate`
@@ -56,19 +58,16 @@ If you want, you can customize the `UserInterfaceFactory` using your custom
 follows:
 
 ```php
-// src/ConfigProvider.php
+return [
     // ...
-    public function getDependencies() : array
-    {
-        return [
+    'dependencies' => [
+        'factories' => [
             // ...
-            'factories' => [
-                // here change the UserInterfaceFactory::class with your class
-                UserInterface::class => UserInterfaceFactory::class
-            ]
-        ];
-    }
-    // ...
+            // change the DefaultUserFactory::class with your custom factory
+            UserInterface::class => DefaultUserFactory::class
+        ]
+    ]
+];
 ```
 
 ## Usage in the route
@@ -104,18 +103,16 @@ Basic Access Authentication* adapter and the *htpasswd* file as the user
 repository.
 
 ```php
-// src/ConfigProvider.php
+return [
     // ...
-    public function getDependencies() : array
-    {
-        return [
+    'dependencies' => [
+        // ...
+        'aliases' => [
             // ...
-            'aliases' => [
-                // ...
-                AuthenticationInterface::class => Basic\BasicAccess::class,
-                UserRepositoryInterface::class => UserRepository\Htpasswd::class
-            ]
-        ];
-    }
-    // ...
+            AuthenticationInterface::class => Basic\BasicAccess::class,
+            UserRepositoryInterface::class => UserRepository\Htpasswd::class
+        ]
+    ]
+];
+
 ```

@@ -15,10 +15,13 @@ final class DefaultUser implements UserInterface
 
     private $roles;
 
-    public function __construct(string $identity, array $roles = [])
+    private $details;
+
+    public function __construct(string $identity, array $roles = [], array $details = [])
     {
         $this->identity = $identity;
         $this->roles = $roles;
+        $this->details = $details;
     }
 
     public function getIdentity() : string
@@ -29,5 +32,15 @@ final class DefaultUser implements UserInterface
     public function getRoles() : array
     {
         return $this->roles;
+    }
+
+    public function getDetails() : array
+    {
+        return $this->details;
+    }
+
+    public function getDetail(string $name, $default = null)
+    {
+        return $this->details[$name] ?? $default;
     }
 }

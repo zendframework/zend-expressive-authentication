@@ -31,17 +31,29 @@ interface UserRepositoryInterface
      * @param string $username
      * @return string[]
      */
-    public function getRolesFromUser(string $username) : array;
+    public function getUserRoles(string $username) : array;
+
+    /**
+     * Get the user details if present.
+     *
+     * @param string $identity
+     * @return string[]
+     */
+    public function getUserDetails(string $identity) : array;
 }
 ```
 
-It contains two functions: `authenticate()` and `getRolesFromUser()`. The first
-is used to authenticate using the user's credential. If authenticated, the
-result will be a `UserInterface` instance, otherwise a null value is returned.
+It contains 3 functions: `authenticate()`, `getUserRoles()`, and `getUserDetails`.
+The first function is used to authenticate the user's credential. If
+authenticated, the result will be a `UserInterface` instance, otherwise a null
+value is returned.
 
-The second function is `getRolesFromUser()` and it specifies how to retrieve
+The second function is `getUserRoles()` and it specifies how to retrieve
 the roles for a user. If a user does not have roles, this function will return
 an empty array.
+
+The last function is `getUserDetails()` and it specifies the additional user
+information (details), if any.
 
 
 ## Configure the user repository
@@ -93,7 +105,8 @@ return [
                 'identity' => 'identity field name',
                 'password' => 'password field name',
             ],
-            'sql_get_roles' => 'SQL to retrieve roles with :identity parameter',
+            'sql_get_roles'   => 'SQL to retrieve roles with :identity parameter',
+            'sql_get_details' => 'SQL to retrieve user details by :identity'
         ],
     ],
 ];
@@ -121,3 +134,6 @@ typical query might look like the following:
 ```sql
 SELECT role FROM user WHERE username = :identity
 ```
+
+The `sql_get_details` parameter is similar to `sql_get_roles`, it specified the
+SQL query for retrieving the user's additional details, if any.

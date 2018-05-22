@@ -11,10 +11,12 @@ namespace Zend\Expressive\Authentication;
 
 use Psr\Container\ContainerInterface;
 
-class UserInterfaceFactory
+class DefaultUserFactory
 {
-    public function generate(string $identity, array $roles = []) : UserInterface
+    public function __invoke(ContainerInterface $container) : callable
     {
-        return new DefaultUser($identity, $roles);
+        return function (string $identity, array $roles = [], array $details = []) {
+            return new DefaultUser($identity, $roles, $details);
+        };
     }
 }

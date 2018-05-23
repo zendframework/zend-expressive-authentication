@@ -1,7 +1,7 @@
 <?php
 /**
  * @see       https://github.com/zendframework/zend-expressive-authentication for the canonical source repository
- * @copyright Copyright (c) 2017 Zend Technologies USA Inc. (https://www.zend.com)
+ * @copyright Copyright (c) 2017-2018 Zend Technologies USA Inc. (https://www.zend.com)
  * @license   https://github.com/zendframework/zend-expressive-authentication/blob/master/LICENSE.md New BSD License
  */
 
@@ -19,12 +19,4 @@ interface UserRepositoryInterface
      * @param string $credential can be also a token
      */
     public function authenticate(string $credential, string $password = null) : ?UserInterface;
-
-    /**
-     * Get the user roles if present.
-     *
-     * @param string $identity
-     * @return string[]
-     */
-    public function getRolesFromUser(string $identity) : array;
 }

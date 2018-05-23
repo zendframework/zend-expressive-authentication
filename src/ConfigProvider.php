@@ -1,7 +1,7 @@
 <?php
 /**
  * @see       https://github.com/zendframework/zend-expressive-authentication for the canonical source repository
- * @copyright Copyright (c) 2017 Zend Technologies USA Inc. (https://www.zend.com)
+ * @copyright Copyright (c) 2017-2018 Zend Technologies USA Inc. (https://www.zend.com)
  * @license   https://github.com/zendframework/zend-expressive-authentication/blob/master/LICENSE.md New BSD License
  */
 
@@ -25,7 +25,8 @@ class ConfigProvider
     public function getAuthenticationConfig() : array
     {
         return [
-            /* Values will depend on user repository and/or adapter.
+            /*
+             * Values will depend on user repository and/or adapter.
              *
              * Example: using htpasswd UserRepositoryInterface implementation:
              *
@@ -40,7 +41,8 @@ class ConfigProvider
              *             'identity' => 'identity field name',
              *             'password' => 'password field name',
              *         ],
-             *         'sql_get_roles' => 'SQL to retrieve roles by :identity',
+             *         'sql_get_roles'   => 'SQL to retrieve user roles by :identity',
+             *         'sql_get_details' => 'SQL to retrieve user details by :identity',
              *     ],
              * ]
              */
@@ -62,8 +64,9 @@ class ConfigProvider
             'factories' => [
                 AuthenticationMiddleware::class => AuthenticationMiddlewareFactory::class,
                 UserRepository\Htpasswd::class => UserRepository\HtpasswdFactory::class,
-                UserRepository\PdoDatabase::class => UserRepository\PdoDatabaseFactory::class
-            ]
+                UserRepository\PdoDatabase::class => UserRepository\PdoDatabaseFactory::class,
+                UserInterface::class => DefaultUserFactory::class,
+            ],
         ];
     }
 }

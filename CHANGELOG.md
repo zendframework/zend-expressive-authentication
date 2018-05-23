@@ -2,6 +2,59 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 0.5.0 - 2018-05-23
+
+### Added
+
+- [#28](https://github.com/zendframework/zend-expressive-authentication/pull/28) adds the final class `DefaultUser`, which provides an immutable version of `UserInterface`
+  that can be used in most situations.
+
+- [#28](https://github.com/zendframework/zend-expressive-authentication/pull/28) adds the service factory `DefaultUserFactory`, which returns a PHP `callable`
+  capable of producing a `DefaultUser` instance from the provided `$identity`,
+  `$roles`, and `$details` arguments.
+
+### Changed
+
+- [#28](https://github.com/zendframework/zend-expressive-authentication/pull/28) updates the `PdoDatabase` user repository to accept an additional
+  configuration item, `sql_get_details`. This value should be a SQL statement
+  that may be used to retrieve additional user details to provide in the
+  `UserInterface` instance returned by the repository on successful
+  authentication.
+
+- [#28](https://github.com/zendframework/zend-expressive-authentication/pull/28) updates `UserRepositoryInterface` to remove the method `getRolesFromUser()`;
+  this method is not needed, as `UserInterface` already provides access to user roles.
+
+- [#28](https://github.com/zendframework/zend-expressive-authentication/pull/28) modifies each of the `Htpasswd` and `PdoDatabase` user repository
+  implementations to accept a new constructor argument, a callable
+  `$userFactory`. This factory should implement the following signature:
+  
+  ```php
+  function (string $identity, array $roles = [], array $details = []) : UserInterface
+  ```
+  
+  This factory will be called by the repository in order to produce a
+  `UserInterface` instance on successful authentication. You may provide the
+  factory via the service `Zend\Expressive\Authentication\UserInterface` if you
+  wish to use one other than the one returned by the provided
+  `DefaultUserFactory` class.
+
+- [#28](https://github.com/zendframework/zend-expressive-authentication/pull/28) modifies `UserInterface` as follows:
+  - Renames `getUserRoles()` to `getRoles()`
+  - Adds `getDetail(string $name, mixed $default)`
+  - Adds `getDetails() : array`
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- [#28](https://github.com/zendframework/zend-expressive-authentication/pull/28) removes `UserTrait` in favor of the `DefaultUser` implementation.
+
+### Fixed
+
+- Nothing.
+
 ## 0.4.0 - 2018-03-15
 
 ### Added

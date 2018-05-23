@@ -1,7 +1,7 @@
 <?php
 /**
  * @see       https://github.com/zendframework/zend-expressive-authentication for the canonical source repository
- * @copyright Copyright (c) 2017 Zend Technologies USA Inc. (https://www.zend.com)
+ * @copyright Copyright (c) 2017-2018 Zend Technologies USA Inc. (https://www.zend.com)
  * @license   https://github.com/zendframework/zend-expressive-authentication/blob/master/LICENSE.md New BSD License
  */
 
@@ -12,6 +12,7 @@ namespace ZendTest\Expressive\Authentication\UserRepository;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Zend\Expressive\Authentication\Exception\InvalidConfigException;
+use Zend\Expressive\Authentication\UserInterface;
 use Zend\Expressive\Authentication\UserRepository\PdoDatabase;
 use Zend\Expressive\Authentication\UserRepository\PdoDatabaseFactory;
 
@@ -20,6 +21,7 @@ class PdoDatabaseFactoryTest extends TestCase
     protected function setUp()
     {
         $this->container = $this->prophesize(ContainerInterface::class);
+        $this->user = $this->prophesize(UserInterface::class);
         $this->factory = new PdoDatabaseFactory();
     }
 
@@ -77,6 +79,11 @@ class PdoDatabaseFactoryTest extends TestCase
         $this->container->get('config')->willReturn([
             'authentication' => [ 'pdo' => $pdoConfig ]
         ]);
+        $this->container->get(UserInterface::class)->willReturn(
+            function () {
+                return $this->user->reveal();
+            }
+        );
         $pdoDatabase = ($this->factory)($this->container->reveal());
     }
 
@@ -94,6 +101,11 @@ class PdoDatabaseFactoryTest extends TestCase
                 ]
             ]
         ]);
+        $this->container->get(UserInterface::class)->willReturn(
+            function () {
+                return $this->user->reveal();
+            }
+        );
         $pdoDatabase = ($this->factory)($this->container->reveal());
         $this->assertInstanceOf(PdoDatabase::class, $pdoDatabase);
     }

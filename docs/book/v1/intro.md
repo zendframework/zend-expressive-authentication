@@ -22,18 +22,26 @@ namespace Zend\Expressive\Authentication;
 interface UserInterface
 {
     /**
-     * Get the unique user identity (id, username, email address or ...)
-     *
-     * @return string
+     * Get the unique user identity (id, username, email address, etc.).
      */
-    public function getIdentity(): string;
+    public function getIdentity() : string;
 
     /**
-     * Get all user roles
+     * Get all user roles.
      *
      * @return string[]
      */
-    public function getUserRoles() : array;
+    public function getRoles() : array;
+
+    /**
+     * Get the detail named $name if present; return $default otherwise.
+     */
+    public function getDetail(string $name, $default = null);
+
+    /**
+     * Get all additional user details, if any.
+     */
+    public function getDetails() : array;
 }
 ```
 
@@ -41,6 +49,48 @@ The `UserInterface` attribute in the PSR-7 request can be used for checking
 if a user has been authenticated or not, e.g. it can be used to verify the
 authorization level of a user (for this scope, it is consumed by
 [zend-expressive-authorization](https://github.com/zendframework/zend-expressive-authorization)).
+
+## Default User class
+
+We provide a default implementation of `UserInterface` via the class
+`Zend\Expressive\Authentication\DefaultUser`. The class is final and immutable,
+in order to prevent runtime changes.
+
+Repositories will fetch user information based on the identity, including any
+associated roles, and optionally any additional details (full name, email,
+profile information, etc.). Often, user data and the objects representing them
+are unique to the application. As such, the default repository implementations
+we provide allow you to inject a _factory_ for producing the user. This factory
+should be a PHP callable with the following signature:
+
+```php
+function (string $identity, array $roles = [], array $details = []) : UserInterface
+```
+
+In order to notify the package to use your custom factory, you will need to
+create a service factory that returns it, and map it to the
+`Zend\Expressive\Authentication\UserInterface` service.
+
+We provide a service factory named `Zend\Expressive\Authentication\DefaultUserFactory`
+that returns a user factory that produces a `DefaultUser` instance from the
+arguments provided. This is mapped as follows in the service configuration:
+
+```php
+use Zend\Expressive\Authentication\DefaultUserFactory;
+use Zend\Expressive\Authentication\UserInterface;
+
+return [
+    // ...
+    'dependencies' => [
+        'factories' => [
+            // ...
+            // Change the DefaultUserFactory::class with your custom service
+            // factory that produces a user factory:
+            UserInterface::class => DefaultUserFactory::class
+        ]
+    ]
+];
+```
 
 ## Usage in the route
 
@@ -75,26 +125,21 @@ Basic Access Authentication* adapter and the *htpasswd* file as the user
 repository.
 
 ```php
-// ConfigProvider.php
-
 use Zend\Expressive\Authentication\AuthenticationInterface;
+use Zend\Expressive\Authentication\Basic;
+use Zend\Expressive\Authentication\UserRepository;
 use Zend\Expressive\Authentication\UserRepositoryInterface;
 
-class ConfigProvider
-{
+return [
     // ...
-
-    public function getDependencies() : array
-    {
-        return [
-            'aliases' => [
-                AuthenticationInterface::class => Basic\BasicAccess::class,
-                UserRepositoryInterface::class => UserRepository\Htpasswd::class
-            ],
+    'dependencies' => [
+        // ...
+        'aliases' => [
             // ...
-        ];
-    }
+            AuthenticationInterface::class => Basic\BasicAccess::class,
+            UserRepositoryInterface::class => UserRepository\Htpasswd::class
+        ]
+    ]
+];
 
-    // ...
-}
 ```

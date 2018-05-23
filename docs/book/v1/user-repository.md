@@ -24,25 +24,12 @@ interface UserRepositoryInterface
      * @param string $credential can be also a token
      */
     public function authenticate(string $credential, string $password = null) : ?UserInterface;
-
-    /**
-     * Get the user roles if present.
-     *
-     * @param string $username
-     * @return string[]
-     */
-    public function getRolesFromUser(string $username) : array;
 }
 ```
 
-It contains two functions: `authenticate()` and `getRolesFromUser()`. The first
-is used to authenticate using the user's credential. If authenticated, the
-result will be a `UserInterface` instance, otherwise a null value is returned.
-
-The second function is `getRolesFromUser()` and it specifies how to retrieve
-the roles for a user. If a user does not have roles, this function will return
-an empty array.
-
+It contains only the `authenticate()` function, to authenticate the user's
+credential. If authenticated, the result will be a `UserInterface` instance;
+otherwise, a `null` value is returned.
 
 ## Configure the user repository
 
@@ -93,7 +80,8 @@ return [
                 'identity' => 'identity field name',
                 'password' => 'password field name',
             ],
-            'sql_get_roles' => 'SQL to retrieve roles with :identity parameter',
+            'sql_get_roles'   => 'SQL to retrieve roles with :identity parameter',
+            'sql_get_details' => 'SQL to retrieve user details by :identity',
         ],
     ],
 ];
@@ -120,4 +108,14 @@ typical query might look like the following:
 
 ```sql
 SELECT role FROM user WHERE username = :identity
+```
+
+The `sql_get_details` parameter is similar to `sql_get_roles`: it specifies the
+SQL query for retrieving the user's additional details, if any.
+
+For instance, if a user has an email field this can be returned as additional
+detail using the following query:
+
+```sql
+SELECT email FROM user WHERE username = :identity
 ```

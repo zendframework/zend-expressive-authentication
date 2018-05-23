@@ -1,7 +1,7 @@
 <?php
 /**
  * @see       https://github.com/zendframework/zend-expressive-authentication for the canonical source repository
- * @copyright Copyright (c) 2017 Zend Technologies USA Inc. (https://www.zend.com)
+ * @copyright Copyright (c) 2017-2018 Zend Technologies USA Inc. (https://www.zend.com)
  * @license   https://github.com/zendframework/zend-expressive-authentication/blob/master/LICENSE.md New BSD License
  */
 
@@ -20,17 +20,20 @@ use Zend\Expressive\Authentication\UserRepositoryInterface;
  */
 class Htpasswd implements UserRepositoryInterface
 {
-    use UserTrait;
-
     /**
      * @var string
      */
     private $filename;
 
     /**
+     * @var callable
+     */
+    private $userFactory;
+
+    /**
      * @throws Exception\InvalidConfigException
      */
-    public function __construct(string $filename)
+    public function __construct(string $filename, callable $userFactory)
     {
         if (! file_exists($filename)) {
             throw new Exception\InvalidConfigException(sprintf(
@@ -39,6 +42,15 @@ class Htpasswd implements UserRepositoryInterface
             ));
         }
         $this->filename = $filename;
+
+        // Provide type safety for the composed user factory.
+        $this->userFactory = function (
+            string $identity,
+            array $roles = [],
+            array $details = []
+        ) use ($userFactory) : UserInterface {
+            return $userFactory($identity, $roles, $details);
+        };
     }
 
     /**
@@ -61,18 +73,10 @@ class Htpasswd implements UserRepositoryInterface
         }
         fclose($handle);
 
-        return $found
-            && password_verify($password === null ? '' : $password, $hash)
-                ? $this->generateUser($credential)
-                : null;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getRolesFromUser(string $identity) : array
-    {
-        return [];
+        if ($found && password_verify($password ?? '', $hash)) {
+            return ($this->userFactory)($credential);
+        }
+        return null;
     }
 
     /**

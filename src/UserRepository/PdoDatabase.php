@@ -1,7 +1,7 @@
 <?php
 /**
  * @see       https://github.com/zendframework/zend-expressive-authentication for the canonical source repository
- * @copyright Copyright (c) 2017 Zend Technologies USA Inc. (https://www.zend.com)
+ * @copyright Copyright (c) 2017-2018 Zend Technologies USA Inc. (https://www.zend.com)
  * @license   https://github.com/zendframework/zend-expressive-authentication/blob/master/LICENSE.md New BSD License
  */
 
@@ -17,7 +17,8 @@ use Zend\Expressive\Authentication\UserRepositoryInterface;
 
 /**
  * Adapter for PDO database
- * It supports only bcrypt hash password for security reason
+ *
+ * It supports only bcrypt password hashing for security reasons.
  */
 class PdoDatabase implements UserRepositoryInterface
 {
@@ -43,7 +44,15 @@ class PdoDatabase implements UserRepositoryInterface
     ) {
         $this->pdo = $pdo;
         $this->config = $config;
-        $this->userFactory = $userFactory;
+
+        // Provide type safety for the composed user factory.
+        $this->userFactory = function (
+            string $identity,
+            array $roles = [],
+            array $details = []
+        ) use ($userFactory) : UserInterface {
+            return $userFactory($identity, $roles, $details);
+        };
     }
 
     /**
@@ -97,7 +106,7 @@ class PdoDatabase implements UserRepositoryInterface
 
         if (false === strpos($this->config['sql_get_roles'], ':identity')) {
             throw new Exception\InvalidConfigException(
-                'The sql_get_roles configuration setting must include a :identity parameter'
+                'The sql_get_roles configuration setting must include an :identity parameter'
             );
         }
 

@@ -9,12 +9,29 @@ declare(strict_types=1);
 
 namespace Zend\Expressive\Authentication;
 
+/**
+ * Default implementation of UserInterface.
+ *
+ * This implementation is modeled as immutable, to prevent propagation of
+ * user state changes.
+ *
+ * We recommend that any details injected are serializable.
+ */
 final class DefaultUser implements UserInterface
 {
+    /**
+     * @var string
+     */
     private $identity;
 
+    /**
+     * @var string[]
+     */
     private $roles;
 
+    /**
+     * @var array
+     */
     private $details;
 
     public function __construct(string $identity, array $roles = [], array $details = [])
@@ -39,6 +56,11 @@ final class DefaultUser implements UserInterface
         return $this->details;
     }
 
+    /**
+     * @param mixed $default Default value to return if no detail matching
+     *     $name is discovered.
+     * @return mixed
+     */
     public function getDetail(string $name, $default = null)
     {
         return $this->details[$name] ?? $default;

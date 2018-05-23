@@ -1,7 +1,7 @@
 <?php
 /**
  * @see       https://github.com/zendframework/zend-expressive-authentication for the canonical source repository
- * @copyright Copyright (c) 2017 Zend Technologies USA Inc. (https://www.zend.com)
+ * @copyright Copyright (c) 2017-2018 Zend Technologies USA Inc. (https://www.zend.com)
  * @license   https://github.com/zendframework/zend-expressive-authentication/blob/master/LICENSE.md New BSD License
  */
 
@@ -42,7 +42,15 @@ class Htpasswd implements UserRepositoryInterface
             ));
         }
         $this->filename = $filename;
-        $this->userFactory = $userFactory;
+
+        // Provide type safety for the composed user factory.
+        $this->userFactory = function (
+            string $identity,
+            array $roles = [],
+            array $details = []
+        ) use ($userFactory) : UserInterface {
+            return $userFactory($identity, $roles, $details);
+        };
     }
 
     /**

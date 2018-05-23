@@ -28,11 +28,34 @@ class DefaultUserFactoryTest extends TestCase
         $this->assertInstanceOf(DefaultUserFactory::class, $factory);
     }
 
-    public function testInvoke()
+    public function testInvokeWithIdentity()
     {
         $factory = new DefaultUserFactory();
         $userFactory = $factory($this->container->reveal());
         $defaultUser = $userFactory('foo');
         $this->assertInstanceOf(DefaultUser::class, $defaultUser);
+        $this->assertEquals('foo', $defaultUser->getIdentity());
+    }
+
+    public function testInvokeWithIdentityAndRoles()
+    {
+        $factory = new DefaultUserFactory();
+        $userFactory = $factory($this->container->reveal());
+        $defaultUser = $userFactory('foo', ['admin', 'user']);
+        $this->assertInstanceOf(DefaultUser::class, $defaultUser);
+        $this->assertEquals('foo', $defaultUser->getIdentity());
+        $this->assertEquals(['admin', 'user'], $defaultUser->getRoles());
+    }
+
+    public function testInvokeWithIdentityAndRolesAndDetails()
+    {
+        $factory = new DefaultUserFactory();
+        $userFactory = $factory($this->container->reveal());
+        $defaultUser = $userFactory('foo', ['admin', 'user'], ['email' => 'foo@test.com']);
+        $this->assertInstanceOf(DefaultUser::class, $defaultUser);
+        $this->assertEquals('foo', $defaultUser->getIdentity());
+        $this->assertEquals(['admin', 'user'], $defaultUser->getRoles());
+        $this->assertEquals(['email' => 'foo@test.com'], $defaultUser->getDetails());
+        $this->assertEquals('foo@test.com', $defaultUser->getDetail('email'));
     }
 }

@@ -84,9 +84,12 @@ class PdoDatabase implements UserRepositoryInterface
     }
 
     /**
-     * {@inheritDoc}
+     * Get the user roles if present.
+     *
+     * @param string $identity
+     * @return string[]
      */
-    public function getUserRoles(string $identity) : array
+    protected function getUserRoles(string $identity) : array
     {
         if (! isset($this->config['sql_get_roles'])) {
             return [];
@@ -124,7 +127,13 @@ class PdoDatabase implements UserRepositoryInterface
         return $roles;
     }
 
-    public function getUserDetails(string $identity) : array
+    /**
+     * Get the user details if present.
+     *
+     * @param string $identity
+     * @return string[]
+     */
+    protected function getUserDetails(string $identity) : array
     {
         if (! isset($this->config['sql_get_details'])) {
             return [];
@@ -154,11 +163,6 @@ class PdoDatabase implements UserRepositoryInterface
         if (! $stmt->execute()) {
             return [];
         }
-
-        $details = [];
-        foreach ($stmt->fetchAll(PDO::FETCH_NUM) as $detail) {
-            $details[] = $detail[0];
-        }
-        return $details;
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 }

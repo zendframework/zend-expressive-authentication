@@ -32,6 +32,16 @@ interface UserInterface
      * @return string[]
      */
     public function getRoles() : array;
+
+    /**
+     * Get a detail $name if present, $default otherwise
+     */
+    public function getDetail(string $name, $default = null);
+
+    /**
+     * Get all the details, if any
+     */
+    public function getDetails() : array;
 }
 ```
 

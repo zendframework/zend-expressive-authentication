@@ -72,22 +72,6 @@ class Htpasswd implements UserRepositoryInterface
     }
 
     /**
-     * {@inheritDoc}
-     */
-    public function getUserRoles(string $identity) : array
-    {
-        return [];
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getUserDetails(string $identity) : array
-    {
-        return [];
-    }
-
-    /**
      * Check bcrypt usage for security reason
      *
      * @throws Exception\RuntimeException

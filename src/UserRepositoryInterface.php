@@ -19,20 +19,4 @@ interface UserRepositoryInterface
      * @param string $credential can be also a token
      */
     public function authenticate(string $credential, string $password = null) : ?UserInterface;
-
-    /**
-     * Get the user roles if present.
-     *
-     * @param string $identity
-     * @return string[]
-     */
-    public function getUserRoles(string $identity) : array;
-
-    /**
-     * Get the user details if present.
-     *
-     * @param string $identity
-     * @return string[]
-     */
-    public function getUserDetails(string $identity) : array;
 }

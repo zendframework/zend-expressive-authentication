@@ -12,6 +12,7 @@ namespace ZendTest\Expressive\Authentication\UserRepository;
 use PDO;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Zend\Expressive\Authentication\DefaultUser;
 use Zend\Expressive\Authentication\Exception\InvalidConfigException;
 use Zend\Expressive\Authentication\Exception\RuntimeException;
 use Zend\Expressive\Authentication\UserInterface;
@@ -22,7 +23,9 @@ class PdoDatabaseTest extends TestCase
 {
     protected function setUp()
     {
-        $this->user = $this->prophesize(UserInterface::class);
+        $this->userFactory = function ($identity, $roles, $details) {
+            return new DefaultUser($identity, $roles, $details);
+        };
     }
 
     public function testConstructor()
@@ -30,9 +33,7 @@ class PdoDatabaseTest extends TestCase
         $pdoDatabase = new PdoDatabase(
             new PDO('sqlite::memory:'),
             [],
-            function () {
-                return $this->user->reveal();
-            }
+            $this->userFactory
         );
         $this->assertInstanceOf(UserRepositoryInterface::class, $pdoDatabase);
     }
@@ -51,14 +52,10 @@ class PdoDatabaseTest extends TestCase
     public function testAuthenticate()
     {
         $pdo = new PDO('sqlite:'. __DIR__ . '/../TestAssets/pdo.sqlite');
-        $this->user->getIdentity()->willReturn('test');
-
         $pdoDatabase = new PdoDatabase(
             $pdo,
             $this->getConfig(),
-            function () {
-                return $this->user->reveal();
-            }
+            $this->userFactory
         );
 
         $user = $pdoDatabase->authenticate('test', 'password');
@@ -75,9 +72,7 @@ class PdoDatabaseTest extends TestCase
         $pdoDatabase = new PdoDatabase(
             $pdo,
             $config,
-            function () {
-                return $this->user->reveal();
-            }
+            $this->userFactory
         );
         $this->expectException(RuntimeException::class);
         $user = $pdoDatabase->authenticate('test', 'password');
@@ -89,9 +84,7 @@ class PdoDatabaseTest extends TestCase
         $pdoDatabase = new PdoDatabase(
             $pdo,
             $this->getConfig(),
-            function () {
-                return $this->user->reveal();
-            }
+            $this->userFactory
         );
 
         $user = $pdoDatabase->authenticate('test', 'foo');
@@ -104,9 +97,7 @@ class PdoDatabaseTest extends TestCase
         $pdoDatabase = new PdoDatabase(
             $pdo,
             $this->getConfig(),
-            function () {
-                return $this->user->reveal();
-            }
+            $this->userFactory
         );
 
         $user = $pdoDatabase->authenticate('invalidusername', 'password');
@@ -119,20 +110,14 @@ class PdoDatabaseTest extends TestCase
         $config = $this->getConfig();
         $config['sql_get_roles'] = 'SELECT role FROM user WHERE username = :identity';
 
-        $this->user->getIdentity()->willReturn('test');
-        $this->user->getRoles()->willReturn(['admin']);
-
         $pdoDatabase = new PdoDatabase(
             $pdo,
             $config,
-            function () {
-                return $this->user->reveal();
-            }
+            $this->userFactory
         );
 
         $user = $pdoDatabase->authenticate('test', 'password');
         $this->assertInstanceOf(UserInterface::class, $user);
-        $this->assertEquals('test', $user->getIdentity());
         $this->assertEquals(['admin'], $user->getRoles());
     }
 
@@ -142,20 +127,52 @@ class PdoDatabaseTest extends TestCase
         $config = $this->getConfig();
         $config['sql_get_roles'] = 'SELECT role FROM user_role WHERE username = :identity';
 
-        $this->user->getIdentity()->willReturn('test');
-        $this->user->getRoles()->willReturn(['user', 'admin']);
 
         $pdoDatabase = new PdoDatabase(
             $pdo,
             $config,
-            function () {
-                return $this->user->reveal();
-            }
+            $this->userFactory
+        );
+        $user = $pdoDatabase->authenticate('test', 'password');
+        $this->assertInstanceOf(UserInterface::class, $user);
+        $this->assertEquals(['user', 'admin'], $user->getRoles());
+    }
+
+    public function testAuthenticateWithDetails()
+    {
+        $pdo = new PDO('sqlite:'. __DIR__ . '/../TestAssets/pdo_role.sqlite');
+        $config = $this->getConfig();
+        $config['sql_get_details'] = 'SELECT email FROM user WHERE username = :identity';
+
+        $pdoDatabase = new PdoDatabase(
+            $pdo,
+            $config,
+            $this->userFactory
         );
 
         $user = $pdoDatabase->authenticate('test', 'password');
         $this->assertInstanceOf(UserInterface::class, $user);
-        $this->assertEquals('test', $user->getIdentity());
+        $this->assertEquals(['email' => 'test@foo.com'], $user->getDetails());
+        $this->assertEquals('test@foo.com', $user->getDetail('email'));
+    }
+
+    public function testAuthenticateWithRolesAndDetails()
+    {
+        $pdo = new PDO('sqlite:'. __DIR__ . '/../TestAssets/pdo_roles.sqlite');
+        $config = $this->getConfig();
+        $config['sql_get_roles'] = 'SELECT role FROM user_role WHERE username = :identity';
+        $config['sql_get_details'] = 'SELECT email FROM user WHERE username = :identity';
+
+        $pdoDatabase = new PdoDatabase(
+            $pdo,
+            $config,
+            $this->userFactory
+        );
+
+        $user = $pdoDatabase->authenticate('test', 'password');
+        $this->assertInstanceOf(UserInterface::class, $user);
+        $this->assertEquals(['email' => 'test@foo.com'], $user->getDetails());
+        $this->assertEquals('test@foo.com', $user->getDetail('email'));
         $this->assertEquals(['user', 'admin'], $user->getRoles());
     }
 
@@ -168,16 +185,14 @@ class PdoDatabaseTest extends TestCase
         $pdoDatabase = new PdoDatabase(
             $pdo,
             $config,
-            function () {
-                return $this->user->reveal();
-            }
+            $this->userFactory
         );
 
         $this->expectException(RuntimeException::class);
         $user = $pdoDatabase->authenticate('test', 'password');
     }
 
-    public function testGetRolesFromUserWithEmptySql()
+    public function testAuthenticateWithEmptySql()
     {
         $pdo = new PDO('sqlite:'. __DIR__ . '/../TestAssets/pdo_roles.sqlite');
         $config = $this->getConfig();
@@ -185,15 +200,14 @@ class PdoDatabaseTest extends TestCase
         $pdoDatabase = new PdoDatabase(
             $pdo,
             $config,
-            function () {
-                return $this->user->reveal();
-            }
+            $this->userFactory
         );
-        $roles = $pdoDatabase->getUserRoles('foo');
-        $this->assertEmpty($roles);
+        $user = $pdoDatabase->authenticate('test', 'password');
+        $this->assertInstanceOf(UserInterface::class, $user);
+        $this->assertEquals('test', $user->getIdentity());
     }
 
-    public function testGetRolesFromUserWithNoIdentityParam()
+    public function testAuthenticateWithNoIdentityParam()
     {
         $pdo = new PDO('sqlite:'. __DIR__ . '/../TestAssets/pdo_roles.sqlite');
         $config = $this->getConfig();
@@ -202,12 +216,10 @@ class PdoDatabaseTest extends TestCase
         $pdoDatabase = new PdoDatabase(
             $pdo,
             $config,
-            function () {
-                return $this->user->reveal();
-            }
+            $this->userFactory
         );
 
         $this->expectException(InvalidConfigException::class);
-        $roles = $pdoDatabase->getUserRoles('foo');
+        $user = $pdoDatabase->authenticate('test', 'password');
     }
 }

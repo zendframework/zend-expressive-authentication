@@ -160,6 +160,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-9 col-xs-12 content" role="main">
+            <!-- content:begin -->
                 
                     <ol class="breadcrumb" role="navigation" aria-label="breadcrumbs navigation">
   <li><a href="https://framework.zend.com/">Home</a></li>
@@ -225,22 +226,11 @@ interface UserRepositoryInterface
      * @param string $credential can be also a token
      */
     public function authenticate(string $credential, string $password = null) : ?UserInterface;
-
-    /**
-     * Get the user roles if present.
-     *
-     * @param string $username
-     * @return string[]
-     */
-    public function getRolesFromUser(string $username) : array;
 }</code></pre>
 
-<p>It contains two functions: <code>authenticate()</code> and <code>getRolesFromUser()</code>. The first
-is used to authenticate using the user's credential. If authenticated, the
-result will be a <code>UserInterface</code> instance, otherwise a null value is returned.</p>
-<p>The second function is <code>getRolesFromUser()</code> and it specifies how to retrieve
-the roles for a user. If a user does not have roles, this function will return
-an empty array.</p>
+<p>It contains only the <code>authenticate()</code> function, to authenticate the user's
+credential. If authenticated, the result will be a <code>UserInterface</code> instance;
+otherwise, a <code>null</code> value is returned.</p>
 <h2 id="configure-the-user-repository">Configure the user repository</h2>
 <p>In order to use a user repository adapter, we need to configure it. For instance,
 to consume an <code>htpasswd</code> file, we need to configure the path to the file.
@@ -279,7 +269,8 @@ SQL statement for retrieiving user roles:</p>
                 'identity' =&gt; 'identity field name',
                 'password' =&gt; 'password field name',
             ],
-            'sql_get_roles' =&gt; 'SQL to retrieve roles with :identity parameter',
+            'sql_get_roles'   =&gt; 'SQL to retrieve roles with :identity parameter',
+            'sql_get_details' =&gt; 'SQL to retrieve user details by :identity',
         ],
     ],
 ];</code></pre>
@@ -298,6 +289,12 @@ for retrieving the user roles. The identity value must be specified using the
 placeholder <code>:identity</code>. For instance, if a role is stored in a user table, a
 typical query might look like the following:</p>
 <pre class="codehilite"><code class="language-sql">SELECT role FROM user WHERE username = :identity</code></pre>
+
+<p>The <code>sql_get_details</code> parameter is similar to <code>sql_get_roles</code>: it specifies the
+SQL query for retrieving the user's additional details, if any.</p>
+<p>For instance, if a user has an email field this can be returned as additional
+detail using the following query:</p>
+<pre class="codehilite"><code class="language-sql">SELECT email FROM user WHERE username = :identity</code></pre>
 
 
 
@@ -330,6 +327,7 @@ typical query might look like the following:</p>
     </p>
 </div>
                 
+            <!-- content:end -->
             </div>
             <div class="col-md-3 col-xs-12 sidebar">
                 

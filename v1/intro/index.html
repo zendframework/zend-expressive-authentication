@@ -160,6 +160,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-9 col-xs-12 content" role="main">
+            <!-- content:begin -->
                 
                     <ol class="breadcrumb" role="navigation" aria-label="breadcrumbs navigation">
   <li><a href="https://framework.zend.com/">Home</a></li>
@@ -180,6 +181,10 @@
         <div class="toc">
             <h6 class="toc__headline">In This Article</h6>
             <ul class="toc__list">
+                
+                    <li class="toc__entry">
+                        <a href="#default-user-class" class="toc__link">Default User class</a>
+                    </li>
                 
                     <li class="toc__entry">
                         <a href="#usage-in-the-route" class="toc__link">Usage in the route</a>
@@ -213,24 +218,65 @@ adapter provided.</p>
 interface UserInterface
 {
     /**
-     * Get the unique user identity (id, username, email address or ...)
-     *
-     * @return string
+     * Get the unique user identity (id, username, email address, etc.).
      */
-    public function getIdentity(): string;
+    public function getIdentity() : string;
 
     /**
-     * Get all user roles
+     * Get all user roles.
      *
      * @return string[]
      */
-    public function getUserRoles() : array;
+    public function getRoles() : array;
+
+    /**
+     * Get the detail named $name if present; return $default otherwise.
+     */
+    public function getDetail(string $name, $default = null);
+
+    /**
+     * Get all additional user details, if any.
+     */
+    public function getDetails() : array;
 }</code></pre>
 
 <p>The <code>UserInterface</code> attribute in the PSR-7 request can be used for checking
 if a user has been authenticated or not, e.g. it can be used to verify the
 authorization level of a user (for this scope, it is consumed by
 <a href="https://github.com/zendframework/zend-expressive-authorization">zend-expressive-authorization</a>).</p>
+<h2 id="default-user-class">Default User class</h2>
+<p>We provide a default implementation of <code>UserInterface</code> via the class
+<code>Zend\Expressive\Authentication\DefaultUser</code>. The class is final and immutable,
+in order to prevent runtime changes.</p>
+<p>Repositories will fetch user information based on the identity, including any
+associated roles, and optionally any additional details (full name, email,
+profile information, etc.). Often, user data and the objects representing them
+are unique to the application. As such, the default repository implementations
+we provide allow you to inject a <em>factory</em> for producing the user. This factory
+should be a PHP callable with the following signature:</p>
+<pre class="codehilite"><code class="language-php">function (string $identity, array $roles = [], array $details = []) : UserInterface</code></pre>
+
+<p>In order to notify the package to use your custom factory, you will need to
+create a service factory that returns it, and map it to the
+<code>Zend\Expressive\Authentication\UserInterface</code> service.</p>
+<p>We provide a service factory named <code>Zend\Expressive\Authentication\DefaultUserFactory</code>
+that returns a user factory that produces a <code>DefaultUser</code> instance from the
+arguments provided. This is mapped as follows in the service configuration:</p>
+<pre class="codehilite"><code class="language-php">use Zend\Expressive\Authentication\DefaultUserFactory;
+use Zend\Expressive\Authentication\UserInterface;
+
+return [
+    // ...
+    'dependencies' =&gt; [
+        'factories' =&gt; [
+            // ...
+            // Change the DefaultUserFactory::class with your custom service
+            // factory that produces a user factory:
+            UserInterface::class =&gt; DefaultUserFactory::class
+        ]
+    ]
+];</code></pre>
+
 <h2 id="usage-in-the-route">Usage in the route</h2>
 <p>The <code>AuthenticationMiddleware</code> can be used to authenticate a route. You just
 need to add the class name of the middleware in the pipeline of a route.
@@ -254,28 +300,23 @@ using the service name <code>Zend\Expressive\Authentication\UserRepositoryInterf
 services using <code>aliases</code>. Below is an example of configuration using the <em>HTTP
 Basic Access Authentication</em> adapter and the <em>htpasswd</em> file as the user
 repository.</p>
-<pre class="codehilite"><code class="language-php">// ConfigProvider.php
-
-use Zend\Expressive\Authentication\AuthenticationInterface;
+<pre class="codehilite"><code class="language-php">use Zend\Expressive\Authentication\AuthenticationInterface;
+use Zend\Expressive\Authentication\Basic;
+use Zend\Expressive\Authentication\UserRepository;
 use Zend\Expressive\Authentication\UserRepositoryInterface;
 
-class ConfigProvider
-{
+return [
     // ...
-
-    public function getDependencies() : array
-    {
-        return [
-            'aliases' =&gt; [
-                AuthenticationInterface::class =&gt; Basic\BasicAccess::class,
-                UserRepositoryInterface::class =&gt; UserRepository\Htpasswd::class
-            ],
+    'dependencies' =&gt; [
+        // ...
+        'aliases' =&gt; [
             // ...
-        ];
-    }
-
-    // ...
-}</code></pre>
+            AuthenticationInterface::class =&gt; Basic\BasicAccess::class,
+            UserRepositoryInterface::class =&gt; UserRepository\Htpasswd::class
+        ]
+    ]
+];
+</code></pre>
 
 
 
@@ -312,6 +353,7 @@ class ConfigProvider
     </p>
 </div>
                 
+            <!-- content:end -->
             </div>
             <div class="col-md-3 col-xs-12 sidebar">
                 

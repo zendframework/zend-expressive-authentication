@@ -28,8 +28,8 @@ interface UserRepositoryInterface
 ```
 
 It contains only the `authenticate()` function, to authenticate the user's
-credential. If authenticated, the result will be a `UserInterface` instance,
-otherwise a `null` value is returned.
+credential. If authenticated, the result will be a `UserInterface` instance;
+otherwise, a `null` value is returned.
 
 ## Configure the user repository
 
@@ -81,7 +81,7 @@ return [
                 'password' => 'password field name',
             ],
             'sql_get_roles'   => 'SQL to retrieve roles with :identity parameter',
-            'sql_get_details' => 'SQL to retrieve user details by :identity'
+            'sql_get_details' => 'SQL to retrieve user details by :identity',
         ],
     ],
 ];
@@ -110,10 +110,11 @@ typical query might look like the following:
 SELECT role FROM user WHERE username = :identity
 ```
 
-The `sql_get_details` parameter is similar to `sql_get_roles`, it specified the
+The `sql_get_details` parameter is similar to `sql_get_roles`: it specifies the
 SQL query for retrieving the user's additional details, if any.
+
 For instance, if a user has an email field this can be returned as additional
-detail using the query as follows:
+detail using the following query:
 
 ```sql
 SELECT email FROM user WHERE username = :identity

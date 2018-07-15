@@ -10,7 +10,6 @@ declare(strict_types=1);
 namespace ZendTest\Expressive\Authentication\UserRepository;
 
 use PHPUnit\Framework\TestCase;
-use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
 use Zend\Expressive\Authentication\UserInterface;
 use Zend\Expressive\Authentication\UserRepositoryInterface;

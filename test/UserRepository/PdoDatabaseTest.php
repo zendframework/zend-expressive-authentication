@@ -11,7 +11,6 @@ namespace ZendTest\Expressive\Authentication\UserRepository;
 
 use PDO;
 use PHPUnit\Framework\TestCase;
-use Prophecy\Argument;
 use Zend\Expressive\Authentication\DefaultUser;
 use Zend\Expressive\Authentication\Exception\InvalidConfigException;
 use Zend\Expressive\Authentication\Exception\RuntimeException;

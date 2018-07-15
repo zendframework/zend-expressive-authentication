@@ -11,6 +11,7 @@ namespace ZendTest\Expressive\Authentication\UserRepository;
 
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\Prophecy\ObjectProphecy;
 use Zend\Expressive\Authentication\UserInterface;
 use Zend\Expressive\Authentication\UserRepositoryInterface;
 use Zend\Expressive\Authentication\UserRepository\Htpasswd;
@@ -19,13 +20,18 @@ class HtpasswdTest extends TestCase
 {
     const EXAMPLE_IDENTITY = 'test';
 
+    /**
+     * @var ObjectProphecy|UserInterface
+     */
+    private $user;
+
     protected function setUp()
     {
         $this->user = $this->prophesize(UserInterface::class);
         $this->user->getIdentity()->willReturn(self::EXAMPLE_IDENTITY);
     }
     /**
-     * @expectedException Zend\Expressive\Authentication\Exception\InvalidConfigException
+     * @expectedException \Zend\Expressive\Authentication\Exception\InvalidConfigException
      */
     public function testConstructorWithNoFile()
     {
@@ -85,7 +91,7 @@ class HtpasswdTest extends TestCase
     }
 
     /**
-     * @expectedException Zend\Expressive\Authentication\Exception\RuntimeException
+     * @expectedException \Zend\Expressive\Authentication\Exception\RuntimeException
      */
     public function testAuthenticateWithInsecureHash()
     {

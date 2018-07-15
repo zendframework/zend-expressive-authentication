@@ -21,6 +21,11 @@ use Zend\Expressive\Authentication\UserRepository\PdoDatabase;
 
 class PdoDatabaseTest extends TestCase
 {
+    /**
+     * @var callable
+     */
+    private $userFactory;
+
     protected function setUp()
     {
         $this->userFactory = function ($identity, $roles, $details) {

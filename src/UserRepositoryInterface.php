@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace Zend\Expressive\Authentication;
 
+use Psr\Http\Message\ServerRequestInterface;
+
 interface UserRepositoryInterface
 {
     /**
@@ -18,5 +20,9 @@ interface UserRepositoryInterface
      *
      * @param string $credential can be also a token
      */
-    public function authenticate(string $credential, string $password = null) : ?UserInterface;
+    public function authenticate(
+        string $credential,
+        string $password = null,
+        ServerRequestInterface $request = null
+    ) : ?UserInterface;
 }

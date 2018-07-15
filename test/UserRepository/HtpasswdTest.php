@@ -11,6 +11,7 @@ namespace ZendTest\Expressive\Authentication\UserRepository;
 
 use PHPUnit\Framework\TestCase;
 use Prophecy\Prophecy\ObjectProphecy;
+use Psr\Http\Message\ServerRequestInterface;
 use Zend\Expressive\Authentication\UserInterface;
 use Zend\Expressive\Authentication\UserRepositoryInterface;
 use Zend\Expressive\Authentication\UserRepository\Htpasswd;
@@ -24,10 +25,16 @@ class HtpasswdTest extends TestCase
      */
     private $user;
 
+    /**
+     * @var ObjectProphecy|ServerRequestInterface
+     */
+    private $request;
+
     protected function setUp()
     {
         $this->user = $this->prophesize(UserInterface::class);
         $this->user->getIdentity()->willReturn(self::EXAMPLE_IDENTITY);
+        $this->request = $this->prophesize(ServerRequestInterface::class);
     }
     /**
      * @expectedException \Zend\Expressive\Authentication\Exception\InvalidConfigException
@@ -62,7 +69,7 @@ class HtpasswdTest extends TestCase
             }
         );
 
-        $user = $htpasswd->authenticate(self::EXAMPLE_IDENTITY, 'password');
+        $user = $htpasswd->authenticate(self::EXAMPLE_IDENTITY, 'password', $this->request->reveal());
         $this->assertInstanceOf(UserInterface::class, $user);
         $this->assertEquals(self::EXAMPLE_IDENTITY, $user->getIdentity());
     }

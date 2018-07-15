@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace Zend\Expressive\Authentication\UserRepository;
 
+use Psr\Http\Message\ServerRequestInterface;
 use Zend\Expressive\Authentication\Exception;
 use Zend\Expressive\Authentication\UserInterface;
 use Zend\Expressive\Authentication\UserRepositoryInterface;
@@ -56,8 +57,11 @@ class Htpasswd implements UserRepositoryInterface
     /**
      * {@inheritDoc}
      */
-    public function authenticate(string $credential, string $password = null) : ?UserInterface
-    {
+    public function authenticate(
+        string $credential,
+        string $password = null,
+        ServerRequestInterface $request = null
+    ) : ?UserInterface {
         if (! $handle = fopen($this->filename, 'r')) {
             return null;
         }

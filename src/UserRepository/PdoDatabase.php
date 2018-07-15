@@ -11,6 +11,7 @@ namespace Zend\Expressive\Authentication\UserRepository;
 
 use PDO;
 use PDOException;
+use Psr\Http\Message\ServerRequestInterface;
 use Zend\Expressive\Authentication\Exception;
 use Zend\Expressive\Authentication\UserInterface;
 use Zend\Expressive\Authentication\UserRepositoryInterface;
@@ -58,8 +59,11 @@ class PdoDatabase implements UserRepositoryInterface
     /**
      * {@inheritDoc}
      */
-    public function authenticate(string $credential, string $password = null) : ?UserInterface
-    {
+    public function authenticate(
+        string $credential,
+        string $password = null,
+        ServerRequestInterface $request = null
+    ) : ?UserInterface {
         $sql = sprintf(
             "SELECT %s FROM %s WHERE %s = :identity",
             $this->config['field']['password'],

@@ -23,13 +23,14 @@ interface UserRepositoryInterface
      *
      * @param string $credential can be also a token
      */
-    public function authenticate(string $credential, string $password = null) : ?UserInterface;
+    public function authenticate(string $credential, string $password = null, ServerRequestInterface $request = null) : ?UserInterface;
 }
 ```
 
 It contains only the `authenticate()` function, to authenticate the user's
 credential. If authenticated, the result will be a `UserInterface` instance;
 otherwise, a `null` value is returned.
+It also provides access to an optional PSR-7 compliant `$request` instance, should you need to persist request-related authentication information.
 
 ## Configure the user repository
 

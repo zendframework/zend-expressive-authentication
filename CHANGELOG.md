@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 1.0.0 - TBD
+
+### Added
+
+- Nothing.
+
+### Changed
+
+- [#27](https://github.com/zendframework/zend-expressive-authentication/pull/27) `Zend\Expressive\Authentication\UserInterface::getRoles()` returns an [iterable](http://php.net/manual/en/language.types.iterable.php) instead of array.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- Nothing.
+
 ## 0.5.0 - 2018-05-23
 
 ### Added
@@ -27,11 +49,11 @@ All notable changes to this project will be documented in this file, in reverse 
 - [#28](https://github.com/zendframework/zend-expressive-authentication/pull/28) modifies each of the `Htpasswd` and `PdoDatabase` user repository
   implementations to accept a new constructor argument, a callable
   `$userFactory`. This factory should implement the following signature:
-  
+
   ```php
   function (string $identity, array $roles = [], array $details = []) : UserInterface
   ```
-  
+
   This factory will be called by the repository in order to produce a
   `UserInterface` instance on successful authentication. You may provide the
   factory via the service `Zend\Expressive\Authentication\UserInterface` if you

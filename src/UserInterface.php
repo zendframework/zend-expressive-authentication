@@ -19,9 +19,9 @@ interface UserInterface
     /**
      * Get all user roles
      *
-     * @return string[]
+     * @return Iterable
      */
-    public function getRoles() : array;
+    public function getRoles() : iterable;
 
     /**
      * Get a detail $name if present, $default otherwise

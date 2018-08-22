@@ -52,11 +52,12 @@ for more information on config providers.
 ## htpasswd configuration
 
 When using the htpasswd user repository implementation, you need only configure
-the path to the `htpasswd` file:
+the path to the `htpasswd` file and a `realm`. The `htpasswd` file must use bcrypt hash algorithm:
 
 ```php
 return [
     'authentication' => [
+        'realm' => 'insert realm value',
         'htpasswd' => 'insert the path to htpasswd file',
     ],
 ];

@@ -11,7 +11,8 @@ namespace ZendTest\Expressive\Authentication\UserRepository;
 
 use PDO;
 use PHPUnit\Framework\TestCase;
-use Prophecy\Argument;
+use Prophecy\Prophecy\ObjectProphecy;
+use Psr\Http\Message\ServerRequestInterface;
 use Zend\Expressive\Authentication\DefaultUser;
 use Zend\Expressive\Authentication\Exception\InvalidConfigException;
 use Zend\Expressive\Authentication\Exception\RuntimeException;
@@ -21,11 +22,22 @@ use Zend\Expressive\Authentication\UserRepository\PdoDatabase;
 
 class PdoDatabaseTest extends TestCase
 {
+    /**
+     * @var callable
+     */
+    private $userFactory;
+
+    /**
+     * @var ObjectProphecy|ServerRequestInterface
+     */
+    private $request;
+
     protected function setUp()
     {
         $this->userFactory = function ($identity, $roles, $details) {
             return new DefaultUser($identity, $roles, $details);
         };
+        $this->request = $this->prophesize(ServerRequestInterface::class);
     }
 
     public function testConstructor()
@@ -58,7 +70,7 @@ class PdoDatabaseTest extends TestCase
             $this->userFactory
         );
 
-        $user = $pdoDatabase->authenticate('test', 'password');
+        $user = $pdoDatabase->authenticate('test', 'password', $this->request->reveal());
         $this->assertInstanceOf(UserInterface::class, $user);
         $this->assertEquals('test', $user->getIdentity());
     }

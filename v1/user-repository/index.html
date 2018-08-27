@@ -11,7 +11,7 @@
 
     <title>User repository - zend-expressive-authentication</title>
 
-    <link rel="stylesheet" href="../../css/styles-f773ae3616.css">
+    <link rel="stylesheet" href="../../css/styles-3eb6fab3fb.css">
 </head>
 <body id="page-top">
 
@@ -249,9 +249,10 @@ class. <a href="https://framework.zend.com/blog/2017-04-20-config-aggregator.htm
 for more information on config providers.</p>
 <h2 id="htpasswd-configuration">htpasswd configuration</h2>
 <p>When using the htpasswd user repository implementation, you need only configure
-the path to the <code>htpasswd</code> file:</p>
+the path to the <code>htpasswd</code> file and a <code>realm</code>. The <code>htpasswd</code> file must use bcrypt hash algorithm:</p>
 <pre class="codehilite"><code class="language-php">return [
     'authentication' =&gt; [
+        'realm' =&gt; 'insert realm value',
         'htpasswd' =&gt; 'insert the path to htpasswd file',
     ],
 ];</code></pre>
@@ -320,14 +321,16 @@ detail using the following query:</p>
 </nav>
 
 
-<div class="help-wanted">
-    <p>
-        Found a mistake or want to contribute to the documentation?
-        <a href="https://github.com/zendframework/zend-expressive-authentication/edit/master/docs/book/v1/user-repository.md" target="_blank" class="help-wanted__link">
-            Edit this page on GitHub!
-        </a>
-    </p>
-</div>
+
+    <div class="help-wanted">
+        <p>
+            Found a mistake or want to contribute to the documentation?
+            <a href="https://github.com/zendframework/zend-expressive-authentication/edit/master/docs/book/v1/user-repository.md" target="_blank" class="help-wanted__link">
+                Edit this page on GitHub!
+            </a>
+        </p>
+    </div>
+
                 
             <!-- content:end -->
             </div>
@@ -439,6 +442,15 @@ detail using the following query:</p>
                     <li class="support__list-item">
                         <a href="https://twitter.com/zfdevteam" class="support__link" title="Twitter"><i class="fa fa-twitter"></i></a>
                     </li>
+                    <li class="support__list-item">
+                        <a href="https://tinyletter.com/mwopzend" class="support__link" title="Newsletter"><i class="fa fa-envelope"></i></a>
+                    </li>
+                    <li class="support__list-item">
+                        <a href="https://framework.zend.com/blog/feed-rss.xml" class="support__link" title="Blog feed"><i class="fa fa-rss"></i></a>
+                    </li>
+                    <li class="support__list-item">
+                        <a href="https://framework.zend.com/security/feed" class="support__link" title="Security feed"><i class="fa fa-rss-square"></i></a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -449,7 +461,7 @@ detail using the following query:</p>
         var base_url = '../..',
             siteName = 'zend-expressive-authentication';
     </script>
-    <script src="../../js/scripts-5141b2abfe.js"></script>
+    <script src="../../js/scripts-a978f1ec1a.js"></script>
         <script src="../../search/require.js"></script>
         <script src="../../search/search.js"></script>
 

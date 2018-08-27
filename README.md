@@ -7,13 +7,6 @@ zend-expressive-authentication provides middleware for [Expressive](https://docs
 and [PSR-7](http://www.php-fig.org/psr/psr-7/) applications for the purpose of
 authenticating HTTP requests using consumer- or third-party-provided adapters.
 
-## WORK IN PROGRESS
-
-This repository contains a **work in progress** project for building an
-authentication module for *Expressive* and *PSR-7* applications.
-
-**Please, do not use this code in a production environment!**
-
 ## Installation
 
 You can install the *zend-expressive-authentication* library with composer:

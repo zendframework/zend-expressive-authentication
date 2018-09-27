@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace ZendTest\Expressive\Authentication\UserRepository;
 
 use PDO;
+use PDOStatement;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Zend\Expressive\Authentication\DefaultUser;
@@ -221,5 +222,25 @@ class PdoDatabaseTest extends TestCase
 
         $this->expectException(InvalidConfigException::class);
         $user = $pdoDatabase->authenticate('test', 'password');
+    }
+
+    public function testHandlesNullPassword()
+    {
+        $stmt = $this->prophesize(PDOStatement::class);
+        $stmt->bindParam(Argument::any(), Argument::any())->willReturn();
+        $stmt->execute(Argument::any())->willReturn();
+        $stmt->fetchObject()->willReturn((object)['password' => null]);
+
+        $pdo = $this->prophesize(PDO::class);
+        $pdo->prepare(Argument::any())->willReturn($stmt->reveal());
+
+        $pdoDatabase = new PdoDatabase(
+            $pdo->reveal(),
+            $this->getConfig(),
+            $this->userFactory
+        );
+
+        $user = $pdoDatabase->authenticate('null', null);
+        $this->assertNull($user);
     }
 }

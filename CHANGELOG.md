@@ -22,7 +22,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- Nothing.
+- [#37](https://github.com/zendframework/zend-expressive-authentication/pull/37) handles null values when verifying password in `PdoDatabase`
 
 ## 1.0.0 - 2018-08-27
 

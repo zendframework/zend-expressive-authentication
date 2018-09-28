@@ -82,7 +82,7 @@ class PdoDatabase implements UserRepositoryInterface
             return null;
         }
 
-        if (password_verify($password, $result->{$this->config['field']['password']})) {
+        if (password_verify($password ?? '', $result->{$this->config['field']['password']} ?? '')) {
             return ($this->userFactory)(
                 $credential,
                 $this->getUserRoles($credential),

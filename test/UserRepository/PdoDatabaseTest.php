@@ -224,12 +224,23 @@ class PdoDatabaseTest extends TestCase
         $user = $pdoDatabase->authenticate('test', 'password');
     }
 
-    public function testHandlesNullPassword()
+    public function getVoidPasswords()
+    {
+        return [
+            [ null ],
+            [ '' ]
+        ];
+    }
+
+    /**
+     * @dataProvider getVoidPasswords
+     */
+    public function testHandlesNullOrEmptyPassword($password)
     {
         $stmt = $this->prophesize(PDOStatement::class);
         $stmt->bindParam(Argument::any(), Argument::any())->willReturn();
         $stmt->execute(Argument::any())->willReturn();
-        $stmt->fetchObject()->willReturn((object)['password' => null]);
+        $stmt->fetchObject()->willReturn((object)['password' => $password]);
 
         $pdo = $this->prophesize(PDO::class);
         $pdo->prepare(Argument::any())->willReturn($stmt->reveal());
@@ -240,7 +251,7 @@ class PdoDatabaseTest extends TestCase
             $this->userFactory
         );
 
-        $user = $pdoDatabase->authenticate('null', null);
+        $user = $pdoDatabase->authenticate('null', $password);
         $this->assertNull($user);
     }
 }

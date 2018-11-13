@@ -16,6 +16,7 @@ use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Zend\Expressive\Authentication\AuthenticationInterface;
 use Zend\Expressive\Authentication\AuthenticationMiddleware;
+use Zend\Expressive\Authentication\IdentityInterface;
 use Zend\Expressive\Authentication\UserInterface;
 
 class AuthenticationMiddlewareTest extends TestCase
@@ -27,7 +28,8 @@ class AuthenticationMiddlewareTest extends TestCase
     {
         $this->authentication = $this->prophesize(AuthenticationInterface::class);
         $this->request = $this->prophesize(ServerRequestInterface::class);
-        $this->authenticatedUser = $this->prophesize(UserInterface::class);
+        $this->user = $this->prophesize(UserInterface::class);
+        $this->identity = $this->prophesize(IdentityInterface::class);
         $this->handler = $this->prophesize(RequestHandlerInterface::class);
     }
 
@@ -59,10 +61,29 @@ class AuthenticationMiddlewareTest extends TestCase
     {
         $response = $this->prophesize(ResponseInterface::class);
 
-        $this->request->withAttribute(UserInterface::class, $this->authenticatedUser->reveal())
+        $this->request->withAttribute(UserInterface::class, $this->user->reveal())
                       ->willReturn($this->request->reveal());
         $this->authentication->authenticate($this->request->reveal())
-                             ->willReturn($this->authenticatedUser->reveal());
+                             ->willReturn($this->user->reveal());
+        $this->handler->handle($this->request->reveal())
+                      ->willReturn($response->reveal());
+
+        $middleware = new AuthenticationMiddleware($this->authentication->reveal());
+        $result = $middleware->process($this->request->reveal(), $this->handler->reveal());
+
+        $this->assertInstanceOf(ResponseInterface::class, $result);
+        $this->assertEquals($response->reveal(), $result);
+        $this->handler->handle($this->request->reveal())->shouldBeCalled();
+    }
+
+    public function testProcessWithAuthenticatedIdentity()
+    {
+        $response = $this->prophesize(ResponseInterface::class);
+
+        $this->request->withAttribute(IdentityInterface::class, $this->identity->reveal())
+                      ->willReturn($this->request->reveal());
+        $this->authentication->authenticate($this->request->reveal())
+                             ->willReturn($this->identity->reveal());
         $this->handler->handle($this->request->reveal())
                       ->willReturn($response->reveal());
 

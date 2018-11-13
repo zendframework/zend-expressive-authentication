@@ -15,10 +15,10 @@ use Psr\Http\Message\ResponseInterface;
 interface AuthenticationInterface
 {
     /**
-     * Authenticate the PSR-7 request and return a valid user
+     * Authenticate the PSR-7 request and return a valid identity
      * or null if not authenticated
      */
-    public function authenticate(ServerRequestInterface $request) : ?UserInterface;
+    public function authenticate(ServerRequestInterface $request) : ?IdentityInterface;
 
     /**
      * Generate the unauthorized response

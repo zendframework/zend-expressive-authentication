@@ -9,22 +9,10 @@ declare(strict_types=1);
 
 namespace Zend\Expressive\Authentication;
 
-interface UserInterface extends IdentityInterface
+interface IdentityInterface
 {
     /**
-     * Get all user roles
-     *
-     * @return Iterable
+     * Get the unique identity
      */
-    public function getRoles() : iterable;
-
-    /**
-     * Get a detail $name if present, $default otherwise
-     */
-    public function getDetail(string $name, $default = null);
-
-    /**
-     * Get all the details, if any
-     */
-    public function getDetails() : array;
+    public function getIdentity() : string;
 }

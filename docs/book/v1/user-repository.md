@@ -124,7 +124,7 @@ SELECT email FROM user WHERE username = :identity
 ### PDO service name
 
 As an alternative, you can provide a service name instead of PDO connection
-parameters. In such a case, the `dsn`,  parameter can be omitted:
+parameters. In such a case, the `dsn` parameter can be omitted:
 
 ```php
 return [
@@ -143,6 +143,6 @@ return [
 ];
 ```
 
-The required parameters in such a case are `service`, `table`, and `field`.
+The required parameters are `service`, `table`, and `field`.
 
 The `service` parameter must be a service name that resolves to a PDO instance.

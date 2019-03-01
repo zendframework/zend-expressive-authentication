@@ -41,6 +41,7 @@ class PdoDatabaseFactoryTest extends TestCase
         $this->container->get('config')->willReturn([]);
 
         $this->expectException(InvalidConfigException::class);
+        $this->expectExceptionMessage('PDO values are missing in authentication config');
         $pdoDatabase = ($this->factory)($this->container->reveal());
     }
 

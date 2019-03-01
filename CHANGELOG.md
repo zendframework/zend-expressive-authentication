@@ -22,7 +22,8 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- [#40](https://github.com/zendframework/zend-expressive-authentication/issues/40) typo in \Zend\Expressive\Authentication\UserRepositoryPdoDatabaseFactory
+- [#40](https://github.com/zendframework/zend-expressive-authentication/pull/45) Corrected wrong configuration parameter name
+   in \Zend\Expressive\Authentication\UserRepositoryPdoDatabaseFactory: `authentication` instead of `user_register`.
 
 ## 1.0.1 - TBD
 

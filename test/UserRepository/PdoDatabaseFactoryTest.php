@@ -53,6 +53,9 @@ class PdoDatabaseFactoryTest extends TestCase
             [[]],
             [[
                 'service' => PDO::class,
+            ]],
+            [[
+                'service' => PDO::class,
                 'table'   => 'test'
             ]],
             [[
@@ -112,7 +115,7 @@ class PdoDatabaseFactoryTest extends TestCase
     {
         return [
             [[
-                'service' => \PDO::class,
+                'service' => PDO::class,
                 'table'   => 'user',
                 'field'   => [
                     'identity' => 'username',

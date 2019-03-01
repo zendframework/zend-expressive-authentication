@@ -27,11 +27,7 @@ class PdoDatabaseFactory
                 'PDO values are missing in authentication config'
             );
         }
-        if (! isset($pdo['dsn'])) {
-            throw new Exception\InvalidConfigException(
-                'The PDO DSN value is missing in the configuration'
-            );
-        }
+
         if (! isset($pdo['table'])) {
             throw new Exception\InvalidConfigException(
                 'The PDO table name is missing in the configuration'
@@ -47,6 +43,21 @@ class PdoDatabaseFactory
                 'The PDO password field is missing in the configuration'
             );
         }
+
+        if (isset($pdo['service']) && $container->has($pdo['service'])) {
+            return new PdoDatabase(
+                $container->get($pdo['service']),
+                $pdo,
+                $container->get(UserInterface::class)
+            );
+        }
+
+        if (! isset($pdo['dsn'])) {
+            throw new Exception\InvalidConfigException(
+                'The PDO DSN value is missing in the configuration'
+            );
+        }
+
         return new PdoDatabase(
             new PDO(
                 $pdo['dsn'],

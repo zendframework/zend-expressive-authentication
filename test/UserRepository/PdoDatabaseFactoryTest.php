@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace ZendTest\Expressive\Authentication\UserRepository;
 
+use PDO;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Zend\Expressive\Authentication\Exception\InvalidConfigException;
@@ -22,6 +23,7 @@ class PdoDatabaseFactoryTest extends TestCase
     {
         $this->container = $this->prophesize(ContainerInterface::class);
         $this->user = $this->prophesize(UserInterface::class);
+        $this->pdo = $this->prophesize(PDO::class);
         $this->factory = new PdoDatabaseFactory();
     }
 
@@ -45,24 +47,40 @@ class PdoDatabaseFactoryTest extends TestCase
         $pdoDatabase = ($this->factory)($this->container->reveal());
     }
 
-    public function getPdoConfig()
+    public function getPdoInvalidConfig()
     {
         return [
             [[]],
             [[
+                'service' => PDO::class,
+                'table'   => 'test'
+            ]],
+            [[
+                'service' => PDO::class,
+                'table'   => 'test',
+                'field'   => []
+            ]],
+            [[
+                'service' => PDO::class,
+                'table'   => 'test',
+                'field'   => [
+                    'identity' => 'email',
+                ]
+            ]],
+            [[
                 'dsn' => 'mysql:dbname=testdb;host=127.0.0.1'
             ]],
             [[
-                'dsn' => 'mysql:dbname=testdb;host=127.0.0.1',
+                'dsn'   => 'mysql:dbname=testdb;host=127.0.0.1',
                 'table' => 'test'
             ]],
             [[
-                'dsn' => 'mysql:dbname=testdb;host=127.0.0.1',
+                'dsn'   => 'mysql:dbname=testdb;host=127.0.0.1',
                 'table' => 'test',
                 'field' => []
             ]],
             [[
-                'dsn' => 'mysql:dbname=testdb;host=127.0.0.1',
+                'dsn'   => 'mysql:dbname=testdb;host=127.0.0.1',
                 'table' => 'test',
                 'field' => [
                     'identity' => 'email'
@@ -72,14 +90,16 @@ class PdoDatabaseFactoryTest extends TestCase
     }
 
     /**
-     * @dataProvider getPdoConfig
+     * @dataProvider getPdoInvalidConfig
      * @expectedException Zend\Expressive\Authentication\Exception\InvalidConfigException
      */
     public function testInvokeWithInvalidConfig($pdoConfig)
     {
         $this->container->get('config')->willReturn([
-            'authentication' => [ 'pdo' => $pdoConfig ]
+            'authentication' => ['pdo' => $pdoConfig]
         ]);
+        $this->container->has(PDO::class)->willReturn(true);
+        $this->container->get(PDO::class)->willReturn($this->pdo->reveal());
         $this->container->get(UserInterface::class)->willReturn(
             function () {
                 return $this->user->reveal();
@@ -88,20 +108,38 @@ class PdoDatabaseFactoryTest extends TestCase
         $pdoDatabase = ($this->factory)($this->container->reveal());
     }
 
-    public function testInvokeWithValidConfig()
+    public function getPdoValidConfig()
+    {
+        return [
+            [[
+                'service' => \PDO::class,
+                'table'   => 'user',
+                'field'   => [
+                    'identity' => 'username',
+                    'password' => 'password'
+                ]
+            ]],
+            [[
+                'dsn'   => 'sqlite:' . __DIR__ . '/../TestAssets/pdo.sqlite',
+                'table' => 'user',
+                'field' => [
+                    'identity' => 'username',
+                    'password' => 'password'
+                ]
+            ]],
+        ];
+    }
+
+    /**
+     * @dataProvider getPdoValidConfig
+     */
+    public function testInvokeWithValidConfig($pdoConfig)
     {
         $this->container->get('config')->willReturn([
-            'authentication' => [
-                'pdo' => [
-                    'dsn' => 'sqlite:'. __DIR__ . '/../TestAssets/pdo.sqlite',
-                    'table' => 'user',
-                    'field' => [
-                        'identity' => 'username',
-                        'password' => 'password'
-                    ]
-                ]
-            ]
+            'authentication' => ['pdo' => $pdoConfig]
         ]);
+        $this->container->has(PDO::class)->willReturn(true);
+        $this->container->get(PDO::class)->willReturn($this->pdo->reveal());
         $this->container->get(UserInterface::class)->willReturn(
             function () {
                 return $this->user->reveal();

@@ -67,7 +67,7 @@ return [
 
 When using the PDO user repository adapter, you will need to provide PDO
 connection parameters, as well as information on the table, field names, and a
-SQL statement for retrieiving user roles:
+SQL statement for retrieving user roles:
 
 ```php
 return [
@@ -120,3 +120,29 @@ detail using the following query:
 ```sql
 SELECT email FROM user WHERE username = :identity
 ```
+
+### PDO service name
+
+As an alternative, you can provide a service name instead of PDO connection
+parameters. In such a case, the `dsn`,  parameter can be omitted:
+
+```php
+return [
+    'authentication' => [
+        'pdo' => [
+            'service' => \PDO::class,
+            'table' => 'user table name',
+            'field' => [
+                'identity' => 'identity field name',
+                'password' => 'password field name',
+            ],
+            'sql_get_roles'   => 'SQL to retrieve roles with :identity parameter',
+            'sql_get_details' => 'SQL to retrieve user details by :identity',
+        ],
+    ],
+];
+```
+
+The required parameters in such a case are `service`, `table`, and `field`.
+
+The `service` parameter must be a service name that resolves to a PDO instance.

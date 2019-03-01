@@ -6,7 +6,8 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- Nothing.
+- [#41](https://github.com/zendframework/zend-expressive-authentication/pull/46) Allow to provide PDO service name
+  instead of PDO connection parameters.
 
 ### Changed
 

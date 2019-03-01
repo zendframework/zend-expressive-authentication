@@ -24,7 +24,7 @@ class PdoDatabaseFactory
         $pdo = $container->get('config')['authentication']['pdo'] ?? null;
         if (null === $pdo) {
             throw new Exception\InvalidConfigException(
-                'PDO values are missing in user_register config'
+                'PDO values are missing in authentication config'
             );
         }
         if (! isset($pdo['dsn'])) {

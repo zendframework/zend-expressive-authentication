@@ -24,7 +24,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 - Nothing.
 
-## 1.0.2 - TBD
+## 1.0.2 - 2019-03-05
 
 ### Added
 
@@ -44,7 +44,8 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- Nothing.
+- [#40](https://github.com/zendframework/zend-expressive-authentication/pull/45) corrects the name of a configuration parameter name referenced when
+  raising an exception while invoking `Zend\Expressive\Authentication\UserRepositoryPdoDatabaseFactory`.
 
 ## 1.0.1 - 2018-09-28
 

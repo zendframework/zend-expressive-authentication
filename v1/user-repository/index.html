@@ -266,7 +266,7 @@ the path to the <code>htpasswd</code> file and a <code>realm</code>. The <code>h
 <h2 id="pdo-configuration">PDO configuration</h2>
 <p>When using the PDO user repository adapter, you will need to provide PDO
 connection parameters, as well as information on the table, field names, and a
-SQL statement for retrieiving user roles:</p>
+SQL statement for retrieving user roles:</p>
 <pre class="codehilite"><code class="language-php">return [
     'authentication' =&gt; [
         'pdo' =&gt; [
@@ -304,6 +304,33 @@ SQL query for retrieving the user's additional details, if any.</p>
 <p>For instance, if a user has an email field this can be returned as additional
 detail using the following query:</p>
 <pre class="codehilite"><code class="language-sql">SELECT email FROM user WHERE username = :identity</code></pre>
+
+<h3 id="pdo-service-name">PDO service name</h3>
+<blockquote>
+<p>Since 1.1.0</p>
+</blockquote>
+<p>As an alternative, you can provide a service name instead of PDO connection
+parameters. In such a case, you can substitute the key <code>service</code> for the <code>dsn</code>
+configuration key:</p>
+<pre class="codehilite"><code class="language-php">return [
+    'authentication' =&gt; [
+        'pdo' =&gt; [
+            'service' =&gt; \PDO::class,                 // &quot;service&quot; instead of &quot;dsn&quot;
+            'table' =&gt; 'user table name',
+            'field' =&gt; [
+                'identity' =&gt; 'identity field name',
+                'password' =&gt; 'password field name',
+            ],
+            'sql_get_roles'   =&gt; 'SQL to retrieve roles with :identity parameter',
+            'sql_get_details' =&gt; 'SQL to retrieve user details by :identity',
+        ],
+    ],
+];</code></pre>
+
+<p>The parameters <code>table</code> and <code>field</code> still remain required, and one or the other
+of <code>dsn</code> or <code>service</code> <strong>MUST</strong> be present.</p>
+<p>When specifying the <code>service</code> key, the value <strong>MUST</strong> evaluate to an existing
+service that resolves to a <code>PDO</code> instance.</p>
 
 
 

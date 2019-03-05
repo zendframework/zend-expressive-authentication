@@ -2,6 +2,45 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 1.1.0 - 2019-03-05
+
+### Added
+
+- [#41](https://github.com/zendframework/zend-expressive-authentication/pull/46) allows users to provide an application-specific PDO service name to use
+  with the `PdoDatabase` user repository implementation, instead of connection
+  parameters.  This allows re-use of an existing PDO connection. To configure it:
+
+  ```php
+  return [
+      'authentication' => [
+          'pdo' => [
+              'service' => 'name-of-existing-PDO-service',
+              'table' => 'name-of-table-to-use',
+              'field' => [
+                  'identity' => 'name-of-field-containing-identity',
+                  'password' => 'name-of-field-containing-password-hash',
+              ],
+          ],
+      ],
+  ];
+  ```
+
+### Changed
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- Nothing.
+
 ## 1.0.2 - 2019-03-05
 
 ### Added

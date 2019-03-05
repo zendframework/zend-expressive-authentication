@@ -123,14 +123,17 @@ SELECT email FROM user WHERE username = :identity
 
 ### PDO service name
 
+> Since 1.1.0
+
 As an alternative, you can provide a service name instead of PDO connection
-parameters. In such a case, the `dsn` parameter can be omitted:
+parameters. In such a case, you can substitute the key `service` for the `dsn`
+configuration key:
 
 ```php
 return [
     'authentication' => [
         'pdo' => [
-            'service' => \PDO::class,
+            'service' => \PDO::class,                 // "service" instead of "dsn"
             'table' => 'user table name',
             'field' => [
                 'identity' => 'identity field name',
@@ -143,6 +146,8 @@ return [
 ];
 ```
 
-The required parameters are `service`, `table`, and `field`.
+The parameters `table` and `field` still remain required, and one or the other
+of `dsn` or `service` **MUST** be present.
 
-The `service` parameter must be a service name that resolves to a PDO instance.
+When specifying the `service` key, the value **MUST** evaluate to an existing
+service that resolves to a `PDO` instance.

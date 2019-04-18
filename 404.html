@@ -7,11 +7,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Authentication middleware for Expressive and PSR-7 applications">  
-    <link rel="shortcut icon" href="../../img/favicon.ico">
+    <link rel="shortcut icon" href="//img/favicon.ico">
 
-    <title>Authentication adapter - zend-expressive-authentication - Zend Framework Docs</title>
+    <title>zend-expressive-authentication - Zend Framework Docs</title>
 
-    <link rel="stylesheet" href="../../css/styles-f3b53f5ceb.css">
+    <link rel="stylesheet" href="//css/styles-f3b53f5ceb.css">
 </head>
 <body id="page-top">
 
@@ -31,7 +31,7 @@
             
             <span class="navbar-brand">
                 <a class="logo-link" href="https://framework.zend.com/" data-tooltip data-placement="bottom" title="Go to the ZF homepage">
-                    <img src="../../img/zend-framework-logo.svg" height="28" alt="Zend Framework">
+                    <img src="//img/zend-framework-logo.svg" height="28" alt="Zend Framework">
                 </a>
             </span>
         </div>
@@ -66,7 +66,7 @@
                     
     <div class="subnavigation hidden-print">
         <h4 class="subnavigation__title">
-            <a href="../..">zend-expressive-authentication</a>
+            <a href="/.">zend-expressive-authentication</a>
         </h4>
 
         <h5 class="subnavigation__subtitle">Table of Contents</h5>
@@ -75,13 +75,13 @@
             
                 
                     <li class="subnavigation__list-item ">
-                        <a href="../.." class="subnavigation__link">Expressive Authentication Middleware</a>
+                        <a href="/." class="subnavigation__link">Expressive Authentication Middleware</a>
                     </li>
                 
             
                 
                     <li class="subnavigation__list-item ">
-                        <a href="../intro/" class="subnavigation__link">Introduction</a>
+                        <a href="/v1/intro/" class="subnavigation__link">Introduction</a>
                     </li>
                 
             
@@ -91,14 +91,14 @@
                         <ul class="subnavigation__list">
                             
                                 
-    <li class="subnavigation__list-item subnavigation__list-item--active">
-        <a href="./" class="subnavigation__link">Authentication adapter</a>
+    <li class="subnavigation__list-item ">
+        <a href="/v1/auth-adapter/" class="subnavigation__link">Authentication adapter</a>
     </li>
 
                             
                                 
     <li class="subnavigation__list-item ">
-        <a href="../user-repository/" class="subnavigation__link">User repository</a>
+        <a href="/v1/user-repository/" class="subnavigation__link">User repository</a>
     </li>
 
                             
@@ -175,123 +175,18 @@
             <div class="col-md-9 col-xs-12 content" role="main">
             <!-- content:begin -->
                 
-                    <ol class="breadcrumb" role="navigation" aria-label="breadcrumbs navigation">
-    <li><a href="https://framework.zend.com/">Home</a></li>
 
-    
-        <li><a href="https://docs.zendframework.com/">Documentation</a></li>
+<h1 class="content__title">404</h1>
+<blockquote>
+    <h3>Something went wrong!</h3>
+    <p>
+        We're sorry, but the page you are looking for does not exist.
+    </p>
+</blockquote>
 
-        
-            <li><a href="../..">zend-expressive-authentication</a></li>
-
-            
-                
-                    <li>Reference</li>
-                
-            
-
-            <li class="active">Authentication adapter</li>
-        
-    
-</ol>
+<a href="/" class="btn btn-default" role="button">Go to homepage</a>
 
 
-    
-        <h2 class="chapter__headline">Reference</h2>
-    
-
-    
-    
-
-    
-    
-
-
-    <h1 id="authentication-adapters">Authentication adapters</h1>
-<p>The authentication adapters for <code>zend-expressive-authentication</code> implement the
-interface <code>Zend\Expressive\Authentication\AuthenticationInterface</code>:</p>
-<pre class="codehilite"><code class="language-php">namespace Zend\Expressive\Authentication;
-
-use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Message\ResponseInterface;
-
-interface AuthenticationInterface
-{
-    /**
-     * Authenticate the PSR-7 request and return a valid user,
-     * or null if not authenticated
-     *
-     * @param ServerRequestInterface $request
-     * @return UserInterface|null
-     */
-    public function authenticate(ServerRequestInterface $request): ?UserInterface;
-
-    /**
-     * Generate the unauthorized response
-     *
-     * @param ServerRequestInterface $request
-     * @return ResponseInterface
-     */
-    public function unauthorizedResponse(ServerRequestInterface $request): ResponseInterface;
-}</code></pre>
-
-<p>This interface contains two method: <code>authenticate()</code> to check if a PSR-7
-request contains a valid credential, and <code>unauthorizedResponse()</code> to generate
-and return an unauthorized response.</p>
-<p>We provide 4 authentication adapters:</p>
-<ul>
-<li><a href="https://github.com/zendframework/zend-expressive-authentication-basic">zend-expressive-authentication-basic</a>,
-  for <a href="https://en.wikipedia.org/wiki/Basic_access_authentication">Basic Access Authentication</a>,
-  supporting only <code>bcrypt</code> as the password hashing algorithm to ensure best
-  security.</li>
-<li><a href="https://github.com/zendframework/zend-expressive-authentication-session">zend-expressive-authentication-session</a>,
-  for authenticating username/password credential pairs and persisting them
-  between requests via PHP sessions.</li>
-<li><a href="https://github.com/zendframework/zend-expressive-authentication-zendauthentication">zend-expressive-authentication-zendauthentication</a>,
-  supporting the <a href="https://github.com/zendframework/zend-authentication">zend-authentication</a>
-  component.</li>
-<li><a href="https://github.com/zendframework/zend-expressive-authentication-oauth2">zend-expressive-authentication-oauth2</a>,
-  supporting the <a href="https://oauth.net/2/">OAuth2</a> authentication framework via the
-  <a href="https://oauth2.thephpleague.com/">league/oauth2-server</a> package.</li>
-</ul>
-
-
-
-    <nav>
-    <ul class="page-nav hidden-print">
-
-        
-        <li class="page-nav__item">
-            
-                <a rel="prev" class="page-nav__link page-nav__link--prev" href="../intro/">
-                    <i class="fa fa-chevron-left"></i> Previous
-                </a>
-            
-        </li>
-
-        
-        <li class="page-nav__item">
-            
-                <a rel="next" class="page-nav__link page-nav__link--next" href="../user-repository/">
-                    Next <i class="fa fa-chevron-right"></i>
-                </a>
-            
-        </li>
-    </ul>
-</nav>
-
-
-
-    <div class="help-wanted">
-        <p>
-            Found a mistake or want to contribute to the documentation?
-            <a href="https://github.com/zendframework/zend-expressive-authentication/edit/master/docs/book/v1/auth-adapter.md" target="_blank" class="help-wanted__link">
-                Edit this page on GitHub!
-            </a>
-        </p>
-    </div>
-
-                
             <!-- content:end -->
             </div>
             <div class="col-md-3 col-xs-12 sidebar">
@@ -307,7 +202,7 @@ and return an unauthorized response.</p>
                     
     <div class="subnavigation hidden-print">
         <h4 class="subnavigation__title">
-            <a href="../..">zend-expressive-authentication</a>
+            <a href="/.">zend-expressive-authentication</a>
         </h4>
 
         <h5 class="subnavigation__subtitle">Table of Contents</h5>
@@ -316,13 +211,13 @@ and return an unauthorized response.</p>
             
                 
                     <li class="subnavigation__list-item ">
-                        <a href="../.." class="subnavigation__link">Expressive Authentication Middleware</a>
+                        <a href="/." class="subnavigation__link">Expressive Authentication Middleware</a>
                     </li>
                 
             
                 
                     <li class="subnavigation__list-item ">
-                        <a href="../intro/" class="subnavigation__link">Introduction</a>
+                        <a href="/v1/intro/" class="subnavigation__link">Introduction</a>
                     </li>
                 
             
@@ -332,14 +227,14 @@ and return an unauthorized response.</p>
                         <ul class="subnavigation__list">
                             
                                 
-    <li class="subnavigation__list-item subnavigation__list-item--active">
-        <a href="./" class="subnavigation__link">Authentication adapter</a>
+    <li class="subnavigation__list-item ">
+        <a href="/v1/auth-adapter/" class="subnavigation__link">Authentication adapter</a>
     </li>
 
                             
                                 
     <li class="subnavigation__list-item ">
-        <a href="../user-repository/" class="subnavigation__link">User repository</a>
+        <a href="/v1/user-repository/" class="subnavigation__link">User repository</a>
     </li>
 
                             
@@ -418,11 +313,11 @@ and return an unauthorized response.</p>
 </footer>
 
     <script>
-        var base_url = '../..',
+        var base_url = '/',
             siteName = 'zend-expressive-authentication';
     </script>
-    <script src="../../js/scripts-8d7ae56abf.js"></script>
-        <script src="../../search/main.js"></script>
+    <script src="//js/scripts-8d7ae56abf.js"></script>
+        <script src="/search/main.js"></script>
 
     
     <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">

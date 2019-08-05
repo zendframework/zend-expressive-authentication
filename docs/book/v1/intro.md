@@ -1,4 +1,4 @@
-# Zend Expressive Authentication
+# Introduction
 
 This component provides authentication abstraction using a middleware approach
 for [PSR-7](http://www.php-fig.org/psr/psr-7/) and
@@ -50,7 +50,7 @@ if a user has been authenticated or not, e.g. it can be used to verify the
 authorization level of a user (for this scope, it is consumed by
 [zend-expressive-authorization](https://github.com/zendframework/zend-expressive-authorization)).
 
-## Default User class
+## Default User Class
 
 We provide a default implementation of `UserInterface` via the class
 `Zend\Expressive\Authentication\DefaultUser`. The class is final and immutable,
@@ -92,7 +92,7 @@ return [
 ];
 ```
 
-## Usage in the route
+## Usage in the Route
 
 The `AuthenticationMiddleware` can be used to authenticate a route. You just
 need to add the class name of the middleware in the pipeline of a route.
@@ -110,7 +110,7 @@ of the route `admin.dashboard`. If the user is authenticated, the application
 executes the `Dashboard` action; otherwise it returns a `401 Unauthorized`
 response.
 
-## Choosing an authentication adapter
+## Choosing an Authentication Adapter
 
 You can choose an authentication adapter and a user repository through the
 service container configuration.

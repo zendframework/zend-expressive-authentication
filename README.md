@@ -17,10 +17,4 @@ $ composer require zendframework/zend-expressive-authentication
 
 ## Documentation
 
-Documentation is [in the doc tree](doc/book/), and can be compiled using [mkdocs](http://www.mkdocs.org):
-
-```bash
-$ mkdocs build
-```
-
-You may also [browse the documentation online](https://docs.zendframework.com/zend-expressive-authentication/).
+Browse the documentation online at [https://docs.zendframework.com/zend-expressive-authentication/](https://docs.zendframework.com/zend-expressive-authentication/).

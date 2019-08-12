@@ -1,4 +1,4 @@
-# Authentication adapters
+# Authentication Adapters
 
 The authentication adapters for `zend-expressive-authentication` implement the
 interface `Zend\Expressive\Authentication\AuthenticationInterface`:

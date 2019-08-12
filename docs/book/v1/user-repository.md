@@ -31,7 +31,7 @@ It contains only the `authenticate()` function, to authenticate the user's
 credential. If authenticated, the result will be a `UserInterface` instance;
 otherwise, a `null` value is returned.
 
-## Configure the user repository
+## Configure the User Repository
 
 In order to use a user repository adapter, we need to configure it. For instance,
 to consume an `htpasswd` file, we need to configure the path to the file.
@@ -49,7 +49,7 @@ You can also provide this configuration using a [ConfigProvider.php](https://git
 class. [Read this blog post](https://framework.zend.com/blog/2017-04-20-config-aggregator.html)
 for more information on config providers.
 
-## htpasswd configuration
+## htpasswd Configuration
 
 When using the htpasswd user repository implementation, you need only configure
 the path to the `htpasswd` file and a `realm`. The `htpasswd` file must use bcrypt hash algorithm:
@@ -63,7 +63,7 @@ return [
 ];
 ```
 
-## PDO configuration
+## PDO Configuration
 
 When using the PDO user repository adapter, you will need to provide PDO
 connection parameters, as well as information on the table, field names, and a
@@ -121,7 +121,7 @@ detail using the following query:
 SELECT email FROM user WHERE username = :identity
 ```
 
-### PDO service name
+### PDO Service Name
 
 > Since 1.1.0
 

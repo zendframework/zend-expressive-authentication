@@ -10,7 +10,7 @@
     <link rel="canonical" href="https://docs.zendframework.com/zend-expressive-authentication/v1/user-repository/">
     <link rel="shortcut icon" href="../../img/favicon.ico">
 
-    <title>User repository - zend-expressive-authentication - Zend Framework Docs</title>
+    <title>User Repository - zend-expressive-authentication - Zend Framework Docs</title>
 
     <link rel="stylesheet" href="../../css/styles-5cfabd53ee.css">
 </head>
@@ -82,20 +82,6 @@
                     
                         
                             <li class="subnavigation__list-item ">
-                                <a href="../.." class="subnavigation__link">Expressive Authentication Middleware</a>
-                            </li>
-                        
-                    
-                
-            
-
-                
-                
-
-                    
-                    
-                        
-                            <li class="subnavigation__list-item ">
                                 <a href="../intro/" class="subnavigation__link">Introduction</a>
                             </li>
                         
@@ -115,13 +101,13 @@
                                     
                                         
     <li class="subnavigation__list-item ">
-        <a href="../auth-adapter/" class="subnavigation__link">Authentication adapter</a>
+        <a href="../auth-adapter/" class="subnavigation__link">Authentication Adapters</a>
     </li>
 
                                     
                                         
     <li class="subnavigation__list-item subnavigation__list-item--active">
-        <a href="./" class="subnavigation__link">User repository</a>
+        <a href="./" class="subnavigation__link">User Repository</a>
     </li>
 
                                     
@@ -220,7 +206,7 @@
                 
             
 
-            <li class="active">User repository</li>
+            <li class="active">User Repository</li>
         
     
 </ol>
@@ -246,15 +232,15 @@
             <ul class="toc__list">
                 
                     <li class="toc__entry">
-                        <a href="#configure-the-user-repository" class="toc__link">Configure the user repository</a>
+                        <a href="#configure-the-user-repository" class="toc__link">Configure the User Repository</a>
                     </li>
                 
                     <li class="toc__entry">
-                        <a href="#htpasswd-configuration" class="toc__link">htpasswd configuration</a>
+                        <a href="#htpasswd-configuration" class="toc__link">htpasswd Configuration</a>
                     </li>
                 
                     <li class="toc__entry">
-                        <a href="#pdo-configuration" class="toc__link">PDO configuration</a>
+                        <a href="#pdo-configuration" class="toc__link">PDO Configuration</a>
                     </li>
                 
             </ul>
@@ -291,7 +277,7 @@ interface UserRepositoryInterface
 <p>It contains only the <code>authenticate()</code> function, to authenticate the user's
 credential. If authenticated, the result will be a <code>UserInterface</code> instance;
 otherwise, a <code>null</code> value is returned.</p>
-<h2 id="configure-the-user-repository">Configure the user repository</h2>
+<h2 id="configure-the-user-repository">Configure the User Repository</h2>
 <p>In order to use a user repository adapter, we need to configure it. For instance,
 to consume an <code>htpasswd</code> file, we need to configure the path to the file.
 Such configuration is provided in the <code>authentication</code> hierarchy provided to
@@ -305,7 +291,7 @@ in the version control system.</p>
 <p>You can also provide this configuration using a <a href="https://github.com/zendframework/zend-expressive-authentication/blob/master/src/ConfigProvider.php">ConfigProvider.php</a>
 class. <a href="https://framework.zend.com/blog/2017-04-20-config-aggregator.html">Read this blog post</a>
 for more information on config providers.</p>
-<h2 id="htpasswd-configuration">htpasswd configuration</h2>
+<h2 id="htpasswd-configuration">htpasswd Configuration</h2>
 <p>When using the htpasswd user repository implementation, you need only configure
 the path to the <code>htpasswd</code> file and a <code>realm</code>. The <code>htpasswd</code> file must use bcrypt hash algorithm:</p>
 <pre class="codehilite"><code class="language-php">return [
@@ -315,7 +301,7 @@ the path to the <code>htpasswd</code> file and a <code>realm</code>. The <code>h
     ],
 ];</code></pre>
 
-<h2 id="pdo-configuration">PDO configuration</h2>
+<h2 id="pdo-configuration">PDO Configuration</h2>
 <p>When using the PDO user repository adapter, you will need to provide PDO
 connection parameters, as well as information on the table, field names, and a
 SQL statement for retrieving user roles:</p>
@@ -357,7 +343,7 @@ SQL query for retrieving the user's additional details, if any.</p>
 detail using the following query:</p>
 <pre class="codehilite"><code class="language-sql">SELECT email FROM user WHERE username = :identity</code></pre>
 
-<h3 id="pdo-service-name">PDO service name</h3>
+<h3 id="pdo-service-name">PDO Service Name</h3>
 <blockquote>
 <p>Since 1.1.0</p>
 </blockquote>
@@ -449,20 +435,6 @@ service that resolves to a <code>PDO</code> instance.</p>
                     
                         
                             <li class="subnavigation__list-item ">
-                                <a href="../.." class="subnavigation__link">Expressive Authentication Middleware</a>
-                            </li>
-                        
-                    
-                
-            
-
-                
-                
-
-                    
-                    
-                        
-                            <li class="subnavigation__list-item ">
                                 <a href="../intro/" class="subnavigation__link">Introduction</a>
                             </li>
                         
@@ -482,13 +454,13 @@ service that resolves to a <code>PDO</code> instance.</p>
                                     
                                         
     <li class="subnavigation__list-item ">
-        <a href="../auth-adapter/" class="subnavigation__link">Authentication adapter</a>
+        <a href="../auth-adapter/" class="subnavigation__link">Authentication Adapters</a>
     </li>
 
                                     
                                         
     <li class="subnavigation__list-item subnavigation__list-item--active">
-        <a href="./" class="subnavigation__link">User repository</a>
+        <a href="./" class="subnavigation__link">User Repository</a>
     </li>
 
                                     

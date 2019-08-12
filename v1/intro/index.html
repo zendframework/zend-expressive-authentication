@@ -81,20 +81,6 @@
                     
                     
                         
-                            <li class="subnavigation__list-item ">
-                                <a href="../.." class="subnavigation__link">Expressive Authentication Middleware</a>
-                            </li>
-                        
-                    
-                
-            
-
-                
-                
-
-                    
-                    
-                        
                             <li class="subnavigation__list-item subnavigation__list-item--active">
                                 <a href="./" class="subnavigation__link">Introduction</a>
                             </li>
@@ -115,13 +101,13 @@
                                     
                                         
     <li class="subnavigation__list-item ">
-        <a href="../auth-adapter/" class="subnavigation__link">Authentication adapter</a>
+        <a href="../auth-adapter/" class="subnavigation__link">Authentication Adapters</a>
     </li>
 
                                     
                                         
     <li class="subnavigation__list-item ">
-        <a href="../user-repository/" class="subnavigation__link">User repository</a>
+        <a href="../user-repository/" class="subnavigation__link">User Repository</a>
     </li>
 
                                     
@@ -237,15 +223,15 @@
             <ul class="toc__list">
                 
                     <li class="toc__entry">
-                        <a href="#default-user-class" class="toc__link">Default User class</a>
+                        <a href="#default-user-class" class="toc__link">Default User Class</a>
                     </li>
                 
                     <li class="toc__entry">
-                        <a href="#usage-in-the-route" class="toc__link">Usage in the route</a>
+                        <a href="#usage-in-the-route" class="toc__link">Usage in the Route</a>
                     </li>
                 
                     <li class="toc__entry">
-                        <a href="#choosing-an-authentication-adapter" class="toc__link">Choosing an authentication adapter</a>
+                        <a href="#choosing-an-authentication-adapter" class="toc__link">Choosing an Authentication Adapter</a>
                     </li>
                 
             </ul>
@@ -254,7 +240,7 @@
 
     </div>
 
-    <h1 id="zend-expressive-authentication">Zend Expressive Authentication</h1>
+    <h1 id="introduction">Introduction</h1>
 <p>This component provides authentication abstraction using a middleware approach
 for <a href="http://www.php-fig.org/psr/psr-7/">PSR-7</a> and
 <a href="https://github.com/php-fig/fig-standards/tree/4b417c91b89fbedaf3283620ce432b6f51c80cc0/proposed/http-handlers">PSR-15</a>
@@ -299,7 +285,7 @@ interface UserInterface
 if a user has been authenticated or not, e.g. it can be used to verify the
 authorization level of a user (for this scope, it is consumed by
 <a href="https://github.com/zendframework/zend-expressive-authorization">zend-expressive-authorization</a>).</p>
-<h2 id="default-user-class">Default User class</h2>
+<h2 id="default-user-class">Default User Class</h2>
 <p>We provide a default implementation of <code>UserInterface</code> via the class
 <code>Zend\Expressive\Authentication\DefaultUser</code>. The class is final and immutable,
 in order to prevent runtime changes.</p>
@@ -332,7 +318,7 @@ return [
     ]
 ];</code></pre>
 
-<h2 id="usage-in-the-route">Usage in the route</h2>
+<h2 id="usage-in-the-route">Usage in the Route</h2>
 <p>The <code>AuthenticationMiddleware</code> can be used to authenticate a route. You just
 need to add the class name of the middleware in the pipeline of a route.
 As an example:</p>
@@ -345,7 +331,7 @@ As an example:</p>
 of the route <code>admin.dashboard</code>. If the user is authenticated, the application
 executes the <code>Dashboard</code> action; otherwise it returns a <code>401 Unauthorized</code>
 response.</p>
-<h2 id="choosing-an-authentication-adapter">Choosing an authentication adapter</h2>
+<h2 id="choosing-an-authentication-adapter">Choosing an Authentication Adapter</h2>
 <p>You can choose an authentication adapter and a user repository through the
 service container configuration.</p>
 <p>You need to specify the service for authentication using the name
@@ -370,8 +356,7 @@ return [
             UserRepositoryInterface::class =&gt; UserRepository\Htpasswd::class
         ]
     ]
-];
-</code></pre>
+];</code></pre>
 
 
 
@@ -441,20 +426,6 @@ return [
                     
                     
                         
-                            <li class="subnavigation__list-item ">
-                                <a href="../.." class="subnavigation__link">Expressive Authentication Middleware</a>
-                            </li>
-                        
-                    
-                
-            
-
-                
-                
-
-                    
-                    
-                        
                             <li class="subnavigation__list-item subnavigation__list-item--active">
                                 <a href="./" class="subnavigation__link">Introduction</a>
                             </li>
@@ -475,13 +446,13 @@ return [
                                     
                                         
     <li class="subnavigation__list-item ">
-        <a href="../auth-adapter/" class="subnavigation__link">Authentication adapter</a>
+        <a href="../auth-adapter/" class="subnavigation__link">Authentication Adapters</a>
     </li>
 
                                     
                                         
     <li class="subnavigation__list-item ">
-        <a href="../user-repository/" class="subnavigation__link">User repository</a>
+        <a href="../user-repository/" class="subnavigation__link">User Repository</a>
     </li>
 
                                     

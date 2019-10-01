@@ -233,7 +233,7 @@
     <h1 id="authentication-adapters">Authentication Adapters</h1>
 <p>The authentication adapters for <code>zend-expressive-authentication</code> implement the
 interface <code>Zend\Expressive\Authentication\AuthenticationInterface</code>:</p>
-<pre class="codehilite"><code class="language-php">namespace Zend\Expressive\Authentication;
+<p> <pre class=codehilite><code class=language-php>namespace Zend\Expressive\Authentication;
 
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -256,8 +256,7 @@ interface AuthenticationInterface
      * @return ResponseInterface
      */
     public function unauthorizedResponse(ServerRequestInterface $request): ResponseInterface;
-}</code></pre>
-
+}</code></pre></p>
 <p>This interface contains two method: <code>authenticate()</code> to check if a PSR-7
 request contains a valid credential, and <code>unauthorizedResponse()</code> to generate
 and return an unauthorized response.</p>
@@ -310,7 +309,7 @@ and return an unauthorized response.</p>
     <div class="help-wanted">
         <p>
             Found a mistake or want to contribute to the documentation?
-            <a href="https://github.com/zendframework/zend-expressive-authentication/edit/master/docs/v1/auth-adapter.md" target="_blank" class="help-wanted__link">
+            <a href="https://github.com/zendframework/zend-expressive-authentication/edit/master/docs/book/v1/auth-adapter.md" target="_blank" class="help-wanted__link">
                 Edit this page on GitHub!
             </a>
         </p>

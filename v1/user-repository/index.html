@@ -260,7 +260,7 @@ of repositories:</p>
 <p>zend-expressive-authentication provides an interface,
 <code>Zend\Expressive\Authentication\UserRepositoryInterface</code>, to access this user
 storage:</p>
-<pre class="codehilite"><code class="language-php">namespace Zend\Expressive\Authentication;
+<p> <pre class=codehilite><code class=language-php>namespace Zend\Expressive\Authentication;
 
 interface UserRepositoryInterface
 {
@@ -272,8 +272,7 @@ interface UserRepositoryInterface
      * @param string $credential can be also a token
      */
     public function authenticate(string $credential, string $password = null) : ?UserInterface;
-}</code></pre>
-
+}</code></pre></p>
 <p>It contains only the <code>authenticate()</code> function, to authenticate the user's
 credential. If authenticated, the result will be a <code>UserInterface</code> instance;
 otherwise, a <code>null</code> value is returned.</p>
@@ -294,18 +293,17 @@ for more information on config providers.</p>
 <h2 id="htpasswd-configuration">htpasswd Configuration</h2>
 <p>When using the htpasswd user repository implementation, you need only configure
 the path to the <code>htpasswd</code> file and a <code>realm</code>. The <code>htpasswd</code> file must use bcrypt hash algorithm:</p>
-<pre class="codehilite"><code class="language-php">return [
+<p> <pre class=codehilite><code class=language-php>return [
     'authentication' =&gt; [
         'realm' =&gt; 'insert realm value',
         'htpasswd' =&gt; 'insert the path to htpasswd file',
     ],
-];</code></pre>
-
+];</code></pre></p>
 <h2 id="pdo-configuration">PDO Configuration</h2>
 <p>When using the PDO user repository adapter, you will need to provide PDO
 connection parameters, as well as information on the table, field names, and a
 SQL statement for retrieving user roles:</p>
-<pre class="codehilite"><code class="language-php">return [
+<p> <pre class=codehilite><code class=language-php>return [
     'authentication' =&gt; [
         'pdo' =&gt; [
             'dsn' =&gt; '',
@@ -320,8 +318,7 @@ SQL statement for retrieving user roles:</p>
             'sql_get_details' =&gt; 'SQL to retrieve user details by :identity',
         ],
     ],
-];</code></pre>
-
+];</code></pre></p>
 <p>The required parameters are <code>dsn</code>, <code>table</code>, and <code>field</code>.</p>
 <p>The <code>dsn</code> value is the DSN connection string to be used to connect to the database.
 For instance, using a SQLite database, a typical value is <code>sqlite:/path/to/file</code>.</p>
@@ -335,25 +332,23 @@ the user <code>password.</code> The <code>identity</code> of the user can be a u
 for retrieving the user roles. The identity value must be specified using the
 placeholder <code>:identity</code>. For instance, if a role is stored in a user table, a
 typical query might look like the following:</p>
-<pre class="codehilite"><code class="language-sql">SELECT role FROM user WHERE username = :identity</code></pre>
-
+<p> <pre class=codehilite><code class=language-sql>SELECT role FROM user WHERE username = :identity</code></pre></p>
 <p>The <code>sql_get_details</code> parameter is similar to <code>sql_get_roles</code>: it specifies the
 SQL query for retrieving the user's additional details, if any.</p>
 <p>For instance, if a user has an email field this can be returned as additional
 detail using the following query:</p>
-<pre class="codehilite"><code class="language-sql">SELECT email FROM user WHERE username = :identity</code></pre>
-
-<h3 id="pdo-service-name">PDO Service Name</h3>
+<p> <pre class=codehilite><code class=language-sql>SELECT email FROM user WHERE username = :identity</code></pre></p>
+<h3>PDO Service Name</h3>
 <blockquote>
 <p>Since 1.1.0</p>
 </blockquote>
 <p>As an alternative, you can provide a service name instead of PDO connection
 parameters. In such a case, you can substitute the key <code>service</code> for the <code>dsn</code>
 configuration key:</p>
-<pre class="codehilite"><code class="language-php">return [
+<p> <pre class=codehilite><code class=language-php>return [
     'authentication' =&gt; [
         'pdo' =&gt; [
-            'service' =&gt; \PDO::class,                 // "service" instead of "dsn"
+            'service' =&gt; \PDO::class,                 // &quot;service&quot; instead of &quot;dsn&quot;
             'table' =&gt; 'user table name',
             'field' =&gt; [
                 'identity' =&gt; 'identity field name',
@@ -363,8 +358,7 @@ configuration key:</p>
             'sql_get_details' =&gt; 'SQL to retrieve user details by :identity',
         ],
     ],
-];</code></pre>
-
+];</code></pre></p>
 <p>The parameters <code>table</code> and <code>field</code> still remain required, and one or the other
 of <code>dsn</code> or <code>service</code> <strong>MUST</strong> be present.</p>
 <p>When specifying the <code>service</code> key, the value <strong>MUST</strong> evaluate to an existing
@@ -398,7 +392,7 @@ service that resolves to a <code>PDO</code> instance.</p>
     <div class="help-wanted">
         <p>
             Found a mistake or want to contribute to the documentation?
-            <a href="https://github.com/zendframework/zend-expressive-authentication/edit/master/docs/v1/user-repository.md" target="_blank" class="help-wanted__link">
+            <a href="https://github.com/zendframework/zend-expressive-authentication/edit/master/docs/book/v1/user-repository.md" target="_blank" class="help-wanted__link">
                 Edit this page on GitHub!
             </a>
         </p>

@@ -254,7 +254,7 @@ object via a request attribute. If the request is not authenticated, the
 middleware returns a <code>401 Unauthorized</code> response based on the authentication
 adapter provided.</p>
 <p>The <code>Zend\Expressive\Authentication\UserInterface</code> is defined as follows:</p>
-<pre class="codehilite"><code class="language-php">namespace Zend\Expressive\Authentication;
+<p> <pre class=codehilite><code class=language-php>namespace Zend\Expressive\Authentication;
 
 interface UserInterface
 {
@@ -279,8 +279,7 @@ interface UserInterface
      * Get all additional user details, if any.
      */
     public function getDetails() : array;
-}</code></pre>
-
+}</code></pre></p>
 <p>The <code>UserInterface</code> attribute in the PSR-7 request can be used for checking
 if a user has been authenticated or not, e.g. it can be used to verify the
 authorization level of a user (for this scope, it is consumed by
@@ -295,15 +294,14 @@ profile information, etc.). Often, user data and the objects representing them
 are unique to the application. As such, the default repository implementations
 we provide allow you to inject a <em>factory</em> for producing the user. This factory
 should be a PHP callable with the following signature:</p>
-<pre class="codehilite"><code class="language-php">function (string $identity, array $roles = [], array $details = []) : UserInterface</code></pre>
-
+<p> <pre class=codehilite><code class=language-php>function (string $identity, array $roles = [], array $details = []) : UserInterface</code></pre></p>
 <p>In order to notify the package to use your custom factory, you will need to
 create a service factory that returns it, and map it to the
 <code>Zend\Expressive\Authentication\UserInterface</code> service.</p>
 <p>We provide a service factory named <code>Zend\Expressive\Authentication\DefaultUserFactory</code>
 that returns a user factory that produces a <code>DefaultUser</code> instance from the
 arguments provided. This is mapped as follows in the service configuration:</p>
-<pre class="codehilite"><code class="language-php">use Zend\Expressive\Authentication\DefaultUserFactory;
+<p> <pre class=codehilite><code class=language-php>use Zend\Expressive\Authentication\DefaultUserFactory;
 use Zend\Expressive\Authentication\UserInterface;
 
 return [
@@ -316,17 +314,15 @@ return [
             UserInterface::class =&gt; DefaultUserFactory::class
         ]
     ]
-];</code></pre>
-
+];</code></pre></p>
 <h2 id="usage-in-the-route">Usage in the Route</h2>
 <p>The <code>AuthenticationMiddleware</code> can be used to authenticate a route. You just
 need to add the class name of the middleware in the pipeline of a route.
 As an example:</p>
-<pre class="codehilite"><code class="language-php">$app-&gt;get('/admin/dashboard', [
+<p> <pre class=codehilite><code class=language-php>$app-&gt;get('/admin/dashboard', [
     Zend\Expressive\Authentication\AuthenticationMiddleware::class,
     Admin\Action\Dashboard::class
-], 'admin.dashboard');</code></pre>
-
+], 'admin.dashboard');</code></pre></p>
 <p>In this example, the <code>AuthenticationMiddleware</code> is executed as first middleware
 of the route <code>admin.dashboard</code>. If the user is authenticated, the application
 executes the <code>Dashboard</code> action; otherwise it returns a <code>401 Unauthorized</code>
@@ -341,7 +337,7 @@ using the service name <code>Zend\Expressive\Authentication\UserRepositoryInterf
 services using <code>aliases</code>. Below is an example of configuration using the <em>HTTP
 Basic Access Authentication</em> adapter and the <em>htpasswd</em> file as the user
 repository.</p>
-<pre class="codehilite"><code class="language-php">use Zend\Expressive\Authentication\AuthenticationInterface;
+<p> <pre class=codehilite><code class=language-php>use Zend\Expressive\Authentication\AuthenticationInterface;
 use Zend\Expressive\Authentication\Basic;
 use Zend\Expressive\Authentication\UserRepository;
 use Zend\Expressive\Authentication\UserRepositoryInterface;
@@ -356,7 +352,7 @@ return [
             UserRepositoryInterface::class =&gt; UserRepository\Htpasswd::class
         ]
     ]
-];</code></pre>
+];</code></pre></p>
 
 
 
@@ -390,7 +386,7 @@ return [
     <div class="help-wanted">
         <p>
             Found a mistake or want to contribute to the documentation?
-            <a href="https://github.com/zendframework/zend-expressive-authentication/edit/master/docs/v1/intro.md" target="_blank" class="help-wanted__link">
+            <a href="https://github.com/zendframework/zend-expressive-authentication/edit/master/docs/book/v1/intro.md" target="_blank" class="help-wanted__link">
                 Edit this page on GitHub!
             </a>
         </p>

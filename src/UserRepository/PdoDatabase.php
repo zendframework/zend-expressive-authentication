@@ -126,7 +126,10 @@ class PdoDatabase implements UserRepositoryInterface
         $stmt->bindParam(':identity', $identity);
 
         if (! $stmt->execute()) {
-            return [];
+            throw new Exception\RuntimeException(sprintf(
+                "Error when running query from config sql_get_roles: "
+                .implode($stmt->errorInfo(), ' ')
+            ));
         }
 
         $roles = [];
@@ -170,7 +173,10 @@ class PdoDatabase implements UserRepositoryInterface
         $stmt->bindParam(':identity', $identity);
 
         if (! $stmt->execute()) {
-            return [];
+            throw new Exception\RuntimeException(sprintf(
+                "Error when running query from config sql_get_details: "
+                .implode($stmt->errorInfo(), ' ')
+            ));
         }
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }

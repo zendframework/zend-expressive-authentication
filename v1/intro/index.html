@@ -7,12 +7,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Authentication middleware for Expressive and PSR-7 applications">  
-    <link rel="canonical" href="https://docs.zendframework.com/zend-expressive-authentication/v1/intro/">
+    <link rel="canonical" href="https://docs.zendframework.com/v1/intro/">
     <link rel="shortcut icon" href="../../img/favicon.ico">
 
     <title>Introduction - zend-expressive-authentication - Zend Framework Docs</title>
 
-    <link rel="stylesheet" href="../../css/styles-5cfabd53ee.css">
+    <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body id="page-top">
 
@@ -175,9 +175,9 @@
     <div class="laminas-announcement">
     <div class="container">
         <div class="row">
-            <div class="col-xs-12">
-                Zend Framework transitions to the Linux Foundation. <a href="https://getlaminas.org">Learn More.</a>
-            </div>
+            <div class="col-xs-12"><strong>
+                This package has moved. Visit its replacement, <a href="https://docs.mezzio.dev/mezzio-authentication/">mezzio/mezzio-authentication.</a>
+            </strong></div>
         </div>
     </div>
 </div>
@@ -254,7 +254,7 @@ object via a request attribute. If the request is not authenticated, the
 middleware returns a <code>401 Unauthorized</code> response based on the authentication
 adapter provided.</p>
 <p>The <code>Zend\Expressive\Authentication\UserInterface</code> is defined as follows:</p>
-<p> <pre class=codehilite><code class=language-php>namespace Zend\Expressive\Authentication;
+<pre><code class="language-php">namespace Zend\Expressive\Authentication;
 
 interface UserInterface
 {
@@ -279,7 +279,9 @@ interface UserInterface
      * Get all additional user details, if any.
      */
     public function getDetails() : array;
-}</code></pre></p>
+}
+</code></pre>
+
 <p>The <code>UserInterface</code> attribute in the PSR-7 request can be used for checking
 if a user has been authenticated or not, e.g. it can be used to verify the
 authorization level of a user (for this scope, it is consumed by
@@ -294,14 +296,16 @@ profile information, etc.). Often, user data and the objects representing them
 are unique to the application. As such, the default repository implementations
 we provide allow you to inject a <em>factory</em> for producing the user. This factory
 should be a PHP callable with the following signature:</p>
-<p> <pre class=codehilite><code class=language-php>function (string $identity, array $roles = [], array $details = []) : UserInterface</code></pre></p>
+<pre><code class="language-php">function (string $identity, array $roles = [], array $details = []) : UserInterface
+</code></pre>
+
 <p>In order to notify the package to use your custom factory, you will need to
 create a service factory that returns it, and map it to the
 <code>Zend\Expressive\Authentication\UserInterface</code> service.</p>
 <p>We provide a service factory named <code>Zend\Expressive\Authentication\DefaultUserFactory</code>
 that returns a user factory that produces a <code>DefaultUser</code> instance from the
 arguments provided. This is mapped as follows in the service configuration:</p>
-<p> <pre class=codehilite><code class=language-php>use Zend\Expressive\Authentication\DefaultUserFactory;
+<pre><code class="language-php">use Zend\Expressive\Authentication\DefaultUserFactory;
 use Zend\Expressive\Authentication\UserInterface;
 
 return [
@@ -314,15 +318,19 @@ return [
             UserInterface::class =&gt; DefaultUserFactory::class
         ]
     ]
-];</code></pre></p>
+];
+</code></pre>
+
 <h2 id="usage-in-the-route">Usage in the Route</h2>
 <p>The <code>AuthenticationMiddleware</code> can be used to authenticate a route. You just
 need to add the class name of the middleware in the pipeline of a route.
 As an example:</p>
-<p> <pre class=codehilite><code class=language-php>$app-&gt;get('/admin/dashboard', [
+<pre><code class="language-php">$app-&gt;get('/admin/dashboard', [
     Zend\Expressive\Authentication\AuthenticationMiddleware::class,
     Admin\Action\Dashboard::class
-], 'admin.dashboard');</code></pre></p>
+], 'admin.dashboard');
+</code></pre>
+
 <p>In this example, the <code>AuthenticationMiddleware</code> is executed as first middleware
 of the route <code>admin.dashboard</code>. If the user is authenticated, the application
 executes the <code>Dashboard</code> action; otherwise it returns a <code>401 Unauthorized</code>
@@ -337,7 +345,7 @@ using the service name <code>Zend\Expressive\Authentication\UserRepositoryInterf
 services using <code>aliases</code>. Below is an example of configuration using the <em>HTTP
 Basic Access Authentication</em> adapter and the <em>htpasswd</em> file as the user
 repository.</p>
-<p> <pre class=codehilite><code class=language-php>use Zend\Expressive\Authentication\AuthenticationInterface;
+<pre><code class="language-php">use Zend\Expressive\Authentication\AuthenticationInterface;
 use Zend\Expressive\Authentication\Basic;
 use Zend\Expressive\Authentication\UserRepository;
 use Zend\Expressive\Authentication\UserRepositoryInterface;
@@ -352,7 +360,8 @@ return [
             UserRepositoryInterface::class =&gt; UserRepository\Htpasswd::class
         ]
     ]
-];</code></pre></p>
+];
+</code></pre>
 
 
 
@@ -494,7 +503,7 @@ return [
             
             <div class="col-md-9">
                 <h4 class="footer__headline">Copyright</h4>
-                <p>&copy; 2006-2019 by <a href="https://www.zend.com/">Zend</a>, a <a href="https://www.roguewave.com/">Rogue Wave Company</a>.</p>
+                <p>&copy; 2006-2020 by <a href="https://www.zend.com/">Zend</a> by <a href="https://www.perforce.com/">Perforce</a>.</p>
             </div>
 
             
@@ -502,10 +511,10 @@ return [
                 <h4 class="footer__headline">Support</h4>
                 <ul class="support__list">
                     <li class="support__list-item">
-                        <a href="https://discourse.zendframework.com" class="support__link" title="Forum"><i class="fa fa-comments"></i></a>
+                        <a href="https://discourse.laminas.dev" class="support__link" title="Forum"><i class="fa fa-comments"></i></a>
                     </li>
                     <li class="support__list-item">
-                        <a href="https://zendframework-slack.herokuapp.com" class="support__link" title="Chat"><i class="fa fa-slack"></i></a>
+                        <a href="https://laminas.dev/chat/" class="support__link" title="Chat"><i class="fa fa-slack"></i></a>
                     </li>
                     <li class="support__list-item">
                         <a href="https://github.com/zendframework" class="support__link" title="Github"><i class="fa fa-github"></i></a>
@@ -513,27 +522,28 @@ return [
                     <li class="support__list-item">
                         <a href="https://twitter.com/zfdevteam" class="support__link" title="Twitter"><i class="fa fa-twitter"></i></a>
                     </li>
-                    <li class="support__list-item">
-                        <a href="https://tinyletter.com/mwopzend" class="support__link" title="Newsletter"><i class="fa fa-envelope"></i></a>
-                    </li>
-                    <li class="support__list-item">
-                        <a href="https://framework.zend.com/blog/feed-rss.xml" class="support__link" title="Blog feed"><i class="fa fa-rss"></i></a>
-                    </li>
-                    <li class="support__list-item">
-                        <a href="https://framework.zend.com/security/feed" class="support__link" title="Security feed"><i class="fa fa-rss-square"></i></a>
-                    </li>
                 </ul>
             </div>
         </div>
     </div>
 </footer>
 
+<nav class="cookie-bar navbar navbar-fixed-bottom navbar-default hidden">
+    <div class="container">
+        <p class="navbar-text">
+            We use cookies to allow you to dismiss dialogs such as the Laminas
+            Project notification.
+        </p>
+        <button type="button" class="cookie-button btn btn-default navbar-btn">Allow Cookies</button>
+    </div>
+</nav>
+
     <script>
         var base_url = '../..',
             siteName = 'zend-expressive-authentication';
     </script>
-    <script src="../../js/scripts-8d7ae56abf.js"></script>
-        <script src="../../search/main.js"></script>
+    <script src="/js/scripts.js"></script>
+    <script src="../../search/main.js"></script>
 
     
     <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
